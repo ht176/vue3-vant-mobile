@@ -21,7 +21,7 @@ export default defineConfig({
     presetRemToPx({
       // 这里为什么要设置基础字体大小？看下面这篇文章
       // https://juejin.cn/post/7262975395620618298
-      baseFontSize: 4,
+      // baseFontSize: 4,
     }),
     presetMini(),
   ],

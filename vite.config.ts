@@ -20,8 +20,8 @@ export default ({ mode }: ConfigEnv): UserConfig => {
       port: 3000,
       proxy: {
         '/api': {
-          target: '',
-          ws: false,
+          target: 'http://192.168.8.98:64401/',
+          ws: true,
           changeOrigin: true,
         },
       },
@@ -43,8 +43,8 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           // https://github.com/wswmsword/postcss-mobile-forever
           viewport({
             appSelector: '#app',
-            viewportWidth: 375,
-            maxDisplayWidth: 600,
+            viewportWidth: 750,
+            maxDisplayWidth: 1920,
             rootContainingBlockSelectorList: [
               'van-tabbar',
               'van-popup',

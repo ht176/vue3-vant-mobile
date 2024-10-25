@@ -5,14 +5,14 @@ import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
 import UnoCSS from 'unocss/vite'
 import AutoImport from 'unplugin-auto-import/vite'
-import { VantResolver } from '@vant/auto-import-resolver'
+import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import { VueRouterAutoImports } from 'unplugin-vue-router'
 import VueRouter from 'unplugin-vue-router/vite'
 import mockDevServerPlugin from 'vite-plugin-mock-dev-server'
 import { VitePWA } from 'vite-plugin-pwa'
 import Sitemap from 'vite-plugin-sitemap'
-import VueDevTools from 'vite-plugin-vue-devtools'
+// import VueDevTools from 'vite-plugin-vue-devtools'
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite'
 import { createViteVConsole } from './vconsole'
 
@@ -22,6 +22,7 @@ export function createVitePlugins() {
     VueRouter({
       extensions: ['.vue'],
       routesFolder: 'src/pages',
+      exclude: ['src/pages/**/components/**'],
       dts: 'src/types/typed-router.d.ts',
     }),
 
@@ -36,9 +37,10 @@ export function createVitePlugins() {
     // https://github.com/antfu/unplugin-vue-components
     Components({
       extensions: ['vue'],
-      resolvers: [VantResolver()],
+      resolvers: [ElementPlusResolver(), VantResolver()],
       include: [/\.vue$/, /\.vue\?vue/],
       dts: 'src/types/components.d.ts',
+      dirs: ['src/components', 'src/pages/**/components'],
     }),
 
     // https://github.com/antfu/unplugin-auto-import
@@ -64,7 +66,7 @@ export function createVitePlugins() {
       dirs: [
         'src/composables',
       ],
-      resolvers: [VantResolver()],
+      resolvers: [ElementPlusResolver(), VantResolver()],
     }),
 
     // https://github.com/intlify/bundle-tools/tree/main/packages/unplugin-vue-i18n
@@ -85,7 +87,7 @@ export function createVitePlugins() {
     createViteVConsole(),
 
     // https://github.com/vuejs/devtools-next
-    VueDevTools(),
+    // VueDevTools(),
 
     // https://github.com/antfu/vite-plugin-pwa
     VitePWA({

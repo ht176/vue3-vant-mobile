@@ -1,0 +1,6792 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "透析v1.3",
+    "version": "Cure.v1.3"
+  },
+  "paths": {
+    "/api/CentralInformation/{id}": {
+      "get": {
+        "tags": [
+          "CentralInformation"
+        ],
+        "summary": "中心信息 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CentralInformationViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CentralInformationViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CentralInformationViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CentralInformation"
+        ],
+        "summary": "中心信息 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CentralInformation/Filter": {
+      "get": {
+        "tags": [
+          "CentralInformation"
+        ],
+        "summary": "中心信息 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CentralInformationViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CentralInformationViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CentralInformationViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CentralInformation": {
+      "post": {
+        "tags": [
+          "CentralInformation"
+        ],
+        "summary": "中心信息 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CentralInformationEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CentralInformation/Delete/{id}": {
+      "post": {
+        "tags": [
+          "CentralInformation"
+        ],
+        "summary": "中心信息 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CureAssement/{id}": {
+      "get": {
+        "tags": [
+          "CureAssement"
+        ],
+        "summary": "透析评估记录 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureAssementViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureAssementViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureAssementViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CureAssement/Filter": {
+      "get": {
+        "tags": [
+          "CureAssement"
+        ],
+        "summary": "透析评估记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureAssementViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureAssementViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureAssementViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DevWaterProcessRecord/{id}": {
+      "get": {
+        "tags": [
+          "DevWaterProcessRecord"
+        ],
+        "summary": "水处理记录 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevWaterProcessRecordViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevWaterProcessRecordViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevWaterProcessRecordViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "DevWaterProcessRecord"
+        ],
+        "summary": "水处理记录 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DevWaterProcessRecord/Filter": {
+      "get": {
+        "tags": [
+          "DevWaterProcessRecord"
+        ],
+        "summary": "水处理记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevWaterProcessRecordViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevWaterProcessRecordViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DevWaterProcessRecordViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DevWaterProcessRecord": {
+      "post": {
+        "tags": [
+          "DevWaterProcessRecord"
+        ],
+        "summary": "水处理记录 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DevWaterProcessRecordEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DevWaterProcessRecord/Delete/{id}": {
+      "post": {
+        "tags": [
+          "DevWaterProcessRecord"
+        ],
+        "summary": "水处理记录 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/DevWaterProcessRecord/Export": {
+      "get": {
+        "tags": [
+          "DevWaterProcessRecord"
+        ],
+        "summary": "导出水设备消毒记录",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "waterDeviceCode",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "waterDeviceModel",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HospitalInfectionRecord/{id}": {
+      "get": {
+        "tags": [
+          "HospitalInfectionRecord"
+        ],
+        "summary": "院感评估记录 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalInfectionRecordViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalInfectionRecordViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalInfectionRecordViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "HospitalInfectionRecord"
+        ],
+        "summary": "院感评估记录 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HospitalInfectionRecord/Filter": {
+      "get": {
+        "tags": [
+          "HospitalInfectionRecord"
+        ],
+        "summary": "院感评估记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalInfectionRecordViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalInfectionRecordViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalInfectionRecordViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HospitalInfectionRecord": {
+      "post": {
+        "tags": [
+          "HospitalInfectionRecord"
+        ],
+        "summary": "院感评估记录 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HospitalInfectionRecordEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HospitalInfectionRecord/Delete/{id}": {
+      "post": {
+        "tags": [
+          "HospitalInfectionRecord"
+        ],
+        "summary": "院感评估记录 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/HospitalSense/Cure": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "对外接口 -- 院感科血透接口(血液病人透析记录)",
+        "parameters": [
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "透析日期(起始时间)，格式：yyyy-MM-dd",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "透析日期(结束时间)，格式：yyyy-MM-dd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalSenseCureViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalSenseCureViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalSenseCureViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/HospitalSense/Patient": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "对外接口 -- 院感科血透接口(血液病人登记表)",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalSensePatientViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalSensePatientViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HospitalSensePatientViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/HospitalSense/XingTai/Cure": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "对外接口 -- 院感科血透接口(血液病人透析记录)",
+        "parameters": [
+          {
+            "name": "dateStart",
+            "in": "query",
+            "description": "透析日期(起始时间)，格式：yyyy-MM-dd",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dateEnd",
+            "in": "query",
+            "description": "透析日期(结束时间)，格式：yyyy-MM-dd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatBloodInforBloodViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatBloodInforBloodViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatBloodInforBloodViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/HospitalSense/XingTai/Patient": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "对外接口 -- 院感科血透接口(血液病人登记表)",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatInforBloodViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatInforBloodViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatInforBloodViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/QueryScreen": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "对外接口 - 查询呼叫大屏类型",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryScreentInfoViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryScreentInfoViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QueryScreentInfoViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/HisViewRecord": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "对外接口 -- [芜湖]信息科EMR系统血透接口(血液病人透析记录)",
+        "parameters": [
+          {
+            "name": "hisno",
+            "in": "query",
+            "description": "患者住院号门诊号",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "透析日期(起始时间)，格式：yyyy-MM-dd",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "透析日期(结束时间)，格式：yyyy-MM-dd",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientBatchCureRecordViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientBatchCureRecordViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientBatchCureRecordViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/File/{id}": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "透析记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "print",
+            "in": "query",
+            "description": "为1时，签名显示生效",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureRecordFileViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureRecordFileViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureRecordFileViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/HisViewAssementRecord": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "评估记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "hisno",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientBatchAssementViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientBatchAssementViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientBatchAssementViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/AssementFile/{id}": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "评估记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientAssementViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientAssementViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientAssementViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/OutSchedule": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "排床记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "areaId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shifts",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "areas",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureScheduleDetailViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureScheduleDetailViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CureScheduleDetailViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/SsoLogin": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "单点登录",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "description": "sessionID：token",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Other/CfSsoLogin": {
+      "get": {
+        "tags": [
+          "Other"
+        ],
+        "summary": "单点登录",
+        "parameters": [
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userCode",
+            "in": "query",
+            "description": "userCode",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/{id}": {
+      "get": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "转归报告模板 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "转归报告模板 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/Filter": {
+      "get": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "转归报告模板 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/ByCode": {
+      "get": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "表单模板 -- 根据code查询数据",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "description": "code",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrognosisTmplFormResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/Data/{id}": {
+      "get": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "表单模板 -- 根据Id查询Data数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "design",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/JObjectResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JObjectResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JObjectResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "表单模板 -- 更新表单内容",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormDataEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormDataEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormDataEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormDataEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/Tags": {
+      "get": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "自定义话术模板字段列表",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelTagViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelTagViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelTagViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/PatientTmplForm/{code}/{patientId}": {
+      "get": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "自定义话术模板明细 -- 根据患者标识或者透析记录单标识填充数据",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "自定义话术模板code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "患者标识",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TmplFormDataViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TmplFormDataViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TmplFormDataViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm": {
+      "post": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "转归报告模板 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrognosisTmplFormEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/Copy/{id}": {
+      "post": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "表单模板 -- 表单复制",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrognosisTmplForm/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PrognosisTmplForm"
+        ],
+        "summary": "转归报告模板 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage/{id}": {
+      "get": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 -- 根据Id查询数据并更新消息状态为已读",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage/Filter": {
+      "get": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "description": "消息类型 1:通知 2:待办 3:报警 4:预警 为空或填写其他内容均返回全部",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "isRead",
+            "in": "query",
+            "description": "消息状态 0:未读 1:已读 为空或填写其他内容均返回全部",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage": {
+      "post": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage/Msg/Batch": {
+      "post": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 - 批量更新消息状态为已读",
+        "requestBody": {
+          "description": "消息Id集合",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage/{id}/Focus": {
+      "post": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 - 关注",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "消息Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage/Delete/{id}": {
+      "post": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessage/Delete/Batch": {
+      "post": {
+        "tags": [
+          "RtmMessage"
+        ],
+        "summary": "消息记录 -- 根据Id批量删除数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessageFile/{id}": {
+      "get": {
+        "tags": [
+          "RtmMessageFile"
+        ],
+        "summary": "消息附件 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageFileResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageFileResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageFileResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "RtmMessageFile"
+        ],
+        "summary": "消息附件 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessageFile/Filter": {
+      "get": {
+        "tags": [
+          "RtmMessageFile"
+        ],
+        "summary": "消息附件 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageFileResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageFileResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RtmMessageFileResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessageFile": {
+      "post": {
+        "tags": [
+          "RtmMessageFile"
+        ],
+        "summary": "消息附件 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RtmMessageFileViewModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RtmMessageFile/Delete/{id}": {
+      "post": {
+        "tags": [
+          "RtmMessageFile"
+        ],
+        "summary": "消息附件 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CentralInformationEditModel": {
+        "required": [
+          "date",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "信息类型"
+          },
+          "date": {
+            "type": "string",
+            "description": "登记日期",
+            "format": "date-time"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "中心信息"
+      },
+      "CentralInformationView": {
+        "required": [
+          "date",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "信息类型"
+          },
+          "date": {
+            "type": "string",
+            "description": "登记日期",
+            "format": "date-time"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "中心信息"
+      },
+      "CentralInformationViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CentralInformationView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "CentralInformationViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/CentralInformationView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "CureAssementView": {
+        "required": [
+          "cureRecordId",
+          "id",
+          "tmplFormId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "cureRecordId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[透析记录标识](#透析记录)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "评估类型 `DIC.DIALYSIS.ASSEMENT.TYPE` *透前评估,透析评估,透后评估*"
+          },
+          "tmplFormId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[表单模板标识](#表单模板)"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "patientId": {
+            "type": "string",
+            "description": "患者标识",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "description": "表单结构",
+            "nullable": true
+          },
+          "id": {
+            "minLength": 1,
+            "type": "string",
+            "description": "标识"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析评估记录"
+      },
+      "CureAssementViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CureAssementView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "CureAssementViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/CureAssementView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "CureBedItem": {
+        "type": "object",
+        "properties": {
+          "deptDialysisBedId": {
+            "type": "string",
+            "description": "透析床位标识",
+            "nullable": true
+          },
+          "deptDialysisBedName": {
+            "type": "string",
+            "description": "透析床位名称",
+            "nullable": true
+          },
+          "deptDialysisBedSequence": {
+            "type": "integer",
+            "description": "序列",
+            "format": "int32"
+          },
+          "devId": {
+            "type": "string",
+            "description": "科室设备标识",
+            "nullable": true
+          },
+          "devCode": {
+            "type": "string",
+            "description": "科室设备编号",
+            "nullable": true
+          },
+          "devType": {
+            "type": "string",
+            "description": "科室设备类型",
+            "nullable": true
+          },
+          "devModel": {
+            "type": "string",
+            "description": "科室设备型号",
+            "nullable": true
+          },
+          "devPositive": {
+            "type": "integer",
+            "description": "是否阳性 *如阳性不可改为阴性*",
+            "format": "int32"
+          },
+          "devAvailable": {
+            "type": "integer",
+            "description": "科室设备是否可用",
+            "format": "int32"
+          },
+          "deptDialysisBedEnabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "patients": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CurePatient"
+            },
+            "description": "患者排床床位上的患者信息",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者排床床位信息"
+      },
+      "CureBedPatientDetail": {
+        "type": "object",
+        "properties": {
+          "dialysisDate": {
+            "type": "string",
+            "description": "透析日期",
+            "format": "date-time",
+            "nullable": true
+          },
+          "weekday": {
+            "type": "integer",
+            "description": "透析日 `DIC.DIALYSIS.WEEKDAY`",
+            "format": "int32"
+          },
+          "bedId": {
+            "type": "string",
+            "description": "床位标识",
+            "nullable": true
+          },
+          "bedName": {
+            "type": "string",
+            "description": "床位",
+            "nullable": true
+          },
+          "dialysisAreaId": {
+            "type": "string",
+            "description": "区间标识",
+            "nullable": true
+          },
+          "dialysisAreaName": {
+            "type": "string",
+            "description": "床位",
+            "nullable": true
+          },
+          "weekdayName": {
+            "type": "string",
+            "description": "透析日名称",
+            "nullable": true
+          },
+          "dossierNum": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          },
+          "shiftId": {
+            "type": "string",
+            "description": "班次标识",
+            "nullable": true
+          },
+          "shiftName": {
+            "type": "string",
+            "description": "班次",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "patientId": {
+            "type": "string",
+            "description": "患者标识",
+            "nullable": true
+          },
+          "patientName": {
+            "type": "string",
+            "description": "患者名称",
+            "nullable": true
+          },
+          "patientName2": {
+            "type": "string",
+            "description": "患者别名",
+            "nullable": true
+          },
+          "patientNameFull": {
+            "type": "string",
+            "description": "患者全名",
+            "nullable": true
+          },
+          "patientPositive": {
+            "type": "integer",
+            "description": "患者是否阳性0,1",
+            "format": "int32"
+          },
+          "dialysisMode": {
+            "type": "string",
+            "description": "透析方式 `DIC.DIALYSIS.MODE`  *字典值*",
+            "nullable": true
+          },
+          "dialysisModeName": {
+            "type": "string",
+            "description": "透析方式名称",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "description": "颜色代码 `DIC.SYS.COLOR` 可自定义颜色",
+            "nullable": true
+          },
+          "colorName": {
+            "type": "string",
+            "description": "颜色代码名称",
+            "nullable": true
+          },
+          "fontColor": {
+            "type": "string",
+            "description": "字体颜色 `DIC.SYS.FONTCOLOR` 可自定义颜色",
+            "nullable": true
+          },
+          "fontColorName": {
+            "type": "string",
+            "description": "字体颜色名称",
+            "nullable": true
+          },
+          "dialyzerId": {
+            "type": "string",
+            "description": "透析器标识",
+            "nullable": true
+          },
+          "dialyzerName": {
+            "type": "string",
+            "description": "透析器名称",
+            "nullable": true
+          },
+          "dialyzerCount": {
+            "type": "string",
+            "description": "透析器数量",
+            "nullable": true
+          },
+          "filterId": {
+            "type": "string",
+            "description": "血滤器标识",
+            "nullable": true
+          },
+          "filterName": {
+            "type": "string",
+            "description": "血滤器名称",
+            "nullable": true
+          },
+          "filterCount": {
+            "type": "string",
+            "description": "血滤器数量",
+            "nullable": true
+          },
+          "perfusionId": {
+            "type": "string",
+            "description": "灌流器标识",
+            "nullable": true
+          },
+          "perfusionName": {
+            "type": "string",
+            "description": "灌流器名称",
+            "nullable": true
+          },
+          "perfusionCount": {
+            "type": "string",
+            "description": "灌流器数量",
+            "nullable": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "图标",
+            "nullable": true
+          },
+          "pinyinCode": {
+            "type": "string",
+            "description": "姓名拼音码 *首字母*",
+            "nullable": true
+          },
+          "wubiCode": {
+            "type": "string",
+            "description": "姓名五笔码 *首字母*",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "anticoagulantName": {
+            "type": "string",
+            "description": "抗凝剂类型",
+            "nullable": true
+          },
+          "anticoagulantTotal": {
+            "type": "string",
+            "description": "剂量",
+            "nullable": true
+          },
+          "cureCostGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CureCostGroupView"
+            },
+            "description": "费用组套",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "床位患者明细"
+      },
+      "CureCostGroupView": {
+        "required": [
+          "batchManage",
+          "count",
+          "roomItemListId",
+          "roomItemTypeCode"
+        ],
+        "type": "object",
+        "properties": {
+          "roomItemTypeCode": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "耗材分类代码"
+          },
+          "roomItemListId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[耗材标识](项目清单Id)"
+          },
+          "count": {
+            "type": "integer",
+            "description": "耗材数量",
+            "format": "int32"
+          },
+          "batchManage": {
+            "type": "integer",
+            "description": "批号管理",
+            "format": "int32",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "description": "编码",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "项目名称",
+            "nullable": true
+          },
+          "devBarCode": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "耗材编码",
+            "nullable": true
+          },
+          "cureRecordConsumableId": {
+            "type": "string",
+            "description": "项目标识",
+            "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "项目排序",
+            "format": "int32"
+          },
+          "roomItemListName": {
+            "type": "string",
+            "description": "项目名称",
+            "nullable": true
+          },
+          "roomItemTypeName": {
+            "type": "string",
+            "description": "种类名称",
+            "nullable": true
+          },
+          "spec": {
+            "type": "string",
+            "description": "规格",
+            "nullable": true
+          },
+          "sellingPrice": {
+            "type": "number",
+            "description": "售价",
+            "format": "double",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "description": "基本单位",
+            "nullable": true
+          },
+          "unitLabel": {
+            "type": "string",
+            "description": "基本单位显示值",
+            "nullable": true
+          },
+          "usageMode": {
+            "type": "string",
+            "description": "给药方式 `DIC.DA.USAGEMODE` *静脉注射,静脉滴注,皮下注射,口服,封管*",
+            "nullable": true
+          },
+          "usageModeLabel": {
+            "type": "string",
+            "description": "给药方式显示值",
+            "nullable": true
+          },
+          "unitLevel1": {
+            "type": "string",
+            "description": "一级单位 `DIC.SYS.UNIT`",
+            "nullable": true
+          },
+          "unitLevel1Label": {
+            "type": "string",
+            "description": "一级单位显示值",
+            "nullable": true
+          },
+          "unitList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LabelModel"
+            },
+            "description": "一级单位与基本单位集合",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "项目启用状态0,1",
+            "format": "int32"
+          },
+          "inventoryCount": {
+            "type": "integer",
+            "description": "库存 *基本单位的库存*",
+            "format": "int32"
+          },
+          "batchNo": {
+            "type": "string",
+            "description": "批号",
+            "nullable": true
+          },
+          "batchItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CureRecordConsumableItemView"
+            },
+            "description": "批号明细",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CureDialysisItem": {
+        "type": "object",
+        "properties": {
+          "deptDialysisAreaId": {
+            "type": "string",
+            "description": "透析区间标识",
+            "nullable": true
+          },
+          "deptDialysisAreaName": {
+            "type": "string",
+            "description": "透析区间名称",
+            "nullable": true
+          },
+          "deptDialysisAreaType": {
+            "type": "string",
+            "description": "类型 `DIC.DIALYSIS.AREA.TYPE` *普通,甲肝,乙肝,丙肝,梅毒等*",
+            "nullable": true
+          },
+          "deptDialysisAreaTypeName": {
+            "type": "string",
+            "description": "类型名称",
+            "nullable": true
+          },
+          "deptDialysisAreaIcon": {
+            "type": "string",
+            "description": "图标",
+            "nullable": true
+          },
+          "deptDialysisAreaIconLabel": {
+            "type": "string",
+            "description": "图标",
+            "nullable": true
+          },
+          "deptDialysisAreaPositive": {
+            "type": "integer",
+            "description": "是否阳性分区0,1",
+            "format": "int32"
+          },
+          "deptDialysisAreaSequence": {
+            "type": "integer",
+            "description": "序列",
+            "format": "int32"
+          },
+          "deptDialysisAreaEnabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "bedItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CureBedItem"
+            },
+            "description": "患者排床床位信息",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析区间信息"
+      },
+      "CurePatient": {
+        "type": "object",
+        "properties": {
+          "isShift": {
+            "type": "boolean",
+            "description": ""
+          },
+          "dialysisDate": {
+            "type": "string",
+            "description": "透析日期",
+            "format": "date-time"
+          },
+          "weekday": {
+            "type": "integer",
+            "description": "透析日 `DIC.DIALYSIS.WEEKDAY`",
+            "format": "int32"
+          },
+          "weekdayName": {
+            "type": "string",
+            "description": "透析日名称",
+            "nullable": true
+          },
+          "shiftId": {
+            "type": "string",
+            "description": "班次",
+            "nullable": true
+          },
+          "shiftName": {
+            "type": "string",
+            "description": "班次 *早班,中班,晚班  显示内容:早班(07:00-11:00)*",
+            "nullable": true
+          },
+          "shiftColor": {
+            "type": "string",
+            "description": "班次颜色",
+            "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "班次序列",
+            "format": "int32"
+          },
+          "beginTime": {
+            "type": "string",
+            "description": "开始时间 *HH:mm:ss*",
+            "nullable": true
+          },
+          "endTime": {
+            "type": "string",
+            "description": "结束时间 *HH:mm:ss*",
+            "nullable": true
+          },
+          "patient": {
+            "$ref": "#/components/schemas/CureBedPatientDetail"
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者排床详细信息"
+      },
+      "CureRecordConsumableItemView": {
+        "required": [
+          "batchCount"
+        ],
+        "type": "object",
+        "properties": {
+          "cureRecordConsumableId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "[透析耗材标识](#透析耗材)",
+            "nullable": true
+          },
+          "roomRecordInId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "[入库记录标识](#入库记录)",
+            "nullable": true
+          },
+          "batchCount": {
+            "type": "integer",
+            "description": "耗材数量",
+            "format": "int32"
+          },
+          "batchNo": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "批号",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "surplusCount": {
+            "type": "integer",
+            "description": "批号剩余数量",
+            "format": "int32"
+          },
+          "expiryDate": {
+            "type": "string",
+            "description": "批号有效期",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析耗材"
+      },
+      "CureRecordFileView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "lastId": {
+            "type": "string",
+            "description": "上一次透析标识",
+            "nullable": true
+          },
+          "nextId": {
+            "type": "string",
+            "description": "下一次透析标识",
+            "nullable": true
+          },
+          "dialysisDate": {
+            "type": "string",
+            "description": "透析日期",
+            "format": "date-time"
+          },
+          "shiftName": {
+            "type": "string",
+            "description": "班次名称",
+            "nullable": true
+          },
+          "dialysisAreaName": {
+            "type": "string",
+            "description": "透析区间名称",
+            "nullable": true
+          },
+          "bedName": {
+            "type": "string",
+            "description": "床位名称",
+            "nullable": true
+          },
+          "patientName": {
+            "type": "string",
+            "description": "患者名称",
+            "nullable": true
+          },
+          "assementBefore": {
+            "$ref": "#/components/schemas/CureRecordItemAssement"
+          },
+          "assementAfter": {
+            "$ref": "#/components/schemas/CureRecordItemAssement"
+          },
+          "assementDialysis": {
+            "$ref": "#/components/schemas/CureRecordItemAssement"
+          },
+          "row": {
+            "type": "integer",
+            "description": "表头行数",
+            "format": "int32",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "透析记录单HTML文本",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "CureRecordFileViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/CureRecordFileView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "CureRecordItemAssement": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "表单结构",
+            "nullable": true
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SysFormValueView"
+            },
+            "description": "受支持的表单自定义数据",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透前评估"
+      },
+      "CureScheduleDetailView": {
+        "type": "object",
+        "properties": {
+          "sysHospitalAreas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SysHospitalArea"
+            },
+            "description": "班次",
+            "nullable": true
+          },
+          "deptDialysisAreas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeptDialysisArea"
+            },
+            "description": "透析区间",
+            "nullable": true
+          },
+          "cureShifts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CureShift"
+            },
+            "description": "班次",
+            "nullable": true
+          },
+          "dialysisItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CureDialysisItem"
+            },
+            "description": "患者排床透析区间信息",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析排床"
+      },
+      "CureScheduleDetailViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/CureScheduleDetailView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "CureShift": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "名称 *○不允许重复*",
+            "nullable": true
+          },
+          "shortName": {
+            "type": "string",
+            "description": "简称 *○不允许重复*",
+            "nullable": true
+          },
+          "beginTime": {
+            "type": "string",
+            "description": "开始时间 *HH:mm:ss*",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "结束时间 *HH:mm:ss*",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "description": "颜色代码 `DIC.SYS.COLOR` 可自定义颜色",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "序列",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析班次"
+      },
+      "DeptDialysisArea": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "sysHospitalAreaId": {
+            "type": "string",
+            "description": "[归属透析室标识](透析室)",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "名称 *○同一个`sys_hospital_area_id`下不允许重复*",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "类型 `DIC.DIALYSIS.AREA.TYPE` *普通,甲肝,乙肝,丙肝,梅毒等*",
+            "nullable": true
+          },
+          "positive": {
+            "type": "integer",
+            "description": "阳性分区0,1",
+            "format": "int32"
+          },
+          "bedMax": {
+            "type": "integer",
+            "description": "最大床位数量",
+            "format": "int32",
+            "nullable": true
+          },
+          "bedCount": {
+            "type": "integer",
+            "description": "已有床位数量",
+            "format": "int32",
+            "nullable": true
+          },
+          "build": {
+            "type": "string",
+            "description": "所在建筑",
+            "nullable": true
+          },
+          "floor": {
+            "type": "string",
+            "description": "所在楼层",
+            "nullable": true
+          },
+          "color": {
+            "type": "string",
+            "description": "颜色代码 `DIC.SYS.COLOR` 可自定义颜色",
+            "nullable": true
+          },
+          "icon": {
+            "type": "string",
+            "description": "图标 `DIC.DIALYSIS.AREA.ICON`",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "序列",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "sysHospitalAreas": {
+            "$ref": "#/components/schemas/SysHospitalArea"
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析区间"
+      },
+      "DevWaterProcessRecordEditModel": {
+        "required": [
+          "date",
+          "tmplFormId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "devWaterProcessInfoId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "[水处理设备标识](#水处理设备)",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "日期",
+            "format": "date-time"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "记录类型 `DIC.WATER.DEVICE.RECORD.TYPE` *检测记录,维护记录,消毒记录，运行记录*"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "tmplFormId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[表单模板标识](#表单模板)"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "水处理记录"
+      },
+      "DevWaterProcessRecordView": {
+        "required": [
+          "date",
+          "tmplFormId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "devWaterProcessInfoId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "[水处理设备标识](#水处理设备)",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "日期",
+            "format": "date-time"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "记录类型 `DIC.WATER.DEVICE.RECORD.TYPE` *检测记录,维护记录,消毒记录，运行记录*"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "tmplFormId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[表单模板标识](#表单模板)"
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "description": "自定义模板",
+            "nullable": true
+          },
+          "typeLabel": {
+            "type": "string",
+            "description": "记录类型 字典标签",
+            "nullable": true
+          },
+          "waterDeviceNo": {
+            "type": "string",
+            "description": "水处理机名称",
+            "nullable": true
+          },
+          "waterDeviceCode": {
+            "type": "string",
+            "description": "水处理机编码",
+            "nullable": true
+          },
+          "waterDeviceType": {
+            "type": "string",
+            "description": "水处理机类型",
+            "nullable": true
+          },
+          "waterDeviceTypeLabel": {
+            "type": "string",
+            "description": "水处理机类型展示值",
+            "nullable": true
+          },
+          "waterDeviceModel": {
+            "type": "string",
+            "description": "水处理机型号",
+            "nullable": true
+          },
+          "waterDeviceModelLabel": {
+            "type": "string",
+            "description": "水处理机型号 - 展示值",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "水处理记录"
+      },
+      "DevWaterProcessRecordViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DevWaterProcessRecordView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "DevWaterProcessRecordViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/DevWaterProcessRecordView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "HfsFiles": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "原文件名",
+            "nullable": true
+          },
+          "extension": {
+            "type": "string",
+            "description": "扩展名",
+            "nullable": true
+          },
+          "length": {
+            "type": "integer",
+            "description": "文件大小 *字节*",
+            "format": "int64"
+          },
+          "path": {
+            "type": "string",
+            "description": "文件路径",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "url",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "description": "状态0,1 *0：临时 1：正式*",
+            "format": "int32"
+          },
+          "deleted": {
+            "type": "integer",
+            "description": "删除状态0,1",
+            "format": "int32"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "文件列表"
+      },
+      "HospitalInfectionRecordEditModel": {
+        "required": [
+          "date",
+          "devInfoId",
+          "tmplFormId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "检测日期",
+            "format": "date-time"
+          },
+          "devInfoId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[设备标识](#科室设备)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "评估类型 `DIC.INFECTION.TYPE` *透析液检测,内毒素检测,电解质检测*"
+          },
+          "tmplFormId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[表单模板标识](#表单模板)"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "院感评估记录"
+      },
+      "HospitalInfectionRecordView": {
+        "required": [
+          "date",
+          "devInfoId",
+          "tmplFormId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "检测日期",
+            "format": "date-time"
+          },
+          "devInfoId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[设备标识](#科室设备)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "评估类型 `DIC.INFECTION.TYPE` *透析液检测,内毒素检测,电解质检测*"
+          },
+          "tmplFormId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[表单模板标识](#表单模板)"
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "devCode": {
+            "type": "string",
+            "description": "设备名称",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "tmplFormData": {
+            "type": "string",
+            "description": "模板内容",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "院感评估记录"
+      },
+      "HospitalInfectionRecordViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HospitalInfectionRecordView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "HospitalInfectionRecordViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/HospitalInfectionRecordView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "HospitalSenseCureView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "唯一主键 -- 出入院信息表中的唯一标识，与住院号可取同一个值 -- 门诊号",
+            "nullable": true
+          },
+          "patienT_ID": {
+            "type": "string",
+            "description": "病例号 -- 患者在医院信息系统中（门诊+住院）的唯一身份标识。无论患者在门诊还是住院，该标识都应指向同一患者 -- 门诊号",
+            "nullable": true
+          },
+          "patienttype": {
+            "type": "string",
+            "description": "病人来源 -- 病人此次血透的来源：门诊病人填“MZ”,住院病人填“ZY”",
+            "nullable": true
+          },
+          "patienT_NAME": {
+            "type": "string",
+            "description": "患者姓名 -- 患者名字",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别 -- 患者性别，男、女",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "description": "年龄 -- 患者年龄",
+            "format": "int32"
+          },
+          "agE_UNIT": {
+            "type": "string",
+            "description": "年龄单位 -- 患者年龄单位",
+            "nullable": true
+          },
+          "txdate": {
+            "type": "string",
+            "description": "透析日期 -- 患者透析的时间",
+            "nullable": true
+          },
+          "txmachineno": {
+            "type": "string",
+            "description": "透析机器号 -- 透析仪器的编号",
+            "nullable": true
+          },
+          "xgaccesstype": {
+            "type": "string",
+            "description": "血管通路类型 -- 血管通路类型：1、内瘘。2、人工血管。3、隧道式中心静脉导管。4、非隧道式中心静脉导管。5、其他通路（如输液港）",
+            "nullable": true
+          },
+          "txzxjmzgbw": {
+            "type": "string",
+            "description": "中心静脉置管部位 -- 导管穿刺部位：如股静脉、左颈静脉、右颈静脉等",
+            "nullable": true
+          },
+          "tX_COUNT": {
+            "type": "integer",
+            "description": "累计透析次数 -- 在本医院累计透析的次数",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "院感科血透接口(血液病人透析记录)"
+      },
+      "HospitalSenseCureViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HospitalSenseCureView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "HospitalSensePatientView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "唯一主键 -- 出入院信息表中的唯一标识，与住院号可取同一个值 -- 门诊号",
+            "nullable": true
+          },
+          "patienT_ID": {
+            "type": "string",
+            "description": "病例号 -- 患者在医院信息系统中（门诊+住院）的唯一身份标识。无论患者在门诊还是住院，该标识都应指向同一患者 -- 门诊号",
+            "nullable": true
+          },
+          "patienttype": {
+            "type": "string",
+            "description": "病人来源 -- 病人此次血透的来源：门诊病人填“MZ”,住院病人填“ZY”",
+            "nullable": true
+          },
+          "patienT_NAME": {
+            "type": "string",
+            "description": "患者姓名 -- 患者名字",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别 -- 患者性别，男、女",
+            "nullable": true
+          },
+          "iD_CARD_ID": {
+            "type": "string",
+            "description": "身份证号码 -- 患者身份证号",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "description": "年龄 -- 患者年龄",
+            "format": "int32"
+          },
+          "agE_UNIT": {
+            "type": "string",
+            "description": "年龄单位 -- 患者年龄单位",
+            "nullable": true
+          },
+          "infecT_DIAGN_ID": {
+            "type": "string",
+            "description": "诊断编号 -- 诊断编号",
+            "nullable": true
+          },
+          "infecT_DIAGN_NAME": {
+            "type": "string",
+            "description": "诊断名称 -- 诊断名称",
+            "nullable": true
+          },
+          "countcure": {
+            "type": "string",
+            "description": "血透场所 -- 曾在几所血透场所接受过血透治疗",
+            "nullable": true
+          },
+          "tX_FREQUENCY": {
+            "type": "string",
+            "description": "透析频率 -- 如：一周一次、一周二次等",
+            "nullable": true
+          },
+          "tX_COUNT": {
+            "type": "integer",
+            "description": "累计透析次数 -- 在本医院累计透析的次数",
+            "format": "int32"
+          },
+          "dj_time": {
+            "type": "string",
+            "description": "首次登记时间 -- 第一次在医院登记血透的时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "院感科血透接口(血液病人登记表)"
+      },
+      "HospitalSensePatientViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HospitalSensePatientView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "JObjectResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "LabelModel": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "显示值",
+            "nullable": true
+          },
+          "value": {
+            "type": "string",
+            "description": "值",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ModelTagView": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "分类名称",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "标签",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "标签对应的描述"
+      },
+      "ModelTagViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ModelTagView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatBloodInforBloodView": {
+        "type": "object",
+        "properties": {
+          "reqno": {
+            "type": "string",
+            "description": "血透患者ID唯一号",
+            "nullable": true
+          },
+          "samreqno": {
+            "type": "string",
+            "description": "本次血透的唯一号（同一病人每2-4天透析一次， 每次的唯一号）",
+            "nullable": true
+          },
+          "begtime": {
+            "type": "string",
+            "description": "开始时间",
+            "nullable": true
+          },
+          "endtime": {
+            "type": "string",
+            "description": "结束时间",
+            "nullable": true
+          },
+          "isgr": {
+            "type": "string",
+            "description": "是否感染",
+            "nullable": true
+          },
+          "txjh": {
+            "type": "string",
+            "description": "透析机号",
+            "nullable": true
+          },
+          "txcs": {
+            "type": "integer",
+            "description": "透析次数",
+            "format": "int32"
+          },
+          "gglx": {
+            "type": "string",
+            "description": "导管类型（长期，临时，内漏）",
+            "nullable": true
+          },
+          "brlx": {
+            "type": "string",
+            "description": "病人类型",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者透析信息"
+      },
+      "PatBloodInforBloodViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatBloodInforBloodView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatInforBloodView": {
+        "type": "object",
+        "properties": {
+          "reqno": {
+            "type": "string",
+            "description": "血透患者ID 唯一号",
+            "nullable": true
+          },
+          "patname": {
+            "type": "string",
+            "description": "姓名",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别 -- 患者性别，男、女",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "description": "年龄 -- 患者年龄",
+            "format": "int32"
+          },
+          "idNo": {
+            "type": "string",
+            "description": "身份证号",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "description": "地址",
+            "nullable": true
+          },
+          "birthday": {
+            "type": "string",
+            "description": "出生日期",
+            "nullable": true
+          },
+          "phones": {
+            "type": "string",
+            "description": "电话",
+            "nullable": true
+          },
+          "state": {
+            "type": "string",
+            "description": "状态",
+            "nullable": true
+          },
+          "del": {
+            "type": "string",
+            "description": "删除标志",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "血透患者记录"
+      },
+      "PatInforBloodViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatInforBloodView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientAssementView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "评估时间",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "description": "评估类型",
+            "nullable": true
+          },
+          "typeLabel": {
+            "type": "string",
+            "description": "评估类型显示值",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "description": "表单结构",
+            "nullable": true
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "preparer": {
+            "type": "string",
+            "description": "填表人",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建人",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析评估"
+      },
+      "PatientAssementViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientAssementView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientBatchAssementView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "评估时间",
+            "format": "date-time"
+          },
+          "type": {
+            "type": "string",
+            "description": "评估类型",
+            "nullable": true
+          },
+          "typeLabel": {
+            "type": "string",
+            "description": "评估类型显示值",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "description": "表单结构",
+            "nullable": true
+          },
+          "dataValue": {
+            "type": "string",
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "preparer": {
+            "type": "string",
+            "description": "填表人",
+            "nullable": true
+          },
+          "patientName": {
+            "type": "string",
+            "description": "患者姓名",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "description": "性别",
+            "nullable": true
+          },
+          "genderLabel": {
+            "type": "string",
+            "description": "性别",
+            "nullable": true
+          },
+          "birthDate": {
+            "type": "string",
+            "description": "出生日期",
+            "format": "date-time",
+            "nullable": true
+          },
+          "age": {
+            "type": "string",
+            "description": "年龄",
+            "nullable": true
+          },
+          "cureRecordId": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者信息批量查询/导出/打印 - 评估信息"
+      },
+      "PatientBatchAssementViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientBatchAssementView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientBatchCureRecordView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "sn": {
+            "type": "string",
+            "description": "透析编号 *20180101001 根据签到顺序生成*",
+            "nullable": true
+          },
+          "patientId": {
+            "type": "string",
+            "description": "[患者标识](患者信息)",
+            "nullable": true
+          },
+          "dialysisDate": {
+            "type": "string",
+            "description": "透析日期",
+            "format": "date-time"
+          },
+          "shiftId": {
+            "type": "string",
+            "description": "班次",
+            "nullable": true
+          },
+          "shiftName": {
+            "type": "string",
+            "description": "班次名称",
+            "nullable": true
+          },
+          "dialysisAreaId": {
+            "type": "string",
+            "description": "透析区间",
+            "nullable": true
+          },
+          "dialysisAreaName": {
+            "type": "string",
+            "description": "透析区间名称",
+            "nullable": true
+          },
+          "bedId": {
+            "type": "string",
+            "description": "床位",
+            "nullable": true
+          },
+          "bedName": {
+            "type": "string",
+            "description": "床位名称",
+            "nullable": true
+          },
+          "dialysisMode": {
+            "type": "string",
+            "description": "透析方式 `DIC.DIALYSIS.MODE` *字典值*",
+            "nullable": true
+          },
+          "dialysisModeLabel": {
+            "type": "string",
+            "description": "透析方式显示值",
+            "nullable": true
+          },
+          "dialysisDurationSet": {
+            "type": "integer",
+            "description": "设定的透析时长 *分钟* *默认240分钟*",
+            "format": "int32"
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重 *kg 从患者表读取,可以反写*",
+            "format": "double",
+            "nullable": true
+          },
+          "bloodFlowRate": {
+            "type": "integer",
+            "description": "血流量 *ml/min*",
+            "format": "int32",
+            "nullable": true
+          },
+          "patientVascularAccessId": {
+            "type": "string",
+            "description": "[血管通路](患者血管通路)标识",
+            "nullable": true
+          },
+          "patientVascularAccessName": {
+            "type": "string",
+            "description": "血管通路",
+            "nullable": true
+          },
+          "patientVascularAccessType": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          },
+          "patientOtherVascularAccessId": {
+            "type": "string",
+            "nullable": true
+          },
+          "patientOtherVascularAccessName": {
+            "type": "string",
+            "description": "血管通路",
+            "nullable": true
+          },
+          "patientOtherVascularAccessType": {
+            "type": "string",
+            "description": "",
+            "nullable": true
+          },
+          "status": {
+            "type": "string",
+            "description": "治疗状态",
+            "nullable": true
+          },
+          "beforeWeight": {
+            "type": "number",
+            "description": "透前体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "beforeWeightMode": {
+            "type": "string",
+            "description": "透前体重方式 `DIC.PATIENT.MEASURE.WEIGHT.MODE` *正常,轮椅,卧床*",
+            "nullable": true
+          },
+          "beforeWeightModeLabel": {
+            "type": "string",
+            "description": "透前体重方式显示值",
+            "nullable": true
+          },
+          "deductionWeight": {
+            "type": "integer",
+            "description": "偏移量调整 *ml 透前-偏移-干体重=目标脱水量*",
+            "format": "int32",
+            "nullable": true
+          },
+          "ufg": {
+            "type": "integer",
+            "description": "目标脱水量 *ml Ultrafiltration Goal*",
+            "format": "int32",
+            "nullable": true
+          },
+          "afterWeight": {
+            "type": "number",
+            "description": "透后体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "afterWeightMode": {
+            "type": "string",
+            "description": "透后体重方式 `DIC.PATIENT.MEASURE.WEIGHT.MODE` *正常,轮椅,卧床*",
+            "nullable": true
+          },
+          "afterWeightModeLabel": {
+            "type": "string",
+            "description": "透后体重方式显示值",
+            "nullable": true
+          },
+          "ufv": {
+            "type": "integer",
+            "description": "实际脱水量 *ml Ultrafiltration Volume*",
+            "format": "int32",
+            "nullable": true
+          },
+          "ufvWeight": {
+            "type": "integer",
+            "description": "称重脱水量 *ml*",
+            "format": "int32",
+            "nullable": true
+          },
+          "dialysisDurationFact": {
+            "type": "integer",
+            "description": "实际透析时长 *分钟*",
+            "format": "int32",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "description": "年龄 *根据出入日期生成*",
+            "format": "int32",
+            "nullable": true
+          },
+          "source": {
+            "type": "string",
+            "description": "来源 `DIC.PATIENT.SOURCE`",
+            "nullable": true
+          },
+          "sourceLabel": {
+            "type": "string",
+            "description": "来源显示值",
+            "nullable": true
+          },
+          "hospitalNumberOut": {
+            "type": "string",
+            "description": "门诊号",
+            "nullable": true
+          },
+          "hospitalNumberIn": {
+            "type": "string",
+            "description": "住院号",
+            "nullable": true
+          },
+          "diagnosis": {
+            "type": "string",
+            "description": "诊断 `DIC.PATIENT.DIAGNOSIS` *多选*",
+            "nullable": true
+          },
+          "diagnosisLabel": {
+            "type": "string",
+            "description": "诊断显示值",
+            "nullable": true
+          },
+          "ward": {
+            "type": "string",
+            "description": "病区 *住院的*",
+            "nullable": true
+          },
+          "bed": {
+            "type": "string",
+            "description": "床位 *住院的*",
+            "nullable": true
+          },
+          "dialysisNumber": {
+            "type": "string",
+            "description": "透析号 *透析病案号*",
+            "nullable": true
+          },
+          "dialysisCountTotal": {
+            "type": "integer",
+            "description": "透析总次数",
+            "format": "int32",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "patientName": {
+            "type": "string",
+            "description": "患者名称",
+            "nullable": true
+          },
+          "idNumber": {
+            "type": "string",
+            "description": "证件号码",
+            "nullable": true
+          },
+          "idType": {
+            "type": "string",
+            "description": "证件类型 `DIC.PEOPLE.IDTYPE` *身份证,居住证,签证,护照,军人证,团员证,党员证,港澳通行证,其他*",
+            "nullable": true
+          },
+          "patientName2": {
+            "type": "string",
+            "description": "患者别名",
+            "nullable": true
+          },
+          "patientNameFull": {
+            "type": "string",
+            "description": "患者全名",
+            "nullable": true
+          },
+          "patientPinyinCode": {
+            "type": "string",
+            "description": "患者姓名拼音码",
+            "nullable": true
+          },
+          "patientWubiCode": {
+            "type": "string",
+            "description": "患者姓名五笔码",
+            "nullable": true
+          },
+          "gender": {
+            "type": "string",
+            "description": "性别 `DIC.PEOPLE.GENDER` *1.男 2.女*",
+            "nullable": true
+          },
+          "genderLabel": {
+            "type": "string",
+            "description": "性别显示值",
+            "nullable": true
+          },
+          "statusLabel": {
+            "type": "string",
+            "description": "治疗状态",
+            "nullable": true
+          },
+          "dialysisAge": {
+            "type": "string",
+            "description": "透析龄",
+            "nullable": true
+          },
+          "txqNames": {
+            "type": "string",
+            "description": "透析器;灌流器",
+            "nullable": true
+          },
+          "knjNames": {
+            "type": "string",
+            "description": "抗凝剂(抗凝剂+剂量)",
+            "nullable": true
+          },
+          "knjTotal": {
+            "type": "string",
+            "description": "抗凝剂(剂量)",
+            "nullable": true
+          },
+          "blutdruck": {
+            "type": "string",
+            "description": ";\r\n            血压 (透前,透后)",
+            "nullable": true
+          },
+          "afterBlood": {
+            "type": "string",
+            "description": ";\r\n            血压 (透前,透后)",
+            "nullable": true
+          },
+          "cancelReason": {
+            "type": "string",
+            "description": "取消原因",
+            "nullable": true
+          },
+          "tzEvents": {
+            "type": "string",
+            "description": ";\r\n            透中事件 (时间:名称,处理内容)",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastId": {
+            "type": "string",
+            "description": "上一次透析标识",
+            "nullable": true
+          },
+          "nextId": {
+            "type": "string",
+            "description": "下一次透析标识",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者信息批量查询/导出/打印 - 透析记录单"
+      },
+      "PatientBatchCureRecordViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientBatchCureRecordView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PrognosisFormType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "名称 *○同一个`parent_id`下不允许重复*",
+            "nullable": true
+          },
+          "code": {
+            "type": "string",
+            "description": "代码(用于字典检索) *○不允许重复,前缀继承父节点以点隔开*",
+            "nullable": true
+          },
+          "type": {
+            "type": "integer",
+            "description": "表单类型 0:自定义模板 1:话术模板",
+            "format": "int32"
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "序列",
+            "format": "int32"
+          },
+          "category": {
+            "type": "string",
+            "description": "分类",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "转归报告分类"
+      },
+      "PrognosisTmplForm": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "prognosisFormTypeId": {
+            "type": "string",
+            "description": "[转归报告分类标识](转归报告分类)",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "表单名称",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "description": "版本",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "description": "表单结构",
+            "nullable": true
+          },
+          "default": {
+            "type": "integer",
+            "description": "默认应用0,1",
+            "format": "int32"
+          },
+          "used": {
+            "type": "integer",
+            "description": "已使用0,1",
+            "format": "int32"
+          },
+          "system": {
+            "type": "integer",
+            "description": "系统内置0,1 *内置的不允许编辑/删除*",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "prognosisFormTypes": {
+            "$ref": "#/components/schemas/PrognosisFormType"
+          }
+        },
+        "additionalProperties": false,
+        "description": "转归报告模板"
+      },
+      "PrognosisTmplFormDataEditModel": {
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "表单结构"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrognosisTmplFormEditModel": {
+        "required": [
+          "default",
+          "enabled",
+          "name",
+          "prognosisFormTypeId",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "prognosisFormTypeId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[转归报告分类标识](#转归报告分类)"
+          },
+          "name": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "表单名称"
+          },
+          "version": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "版本"
+          },
+          "default": {
+            "type": "integer",
+            "description": "默认应用0,1",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "转归报告模板"
+      },
+      "PrognosisTmplFormResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PrognosisTmplForm"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PrognosisTmplFormView": {
+        "required": [
+          "default",
+          "enabled",
+          "name",
+          "prognosisFormTypeId",
+          "version"
+        ],
+        "type": "object",
+        "properties": {
+          "prognosisFormTypeId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[转归报告分类标识](#转归报告分类)"
+          },
+          "name": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "表单名称"
+          },
+          "version": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "版本"
+          },
+          "default": {
+            "type": "integer",
+            "description": "默认应用0,1",
+            "format": "int32"
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "prognosisFormTypeCode": {
+            "type": "string",
+            "description": "代码(用于字典检索) *○不允许重复,前缀继承父节点以点隔开*",
+            "nullable": true
+          },
+          "used": {
+            "type": "integer",
+            "description": "已使用0,1",
+            "format": "int32"
+          },
+          "system": {
+            "type": "integer",
+            "description": "系统内置0,1 *内置的不允许编辑/删除*",
+            "format": "int32"
+          },
+          "data": {
+            "type": "string",
+            "description": "模板",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "转归报告模板"
+      },
+      "PrognosisTmplFormViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrognosisTmplFormView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PrognosisTmplFormViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PrognosisTmplFormView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "QueryScreentInfoDetailView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "编码",
+            "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "屏幕名称",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "url地址",
+            "nullable": true
+          },
+          "sysHospitalAreaName": {
+            "type": "string",
+            "description": "归属透析室名称",
+            "nullable": true
+          },
+          "sysHospitalAreaId": {
+            "type": "string",
+            "description": "归属透析室Id",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "大屏详细信息"
+      },
+      "QueryScreentInfoView": {
+        "type": "object",
+        "properties": {
+          "lists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QueryScreentInfoDetailView"
+            },
+            "description": "大屏详细信息列表",
+            "nullable": true
+          },
+          "sysScreenTypeName": {
+            "type": "string",
+            "description": "屏幕类型",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "候诊大屏"
+      },
+      "QueryScreentInfoViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QueryScreentInfoView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "Result": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "返回结果(true,false)"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "data": {
+            "description": "数据",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "RtmMessage": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "from": {
+            "type": "string",
+            "description": "sys|userId",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "标题",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "内容",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "消息类型 *NOTIFICATION/通知,TODO/待办,WARN/报警,WARN_EARLY/预警*",
+            "nullable": true
+          },
+          "operationType": {
+            "type": "string",
+            "description": "操作类型 *CHANGE_BED/换床,PRESCRIPTION_REFUSE/拒绝处方,PRESCRIPTION_AGAIN/修改处方*",
+            "nullable": true
+          },
+          "operationParameters": {
+            "type": "string",
+            "description": "操作参数",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "消息记录"
+      },
+      "RtmMessageFile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "rtmMessageId": {
+            "type": "string",
+            "description": "[消息标识](消息记录)",
+            "nullable": true
+          },
+          "hfsFilesId": {
+            "type": "string",
+            "description": "[文件标识](文件列表)",
+            "nullable": true
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "rtmMessages": {
+            "$ref": "#/components/schemas/RtmMessage"
+          },
+          "hfsFiless": {
+            "$ref": "#/components/schemas/HfsFiles"
+          }
+        },
+        "additionalProperties": false,
+        "description": "消息附件"
+      },
+      "RtmMessageFileResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RtmMessageFile"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "RtmMessageFileResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RtmMessageFile"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "RtmMessageFileViewModel": {
+        "required": [
+          "hfsFilesId",
+          "rtmMessageId"
+        ],
+        "type": "object",
+        "properties": {
+          "rtmMessageId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[消息标识](消息记录Id)"
+          },
+          "hfsFilesId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[文件标识](文件列表Id)"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "消息附件 (ViewModel)"
+      },
+      "RtmMessageView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "消息Id",
+            "nullable": true
+          },
+          "from": {
+            "type": "string",
+            "description": "发送者",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "消息类型 NOTIFICATION/通知,TODO/待办,WARN/报警",
+            "nullable": true
+          },
+          "typeLabel": {
+            "type": "string",
+            "description": "消息类型 NOTIFICATION/通知,TODO/待办,WARN/报警",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "消息标题",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "内容",
+            "nullable": true
+          },
+          "operationType": {
+            "type": "string",
+            "description": "操作类型 *CHANGE_BED/换床,PRESCRIPTION_REFUSE/拒绝处方,PRESCRIPTION_AGAIN/修改处方*",
+            "nullable": true
+          },
+          "operationParameters": {
+            "type": "string",
+            "description": "操作参数",
+            "nullable": true
+          },
+          "hasRead": {
+            "type": "integer",
+            "description": "是否已读0,1",
+            "format": "int32"
+          },
+          "focus": {
+            "type": "integer",
+            "description": "是否关注0,1",
+            "format": "int32"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RtmMessageViewModel": {
+        "required": [
+          "content",
+          "from",
+          "title",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "from": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "sys|userId"
+          },
+          "title": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "标题"
+          },
+          "content": {
+            "minLength": 1,
+            "type": "string",
+            "description": "内容"
+          },
+          "type": {
+            "maxLength": 16,
+            "minLength": 1,
+            "type": "string",
+            "description": "消息类型 *NOTIFICATION/通知,TODO/待办,WARN/报警,WARN_EARLY/预警*"
+          },
+          "operationType": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "操作类型 *CHANGE_BED/换床,PRESCRIPTION_REFUSE/拒绝处方,PRESCRIPTION_AGAIN/修改处方*",
+            "nullable": true
+          },
+          "operationParameters": {
+            "type": "string",
+            "description": "操作参数",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "消息记录 (ViewModel)"
+      },
+      "RtmMessageViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RtmMessageView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "RtmMessageViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RtmMessageView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "SysFormValueView": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "名称",
+            "nullable": true
+          },
+          "key": {
+            "type": "string",
+            "description": "键",
+            "nullable": true
+          },
+          "value": {
+            "description": "值",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "description": "单位",
+            "nullable": true
+          },
+          "cureRecordShow": {
+            "type": "integer",
+            "description": "是否在透析记录单显示0,1 *只在透析记录单中评估内容自动生成场景下生效*",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "自定义表单数据"
+      },
+      "SysHospitalArea": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "名称 *○同一个`parent_id`下不允许重复*",
+            "nullable": true
+          },
+          "parentId": {
+            "type": "string",
+            "description": "父节点 *根节点填 0 ,否则为父节点ID*",
+            "nullable": true
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "序列",
+            "format": "int32"
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "透析室"
+      },
+      "TmplFormDataView": {
+        "type": "object",
+        "properties": {
+          "tmplFormId": {
+            "type": "string",
+            "description": "模板标识",
+            "nullable": true
+          },
+          "tmplFormName": {
+            "type": "string",
+            "description": "模板名称",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "模板内容",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TmplFormDataViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TmplFormDataView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "在下框中输入请求头中需要添加Jwt授权Token：Bearer Token",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "CentralInformation",
+      "description": "中心信息"
+    },
+    {
+      "name": "CureAssement",
+      "description": "透析评估记录"
+    },
+    {
+      "name": "DevWaterProcessRecord",
+      "description": "水处理记录"
+    },
+    {
+      "name": "HospitalInfectionRecord",
+      "description": "院感评估记录"
+    },
+    {
+      "name": "Other",
+      "description": "对外接口"
+    },
+    {
+      "name": "PrognosisTmplForm",
+      "description": "转归报告模板"
+    },
+    {
+      "name": "RtmMessage",
+      "description": "消息记录"
+    },
+    {
+      "name": "RtmMessageFile",
+      "description": "消息附件"
+    }
+  ]
+}

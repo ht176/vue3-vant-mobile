@@ -1,19 +1,43 @@
-import { STORAGE_TOKEN_KEY } from '@/stores/mutation-type'
+import { TOKEN_STORAGE_NAME } from './constant'
+import dayjs from 'dayjs'
+import { clearLocalStorage, getLocalStorage, setLocalStorage } from './storage'
 
-function isLogin() {
-  return !!localStorage.getItem(STORAGE_TOKEN_KEY)
-}
-
+/**
+ * 获取会话
+ * @returns {null} - 返回token
+ */
 function getToken() {
-  return localStorage.getItem(STORAGE_TOKEN_KEY)
+  const temp = getLocalStorage(TOKEN_STORAGE_NAME)
+  if (temp == null) {
+    return null
+  }
+  try {
+    const token = JSON.parse(temp)
+    const { insertTime, expireInterval } = token
+    if (dayjs(insertTime).valueOf() + expireInterval * 1000 >= dayjs().valueOf()) {
+      return token
+    }
+    return null
+  }
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  catch (e) {
+    return null
+  }
 }
-
-function setToken(token: string) {
-  localStorage.setItem(STORAGE_TOKEN_KEY, token)
+/**
+ * 保存会话
+ * @param token
+ */
+function setToken(token) {
+  // saveSessionStorage(TOKEN_STORAGE_NAME, JSON.stringify(token))
+  setLocalStorage(TOKEN_STORAGE_NAME, JSON.stringify(token))
 }
-
+/**
+ * 清除会话
+ */
 function clearToken() {
-  localStorage.removeItem(STORAGE_TOKEN_KEY)
+  // clearSessionStorage(TOKEN_STORAGE_NAME)
+  clearLocalStorage(TOKEN_STORAGE_NAME)
 }
 
-export { isLogin, getToken, setToken, clearToken }
+export { getToken, setToken, clearToken }

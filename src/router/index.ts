@@ -7,7 +7,7 @@ import 'nprogress/nprogress.css'
 import type { EnhancedRouteLocation } from './types'
 import useRouteCacheStore from '@/stores/modules/routeCache'
 import { useUserStore } from '@/stores'
-import { isLogin } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 
 NProgress.configure({ showSpinner: true, parent: '#app' })
 
@@ -29,19 +29,22 @@ router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
 
   // Route cache
   routeCacheStore.addRoute(to)
-
-  if (isLogin()) {
+  if (getToken()) {
     if (!userStore.userInfo?.uid) {
       await userStore.info()
       next()
     }
-
     else {
       next()
     }
   }
   else {
-    next()
+    if (to.path.includes('login')) {
+      next()
+    }
+    else {
+      next({ path: 'login' })
+    }
   }
 })
 

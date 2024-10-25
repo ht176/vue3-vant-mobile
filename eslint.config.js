@@ -16,15 +16,18 @@ export default antfu(
   },
   {
     rules: {
+      'vue/block-order': 'off',
       'perfectionist/sort-imports': 'off',
       'perfectionist/sort-exports': 'off',
       'perfectionist/sort-named-exports': 'off',
+      'no-console': 0,
     },
   },
   {
     ignores: [
       '.github/**',
       'scripts/**',
+      'src/services/',
     ],
   },
 )
