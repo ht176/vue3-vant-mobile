@@ -4,9 +4,9 @@ import { clearLocalStorage, getLocalStorage, setLocalStorage } from './storage'
 
 /**
  * 获取会话
- * @returns {null} - 返回token
+ * @returns {Token} - 返回token
  */
-function getToken() {
+function getToken(): Token {
   const temp = getLocalStorage(TOKEN_STORAGE_NAME)
   if (temp == null) {
     return null
@@ -28,7 +28,7 @@ function getToken() {
  * 保存会话
  * @param token
  */
-function setToken(token) {
+function setToken(token: Token) {
   // saveSessionStorage(TOKEN_STORAGE_NAME, JSON.stringify(token))
   setLocalStorage(TOKEN_STORAGE_NAME, JSON.stringify(token))
 }

@@ -61,5 +61,6 @@
     "default": true,
     "MD033": false,
     "MD041": false
-  }
+  },
+  "vue.complete.casing.props": "autoCamel"
 }

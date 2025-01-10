@@ -6,7 +6,6 @@ import 'nprogress/nprogress.css'
 
 import type { EnhancedRouteLocation } from './types'
 import useRouteCacheStore from '@/stores/modules/routeCache'
-import { useUserStore } from '@/stores'
 import { getToken } from '@/utils/auth'
 
 NProgress.configure({ showSpinner: true, parent: '#app' })
@@ -25,14 +24,12 @@ router.beforeEach(async (to: EnhancedRouteLocation, _from, next) => {
   NProgress.start()
 
   const routeCacheStore = useRouteCacheStore()
-  const userStore = useUserStore()
 
   // Route cache
   routeCacheStore.addRoute(to)
   if (getToken()) {
-    if (!userStore.userInfo?.uid) {
-      await userStore.info()
-      next()
+    if (to.path === '/') {
+      next({ path: 'dialysis-home' })
     }
     else {
       next()

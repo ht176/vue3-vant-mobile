@@ -21,16 +21,20 @@
 
 <script setup lang="ts">
 import { CureShiftServiceProxy } from '@/services/CureV1_2ServiceProxies'
-import { LoginViewModel, TokenServiceProxy } from '@/services/ServiceProxies'
-import { setToken } from '@/utils/auth'
 import { HashCodeBase64, HmacSHA256encrypt } from '@/utils/crypto'
 import { clearRememberUid, getRememberUid, setRememberUid } from '@/utils/storage'
 import { type RouteMap, useRouter } from 'vue-router'
-// import { useUserStore } from '@/stores'
+import { useAppStore, useUserStore } from '@/stores'
 import jlLogo from '~/images/login_jl.png'
+import { LoginViewModel } from '@/services/ServiceProxies'
+import { DeptDialysisAreaServiceProxy } from '@/services/DeptV1ServiceProxies'
+import { showNotify } from 'vant'
+import { getToken } from '@/utils/auth'
+import { SysDicItemServiceProxy, SysFieldItemServiceProxy, SysSettingServiceProxy } from '@/services/SysServiceProxies'
 
 const router = useRouter()
-// const userStore = useUserStore()
+const appStore = useAppStore()
+const userStore = useUserStore()
 
 const viewData = reactive({
   loading: false,
@@ -53,9 +57,8 @@ const rules = reactive({
 async function login() {
   viewData.loading = true
   const { redirect, ...othersQuery } = router.currentRoute.value.query
-  const tokenServiceProxy = new TokenServiceProxy()
   const transformFormData = Object.assign({}, { ...formData, password: HashCodeBase64(HmacSHA256encrypt(formData.password)) })
-  const res = await tokenServiceProxy.tokenPOST(transformFormData)
+  const res = await userStore.login(transformFormData)
   if (res.success) {
     if (viewData.rememberPassword) {
       const userRemember = JSON.parse(getRememberUid())
@@ -72,9 +75,6 @@ async function login() {
       clearRememberUid()
       // clearCureFilter()
     }
-    const { sid: id, uid, uname: name, hid, sysUserAreas, expity } = res.data
-    const token = { id, hid, uid, name, sysUserAreas, insertTime: new Date(), expireInterval: expity * 60 * 60 }
-    setToken(token)
     await loadOtherInfo()
     router.push({
       name: (redirect as keyof RouteMap) || 'dialysis-home',
@@ -83,12 +83,18 @@ async function login() {
       },
     })
   }
+  else {
+    showNotify({
+      type: 'danger',
+      message: res.message,
+    })
+  }
   viewData.loading = false
 }
 /** 加载相关数据 */
 async function loadOtherInfo() {
-  viewData.loadingText = '正在加载班次信息...'
-  await getShiftList()
+  viewData.loadingText = '正在加载配置信息...'
+  await Promise.all([getShiftList(), getDialysisAreaList(), getSysSettingList(), getSysFiledList(), getDicDataList()])
 }
 /** 获取班次信息 */
 async function getShiftList() {
@@ -103,12 +109,68 @@ async function getShiftList() {
   const res = await cureShiftServiceProxy.filter3(JSON.stringify(filter))
 
   if (res.success) {
-    // db.set('cureShiftList', result.data).write()
-
-    // console.log(db.get('cureShiftList').write())
+    appStore.setDialysisShifts(res.data)
   }
   else {
-    this.$toast.fail(res.message)
+    showNotify({ type: 'danger', message: res.message })
+  }
+}
+/**
+ * 获取透析区域列表
+ */
+async function getDialysisAreaList() {
+  const token = getToken()
+  const deptDialysisAreaServiceProxy = new DeptDialysisAreaServiceProxy()
+  const data = {
+    filter: {
+      PageIndex: 1,
+      PageSize: 1000,
+      Predicate: '',
+      PredicateValues: [],
+      Ordering: 'Sequence ASC',
+    },
+  }
+  const res = await deptDialysisAreaServiceProxy.tree(token.hid, 0, data as typeof undefined)
+  if (res.success) {
+    appStore.setDialysisAreas(res.data)
+  }
+  else {
+    showNotify({ type: 'danger', message: res.message })
+  }
+}
+/**
+ * 获取系统参数信息
+ */
+async function getSysSettingList() {
+  const sysSettingServiceProxy = new SysSettingServiceProxy()
+  const filter = {
+    PageIndex: 1,
+    PageSize: 10000000,
+    Predicate: '1=1',
+    PredicateValues: [],
+  }
+  const res = await sysSettingServiceProxy.filter29(JSON.stringify(filter))
+  if (res.success) {
+    appStore.setSettingList(res.data)
+  }
+  else {
+    showNotify({ type: 'danger', message: res.message })
+  }
+}
+/** 获取流程自定义字段 */
+async function getSysFiledList() {
+  const sysFieldTypeCodes = 'MeasureCureBefore,Prescribing.PatientSource,Prescribing.QuickPrescription,Prescribing.PrescriptionInfo,Prescribing.VitalSigns,Prescribing.Dialysate,OnCureMiddle.PatientSource,OnCureMiddle.CureMode,OnCureMiddle.MeasureCureBefore,OnCureMiddle.Dialysate,VerifyCureMiddle.PatientSource,VerifyCureMiddle.CureMode,VerifyCureMiddle.MeasureCureBefore,VerifyCureMiddle.Dialysate,OffCure,Disinfect'
+  const sysFieldItemServiceProxy = new SysFieldItemServiceProxy()
+  const { success, data } = await sysFieldItemServiceProxy.codes(sysFieldTypeCodes, '')
+  if (success) {
+    appStore.setSysFiledList(data)
+  }
+}
+async function getDicDataList() {
+  const sysDicItemServiceProxy = new SysDicItemServiceProxy()
+  const { success, data } = await sysDicItemServiceProxy.all()
+  if (success) {
+    appStore.setDicDataList(data)
   }
 }
 </script>

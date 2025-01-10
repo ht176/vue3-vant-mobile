@@ -1,45 +1,25 @@
 import { defineStore } from 'pinia'
-import type { LoginData, UserState } from '@/api/user'
-import { clearToken, setToken } from '@/utils/auth'
+import { clearToken, getToken, setToken } from '@/utils/auth'
+import type { LoginViewModel } from '@/services/ServiceProxies'
+import { TokenServiceProxy } from '@/services/ServiceProxies'
 
-import {
-  getEmailCode,
-  getUserInfo,
-  resetPassword,
-  login as userLogin,
-  logout as userLogout,
-  register as userRegister,
-} from '@/api/user'
-
-const InitUserInfo = {
-  uid: 0,
-  nickname: '',
-  avatar: '',
-}
+const tokenServiceProxy = new TokenServiceProxy()
 
 export const useUserStore = defineStore('user', () => {
-  const userInfo = ref<UserState>({ ...InitUserInfo })
-
-  // Set user's information
-  const setInfo = (partial: Partial<UserState>) => {
-    userInfo.value = { ...partial }
+  let userInfo = getToken()
+  function setUserInfo() {
+    userInfo = getToken()
   }
-
-  const login = async (loginForm: LoginData) => {
+  const login = async (loginForm: LoginViewModel) => {
     try {
-      const { data } = await userLogin(loginForm)
-      setToken(data.token)
-    }
-    catch (error) {
-      clearToken()
-      throw error
-    }
-  }
-
-  const info = async () => {
-    try {
-      const { data } = await getUserInfo()
-      setInfo(data)
+      const res = await tokenServiceProxy.tokenPOST(loginForm)
+      if (res.success) {
+        const { sid: id, uid, uname: name, hid, sysUserAreas, expity } = res.data
+        const token = { id, hid, uid, name, sysUserAreas, insertTime: new Date(), expireInterval: expity * 60 * 60 }
+        setToken(token)
+      }
+      setUserInfo()
+      return res
     }
     catch (error) {
       clearToken()
@@ -49,46 +29,18 @@ export const useUserStore = defineStore('user', () => {
 
   const logout = async () => {
     try {
-      await userLogout()
+      // await userLogout()
     }
     finally {
       clearToken()
-      setInfo({ ...InitUserInfo })
     }
-  }
-
-  const getCode = async () => {
-    try {
-      const data = await getEmailCode()
-      return data
-    }
-    catch {}
-  }
-
-  const reset = async () => {
-    try {
-      const data = await resetPassword()
-      return data
-    }
-    catch {}
-  }
-
-  const register = async () => {
-    try {
-      const data = await userRegister()
-      return data
-    }
-    catch {}
   }
 
   return {
     userInfo,
-    info,
+    setUserInfo,
     login,
     logout,
-    getCode,
-    reset,
-    register,
   }
 }, {
   persist: true,

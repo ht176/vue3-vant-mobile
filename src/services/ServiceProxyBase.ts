@@ -1,8 +1,15 @@
 import httpSign from '@/utils/http.sign'
-import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios'
 // import { checkUserLoginExpire } from '../utils/user'
 // import { WeChatAuthServiceProxy } from './ServiceProxies'
 interface AnyObject { [key: string]: any }
+interface CustomCancelToken extends CancelToken {
+  filter?: string;
+}
+
+interface CustomAxiosRequestConfig extends AxiosRequestConfig {
+  cancelToken?: CustomCancelToken;
+}
 
 // 接口白名单
 const urlGuardList = [
@@ -15,7 +22,7 @@ const urlGuardList = [
 ]
 
 export class ServiceProxyBase {
-  protected async transformOptions(options: AxiosRequestConfig) {
+  protected async transformOptions(options: CustomAxiosRequestConfig) {
     options.baseURL = import.meta.env.VITE_APP_API_BASE_URL as string
     // const guard: boolean = this.urlGuard(options.url as string)
     // const authInfo = { accessToken: '' }
@@ -25,9 +32,17 @@ export class ServiceProxyBase {
     //   token = await this.refreshTokenWx()
     // }
     // 添加header
+    const {filter} = options?.cancelToken || {}
     options.headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${httpSign()}`,
+      'filter': filter ? encodeURIComponent(JSON.stringify(options?.cancelToken?.filter)) : undefined
+    }
+    if (options.cancelToken) {
+      delete options.cancelToken.filter;
+      if (Object.keys(options.cancelToken).length === 0) {
+      options.cancelToken = undefined;
+      }
     }
     return Promise.resolve(options)
   }

@@ -2,6 +2,7 @@
 import useAppStore from '@/stores/modules/app'
 import useRouteCache from '@/stores/modules/routeCache'
 import useAutoThemeSwitcher from '@/hooks/useAutoThemeSwitcher'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
 const appStore = useAppStore()
 
@@ -27,13 +28,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <VanConfigProvider class="h-full" :theme-vars="themeVars">
-    <router-view v-slot="{ Component, route }">
-      <keep-alive :include="keepAliveRouteNames">
-        <component :is="Component" :key="route.name" />
-      </keep-alive>
-    </router-view>
-  </VanConfigProvider>
+  <el-config-provider :locale="zhCn">
+    <VanConfigProvider class="h-full" :theme-vars="themeVars">
+      <section class="app-wrapper">
+        <router-view v-slot="{ Component, route }">
+          <keep-alive :include="keepAliveRouteNames">
+            <component :is="Component" :key="route.name" />
+          </keep-alive>
+        </router-view>
+      </section>
+    </VanConfigProvider>
+  </el-config-provider>
 </template>
 
 <style scoped>

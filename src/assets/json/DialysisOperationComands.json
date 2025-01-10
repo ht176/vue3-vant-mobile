@@ -1,0 +1,109 @@
+{
+  "Comands": {
+    "rowBed": {
+      "code": "rowBed",
+      "name": "排床"
+    },
+    "changeBed": {
+      "code": "changeBed",
+      "name": "换床"
+    },
+    "cancelBed": {
+      "code": "cancelBed",
+      "name": "取消排床"
+    },
+    "preddialysisMeasure": {
+      "code": "preddialysisMeasure",
+      "name": "透前测量"
+    },
+    "beforePreddialysisPrescription": {
+      "code": "beforePreddialysisPrescription",
+      "name": "提前制定"
+    },
+    "preddialysisPrescription": {
+      "code": "preddialysisPrescription",
+      "name": "制定处方"
+    },
+    "confirmprescription": {
+      "code": "confirmprescription",
+      "name": "确认处方"
+    },
+    "preAssessment": {
+      "code": "preAssessment",
+      "name": "透前评估"
+    },
+    "dialysisecord": {
+      "code": "dialysisecord",
+      "name": "透析记录"
+    },
+    "medicalOrderRecord": {
+      "code": "medicalOrderRecord",
+      "name": "医嘱记录"
+    },
+    "dialysisMachine": {
+      "code": "dialysisMachine",
+      "name": "透析上机"
+    },
+    "curedAssessment": {
+      "code": "curedAssessment",
+      "name": "透后评估"
+    },
+    "curedRecords": {
+      "code": "curedRecords",
+      "name": "透后小结"
+    },
+    "cureingEvents": {
+      "code": "cureingEvents",
+      "name": "透中事件"
+    },
+    "cureingWatch": {
+      "code": "cureingWatch",
+      "name": "透中监测"
+    },
+    "crossCheck": {
+      "code": "crossCheck",
+      "name": "交叉核对"
+    },
+    "dialysisdeplane": {
+      "code": "dialysisdeplane",
+      "name": "消毒"
+    },
+    "dialysislowermachine": {
+      "code": "dialysislowermachine",
+      "name": "下机"
+    },
+    "propaganda": {
+      "code": "propaganda",
+      "name": "宣教"
+    },
+    "focus": {
+      "code": "focus",
+      "name": "关注",
+      "nameUnFocus": "取消关注"
+    },
+    "dialysisRecordSheet": {
+      "code": "dialysisRecordSheet",
+      "name": "透析记录单"
+    },
+    "dialysisRecordSheet_LastTen": {
+      "code": "dialysisRecordSheet_LastTen",
+      "name": "近10次透析记录单"
+    },
+    "cancelCure": {
+      "code": "cancelCure",
+      "name": "取消透析"
+    },
+    "devRepair": {
+      "code": "devRepair",
+      "name": "设备报修"
+    },
+    "callScreen": {
+      "code": "callScreen",
+      "name": "呼叫家属"
+    },
+    "emptyCall": {
+      "code": "emptyCall",
+      "name": "空床呼叫"
+    }
+  }
+}
