@@ -32,16 +32,17 @@ function login() {
 
     <VanCellGroup :inset="true" class="!mt-16">
       <van-cell :title="$t('profile.settings')" icon="setting-o" is-link to="/settings" />
+      <van-cell :title="$t('profile.docs')" icon="flower-o" is-link url="https://easy-temps.github.io/easy-docs/vue3-vant-mobile/" />
     </VanCellGroup>
   </div>
 </template>
 
-<route lang="json">
+<route lang="json5">
 {
-  "name": "profile",
-  "meta": {
-    "title": "个人中心",
-    "i18n": "menus.profile"
-  }
+  name: 'profile',
+  meta: {
+    title: '个人中心',
+    i18n: 'menus.profile'
+  },
 }
 </route>

@@ -22,7 +22,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="flex">
         <el-radio-group v-model="contentType" size="small">
           <el-radio-button v-for="item in contentTypeList.filter(x => x.isMenu)" :key="item.value" :label="item.label" :value="item.value" />
         </el-radio-group>
@@ -55,7 +55,13 @@ import { ArrowDown, WarnTriangleFilled } from '@element-plus/icons-vue'
 const { cureData } = defineProps({
   cureData: CureTodayView,
 })
+
 const emit = defineEmits(['handleBackClick'])
+
+onMounted(() => {
+
+})
+
 const contentType = ref(1)
 const contentTypeList = reactive([
   { value: 1, label: '透析流程', isMenu: true, comp: markRaw(defineAsyncComponent(() => import('./DialysisProcedure.vue'))) },
@@ -77,10 +83,15 @@ const selectComp = computed(() => {
 function handleBackClick() {
   emit('handleBackClick')
 }
+/** 模块点击 */
 function handleCommandClick(val) {
   console.log('val', val)
   contentType.value = val
 }
+/** 查询患者生命体征阈值 */
+// function getPatientThresholdSetting() {
+
+// }
 </script>
 
 <style scoped lang="less">

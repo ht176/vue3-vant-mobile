@@ -2,6 +2,7 @@
 import { useRouter } from 'vue-router'
 import type { FieldRule } from 'vant'
 import { useUserStore } from '@/stores'
+import vw from '@/utils/inline-px-to-vw'
 
 const { t } = useI18n()
 const router = useRouter()
@@ -67,15 +68,10 @@ async function getCode() {
 
   isGettingCode.value = true
   const res = await userStore.getCode()
-  if (res.code === 0) {
+  if (res.code === 0)
     showNotify({ type: 'success', message: `${t('register.sendCodeSuccess')}: ${res.result}` })
-  }
 
   isGettingCode.value = false
-}
-
-function handleBackLogin() {
-  router.push({ name: 'login' })
 }
 </script>
 
@@ -147,17 +143,17 @@ function handleBackLogin() {
       </div>
     </van-form>
 
-    <div class="mt-16 text-12 text-[var(--van-primary-color)]" @click="handleBackLogin">
+    <GhostButton to="login" block :style="{ 'margin-top': vw(8) }">
       {{ $t('register.backToLogin') }}
-    </div>
+    </GhostButton>
   </div>
 </template>
 
-<route lang="json">
+<route lang="json5">
 {
-  "name": "register",
-  "meta": {
-    "i18n": "menus.register"
-  }
+  name: 'register',
+  meta: {
+    i18n: 'menus.register'
+  },
 }
 </route>

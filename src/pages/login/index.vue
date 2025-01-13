@@ -1,28 +1,7 @@
-<template>
-  <el-row class="h-full bg-white">
-    <el-col :span="15">
-      <img :src="jlLogo" class="h-full w-full">
-    </el-col>
-    <el-col :span="9">
-      <div class="h-full flex flex-col justify-center px-6">
-        <van-form :model="formData" :rules="rules" validate-trigger="onSubmit" @submit="login">
-          <van-field v-model="formData.userName" class="login_input" name="userName" :rules="rules.userName" left-icon="contact" clearable label="账号" placeholder="请输入账号" />
-          <van-field v-model="formData.password" class="login_input" name="password" :rules="rules.password" left-icon="goods-collect-o" type="password" label="密码" placeholder="请输入密码" />
-          <div class="mt-4">
-            <van-button type="primary" size="small" block :loading="viewData.loading" loading-type="spinner" :loading-text="viewData.loadingText" :disabled="viewData.loading" native-type="submit">
-              登 录
-            </van-button>
-          </div>
-        </van-form>
-      </div>
-    </el-col>
-  </el-row>
-</template>
-
 <script setup lang="ts">
 import { CureShiftServiceProxy } from '@/services/CureV1_2ServiceProxies'
 import { HashCodeBase64, HmacSHA256encrypt } from '@/utils/crypto'
-import { clearRememberUid, getRememberUid, setRememberUid } from '@/utils/storage'
+// import { clearRememberUid, getRememberUid, setRememberUid } from '@/utils/storage'
 import { type RouteMap, useRouter } from 'vue-router'
 import { useAppStore, useUserStore } from '@/stores'
 import jlLogo from '~/images/login_jl.png'
@@ -60,21 +39,21 @@ async function login() {
   const transformFormData = Object.assign({}, { ...formData, password: HashCodeBase64(HmacSHA256encrypt(formData.password)) })
   const res = await userStore.login(transformFormData)
   if (res.success) {
-    if (viewData.rememberPassword) {
-      const userRemember = JSON.parse(getRememberUid())
-      if (!userRemember || userRemember.username !== formData.userName) {
-        setRememberUid(JSON.stringify({
-          username: formData.userName,
-          password: formData.password,
-          HospitalAreaName: '',
-          HospitalAreaId: formData.hospitalAreaId,
-        }))
-      }
-    }
-    else {
-      clearRememberUid()
-      // clearCureFilter()
-    }
+    // if (viewData.rememberPassword) {
+    //   const userRemember = JSON.parse(getRememberUid())
+    //   if (!userRemember || userRemember.username !== formData.userName) {
+    //     setRememberUid(JSON.stringify({
+    //       username: formData.userName,
+    //       password: formData.password,
+    //       HospitalAreaName: '',
+    //       HospitalAreaId: formData.hospitalAreaId,
+    //     }))
+    //   }
+    // }
+    // else {
+    //   clearRememberUid()
+    //   // clearCureFilter()
+    // }
     await loadOtherInfo()
     router.push({
       name: (redirect as keyof RouteMap) || 'dialysis-home',
@@ -166,6 +145,7 @@ async function getSysFiledList() {
     appStore.setSysFiledList(data)
   }
 }
+/** 获取所有字典及明细 */
 async function getDicDataList() {
   const sysDicItemServiceProxy = new SysDicItemServiceProxy()
   const { success, data } = await sysDicItemServiceProxy.all()
@@ -174,6 +154,27 @@ async function getDicDataList() {
   }
 }
 </script>
+
+<template>
+  <el-row class="h-full bg-white">
+    <el-col :span="15">
+      <img :src="jlLogo" class="h-full w-full">
+    </el-col>
+    <el-col :span="9">
+      <div class="h-full flex flex-col justify-center px-6">
+        <van-form :model="formData" :rules="rules" validate-trigger="onSubmit" @submit="login">
+          <van-field v-model="formData.userName" class="login_input" name="userName" :rules="rules.userName" left-icon="contact" clearable label="账号" placeholder="请输入账号" />
+          <van-field v-model="formData.password" class="login_input" name="password" :rules="rules.password" left-icon="goods-collect-o" type="password" label="密码" placeholder="请输入密码" />
+          <div class="mt-4">
+            <van-button type="primary" size="small" block :loading="viewData.loading" loading-type="spinner" :loading-text="viewData.loadingText" :disabled="viewData.loading" native-type="submit">
+              登 录
+            </van-button>
+          </div>
+        </van-form>
+      </div>
+    </el-col>
+  </el-row>
+</template>
 
 <style>
 .login_input {

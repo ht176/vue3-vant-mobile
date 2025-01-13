@@ -1,43 +1,31 @@
 import { TOKEN_STORAGE_NAME } from './constant'
 import dayjs from 'dayjs'
-import { clearLocalStorage, getLocalStorage, setLocalStorage } from './storage'
+import { useLocalStorage } from '@vueuse/core'
+
+const token = useLocalStorage(TOKEN_STORAGE_NAME, '')
 
 /**
  * 获取会话
  * @returns {Token} - 返回token
  */
 function getToken(): Token {
-  const temp = getLocalStorage(TOKEN_STORAGE_NAME)
-  if (temp == null) {
-    return null
-  }
-  try {
-    const token = JSON.parse(temp)
-    const { insertTime, expireInterval } = token
+  if (token.value) {
+    const val: Token = JSON.parse(token.value)
+    const { insertTime, expireInterval } = val
     if (dayjs(insertTime).valueOf() + expireInterval * 1000 >= dayjs().valueOf()) {
-      return token
+      return val
     }
     return null
   }
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  catch (e) {
-    return null
-  }
+  return null
 }
-/**
- * 保存会话
- * @param token
- */
-function setToken(token: Token) {
-  // saveSessionStorage(TOKEN_STORAGE_NAME, JSON.stringify(token))
-  setLocalStorage(TOKEN_STORAGE_NAME, JSON.stringify(token))
+
+function setToken(newToken: Token) {
+  token.value = JSON.stringify(newToken)
 }
-/**
- * 清除会话
- */
+
 function clearToken() {
-  // clearSessionStorage(TOKEN_STORAGE_NAME)
-  clearLocalStorage(TOKEN_STORAGE_NAME)
+  token.value = null
 }
 
 export { getToken, setToken, clearToken }

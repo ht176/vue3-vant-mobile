@@ -31,8 +31,14 @@ const useAppStore = defineStore('app', () => {
   function setSettingList(val: SysSettingView[]) {
     sysSettingList.value = val
   }
-  /** 根据Code获取参数 */
-  function getParametersValue(code: string, defaults: string = '', boolean: false = false) {
+  /**
+   * 根据参数代码从系统设置列表中获取参数值。
+   * @param code - 要获取的参数的代码。
+   * @param boolean - 如果为 true，则返回一个布尔值，指示参数值是否为 '1'。默认为 false。
+   * @param defaults - 如果未找到参数，则返回的默认值。默认为空字符串。
+   * @returns 如果找到参数，则返回参数值，否则返回默认值。如果 `boolean` 为 true，则返回布尔值。
+   */
+  function getParametersValue(code: string, boolean: boolean = false, defaults: string = '') {
     const itemFind = sysSettingList.value.find(_ => _.code === code)
     if (itemFind) {
       return boolean ? itemFind.value === '1' : itemFind.value

@@ -8,7 +8,7 @@ import '@/styles/app.less'
 import '@/styles/var.less'
 import '@/styles/public.less'
 import { i18n } from '@/utils/i18n'
-
+import 'dayjs/locale/zh-cn'
 // Vant 桌面端适配
 import '@vant/touch-emulator'
 

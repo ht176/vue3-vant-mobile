@@ -4,11 +4,11 @@ import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios'
 // import { WeChatAuthServiceProxy } from './ServiceProxies'
 interface AnyObject { [key: string]: any }
 interface CustomCancelToken extends CancelToken {
-  filter?: string;
+  filter?: string
 }
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
-  cancelToken?: CustomCancelToken;
+  cancelToken?: CustomCancelToken
 }
 
 // 接口白名单
@@ -32,16 +32,16 @@ export class ServiceProxyBase {
     //   token = await this.refreshTokenWx()
     // }
     // 添加header
-    const {filter} = options?.cancelToken || {}
+    const { filter } = options?.cancelToken || {}
     options.headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${httpSign()}`,
-      'filter': filter ? encodeURIComponent(JSON.stringify(options?.cancelToken?.filter)) : undefined
+      'filter': filter ? encodeURIComponent(JSON.stringify(options?.cancelToken?.filter)) : undefined,
     }
     if (options.cancelToken) {
-      delete options.cancelToken.filter;
+      delete options.cancelToken.filter
       if (Object.keys(options.cancelToken).length === 0) {
-      options.cancelToken = undefined;
+        options.cancelToken = undefined
       }
     }
     return Promise.resolve(options)

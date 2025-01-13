@@ -21,13 +21,13 @@ export default antfu(
       'perfectionist/sort-exports': 'off',
       'perfectionist/sort-named-exports': 'off',
       'no-console': 0,
+      'eslint-comments/no-unlimited-disable': 'off',
     },
   },
   {
     ignores: [
       '.github/**',
       'scripts/**',
-      'src/services/',
     ],
   },
 )

@@ -122,9 +122,11 @@
             剂量：{{ item.total || '-' }} &nbsp;{{ item.totalUnit || '' }}
           </div>
         </el-col>
-        <el-col v-if="isProgressVisible" :span="24" class="card-content card-content-progress">
-          <span>进度：</span>
-          <el-progress class="custom-progress" :stroke-width="10" :show-text="true" :format="formatProgress" :percentage="item.percent >= 0 ? item.percent : 0" />
+        <el-col v-if="isProgressVisible" :span="24">
+          <div class="flex">
+            <span>进度：</span>
+            <el-progress class="flex-1" :stroke-width="10" :show-text="true" :format="formatProgress" :percentage="item.percent >= 0 ? item.percent : 0" />
+          </div>
         </el-col>
       </el-row>
       <el-row class="border-t-gray-2 border-t-solid py-0.5">

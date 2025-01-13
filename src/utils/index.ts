@@ -4,5 +4,6 @@
  * @param imgPath
  */
 export function requireImg(imgPath: string) {
-  return new URL(`../assets/${imgPath}`, import.meta.url).href
+  const url = new URL(`src/assets/${imgPath}`, new URL(import.meta.url).origin).href
+  return url
 }

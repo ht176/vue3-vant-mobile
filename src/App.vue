@@ -30,21 +30,14 @@ onMounted(() => {
 <template>
   <el-config-provider :locale="zhCn">
     <VanConfigProvider class="h-full" :theme-vars="themeVars">
-      <section class="app-wrapper">
-        <router-view v-slot="{ Component, route }">
-          <keep-alive :include="keepAliveRouteNames">
-            <component :is="Component" :key="route.name" />
-          </keep-alive>
-        </router-view>
-      </section>
+      <router-view v-slot="{ Component, route }">
+        <keep-alive :include="keepAliveRouteNames">
+          <component :is="Component" :key="route.name" />
+        </keep-alive>
+      </router-view>
     </VanConfigProvider>
   </el-config-provider>
 </template>
 
 <style scoped>
-.app-wrapper {
-  width: 100%;
-  position: relative;
-  padding: 16px;
-}
 </style>

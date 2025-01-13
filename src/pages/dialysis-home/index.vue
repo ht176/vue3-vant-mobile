@@ -1,6 +1,6 @@
 <template>
-  <div v-show="!selectDialysisPatient" v-loading="loading" class="h-full flex flex-col">
-    <div class="flex items-center justify-between bg-blue-900 px-4 py-1 text-xs text-white font-bold">
+  <div v-show="!selectDialysisPatient" v-loading="loading" class="h-full flex flex-col overflow-hidden">
+    <div class="custom-head-color flex items-center justify-between px-4 py-1 text-xs text-white font-bold">
       <div>
         用户名：{{ userStore.userInfo?.name }}
       </div>
@@ -156,6 +156,9 @@ function handleBackClick() {
 </script>
 
 <style lang="less">
+.custom-head-color {
+  background: #12377c;
+}
 .card-div {
   flex: 1;
   display: flex;
