@@ -7,12 +7,14 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AbnormalInfo: typeof import('./../components/AbnormalInfo/index.vue')['default']
     BloodPressure: typeof import('./../components/BloodPressure/index.vue')['default']
     Chart: typeof import('./../components/Chart/index.vue')['default']
     DialysisCard: typeof import('./../pages/dialysis-home/components/DialysisCard.vue')['default']
     DialysisCustomFiled: typeof import('./../components/DialysisCustomFiled/index.vue')['default']
     DialysisProcedure: typeof import('./../pages/dialysis-home/components/DialysisProcedure.vue')['default']
     Dictionary: typeof import('./../components/Dictionary/index.vue')['default']
+    ElAlert: typeof import('element-plus/es')['ElAlert']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']

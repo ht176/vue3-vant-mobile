@@ -1,3 +1,24 @@
+<template>
+  <el-row class="h-full bg-white">
+    <el-col :span="15">
+      <img :src="jlLogo" class="h-full w-full">
+    </el-col>
+    <el-col :span="9">
+      <div class="h-full flex flex-col justify-center px-6">
+        <van-form :model="formData" :rules="rules" validate-trigger="onSubmit" @submit="login">
+          <van-field v-model="formData.userName" class="login_input" name="userName" :rules="rules.userName" left-icon="contact" clearable label="账号" placeholder="请输入账号" />
+          <van-field v-model="formData.password" class="login_input" name="password" :rules="rules.password" left-icon="goods-collect-o" type="password" label="密码" placeholder="请输入密码" />
+          <div class="mt-4">
+            <van-button type="primary" size="small" block :loading="viewData.loading" loading-type="spinner" :loading-text="viewData.loadingText" :disabled="viewData.loading" native-type="submit">
+              登 录
+            </van-button>
+          </div>
+        </van-form>
+      </div>
+    </el-col>
+  </el-row>
+</template>
+
 <script setup lang="ts">
 import { CureShiftServiceProxy } from '@/services/CureV1_2ServiceProxies'
 import { HashCodeBase64, HmacSHA256encrypt } from '@/utils/crypto'
@@ -8,8 +29,9 @@ import jlLogo from '~/images/login_jl.png'
 import { LoginViewModel } from '@/services/ServiceProxies'
 import { DeptDialysisAreaServiceProxy } from '@/services/DeptV1ServiceProxies'
 import { showNotify } from 'vant'
-import { getToken } from '@/utils/auth'
+import { clearToken, getToken } from '@/utils/auth'
 import { SysDicItemServiceProxy, SysFieldItemServiceProxy, SysSettingServiceProxy } from '@/services/SysServiceProxies'
+import { PatientThresholdSettingServiceProxy } from '@/services/PatientServiceProxies'
 
 const router = useRouter()
 const appStore = useAppStore()
@@ -32,7 +54,9 @@ const rules = reactive({
     { required: true, message: '请输入密码' },
   ],
 })
-
+onMounted(() => {
+  clearToken()
+})
 async function login() {
   viewData.loading = true
   const { redirect, ...othersQuery } = router.currentRoute.value.query
@@ -54,6 +78,7 @@ async function login() {
     //   clearRememberUid()
     //   // clearCureFilter()
     // }
+    appStore.setMenuList(res.data.menus)
     await loadOtherInfo()
     router.push({
       name: (redirect as keyof RouteMap) || 'dialysis-home',
@@ -73,7 +98,7 @@ async function login() {
 /** 加载相关数据 */
 async function loadOtherInfo() {
   viewData.loadingText = '正在加载配置信息...'
-  await Promise.all([getShiftList(), getDialysisAreaList(), getSysSettingList(), getSysFiledList(), getDicDataList()])
+  await Promise.all([getShiftList(), getDialysisAreaList(), getSysSettingList(), getSysFiledList(), getDicDataList(), getPatientThresholdSettingList()])
 }
 /** 获取班次信息 */
 async function getShiftList() {
@@ -153,28 +178,20 @@ async function getDicDataList() {
     appStore.setDicDataList(data)
   }
 }
+async function getPatientThresholdSettingList() {
+  const patientThresholdSettingServiceProxy = new PatientThresholdSettingServiceProxy()
+  const filter = {
+    PageIndex: 1,
+    PageSize: 10000000,
+    Predicate: '1=1',
+    PredicateValues: [],
+  }
+  const { success, data } = await patientThresholdSettingServiceProxy.filterGET45(JSON.stringify(filter))
+  if (success) {
+    appStore.setPatientThresholdSettingList(data)
+  }
+}
 </script>
-
-<template>
-  <el-row class="h-full bg-white">
-    <el-col :span="15">
-      <img :src="jlLogo" class="h-full w-full">
-    </el-col>
-    <el-col :span="9">
-      <div class="h-full flex flex-col justify-center px-6">
-        <van-form :model="formData" :rules="rules" validate-trigger="onSubmit" @submit="login">
-          <van-field v-model="formData.userName" class="login_input" name="userName" :rules="rules.userName" left-icon="contact" clearable label="账号" placeholder="请输入账号" />
-          <van-field v-model="formData.password" class="login_input" name="password" :rules="rules.password" left-icon="goods-collect-o" type="password" label="密码" placeholder="请输入密码" />
-          <div class="mt-4">
-            <van-button type="primary" size="small" block :loading="viewData.loading" loading-type="spinner" :loading-text="viewData.loadingText" :disabled="viewData.loading" native-type="submit">
-              登 录
-            </van-button>
-          </div>
-        </van-form>
-      </div>
-    </el-col>
-  </el-row>
-</template>
 
 <style>
 .login_input {

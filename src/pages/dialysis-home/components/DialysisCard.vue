@@ -81,7 +81,7 @@
       </div>
     </div>
     <!-- 透析卡片内容 -->
-    <div class="mt-1 font-bold" @click="handleCardClick(item.statusLabel, item)">
+    <div class="mt-1 font-bold" @click.stop="handleCardClick(item.statusLabel, item)">
       <div class="middele-card flex justify-between">
         <div v-for="info in cardHeadInfo" :key="info.value" class="flex items-center gap-1">
           <img :src="info.icon" class="w-4">

@@ -1,25 +1,25 @@
 <template>
   <!-- Select 类型：支持单选和多选 -->
-  <el-select v-if="type === 'select'" v-model="selectedValue" :multiple="isMultiple" :placeholder="placeholder" :clearable="clearable">
+  <el-select v-if="type === 'select'" v-bind="$attrs" v-model="selectedValue" :multiple="isMultiple" :placeholder="placeholder">
     <el-option v-for="item in dictData" :key="item.value" :label="item.name" :value="item.value" />
   </el-select>
 
   <!-- Radio 类型：单选 -->
-  <el-radio-group v-if="type === 'radio'" v-model="selectedValue">
+  <el-radio-group v-if="type === 'radio'" v-bind="$attrs" v-model="selectedValue">
     <el-radio v-for="item in dictData" :key="item.value" :label="item.value">
       {{ item.name }}
     </el-radio>
   </el-radio-group>
 
   <!-- Checkbox 类型：多选 -->
-  <el-checkbox-group v-if="type === 'checkbox'" v-model="selectedCheckboxValue">
+  <el-checkbox-group v-if="type === 'checkbox'" v-bind="$attrs" v-model="selectedCheckboxValue">
     <el-checkbox v-for="item in dictData" :key="item.value" :label="item.value">
       {{ item.name }}
     </el-checkbox>
   </el-checkbox-group>
 
   <!-- Button 类型：按钮 -->
-  <el-button-group v-if="type === 'button'">
+  <el-button-group v-if="type === 'button'" v-bind="$attrs">
     <el-button
       v-for="item in dictData"
       :key="item.value"
@@ -52,13 +52,11 @@ const props = defineProps({
     type: String,
     default: '请选择',
   },
-  clearable: {
-    type: Boolean,
-    default: true,
-  },
 })
-
-const emit = defineEmits<{ (event: 'update:modelValue', value: string | number | Array<string | number>): void }>()
+const emit = defineEmits<{
+  (event: 'update:modelValue', value: string | number | Array<string | number>): void
+  (event: 'change', value: string | number | Array<string | number>): void
+}>()
 const { getDicDataByCode } = useAppStore() // 假设我们有一个从 store 获取字典数据的 API
 
 const dictData = ref<SysDicItemChildView[]>([]) // 存储字典数据
@@ -70,6 +68,7 @@ const selectedValue = computed({
   },
   set: (value) => {
     emit('update:modelValue', value)
+    emit('change', value)
   },
 })
 // 多选
@@ -79,6 +78,7 @@ const selectedCheckboxValue = computed({
   },
   set: (value) => {
     emit('update:modelValue', value)
+    emit('change', value)
   },
 })
 

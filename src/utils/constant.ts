@@ -783,3 +783,77 @@ export const DIC_DEV_DIALYSIS_MODEL = 'DIC.DEV.DIALYSIS.MODEL'
  * 推荐配色
  */
 export const DIC_SYS_RECOMMENDED_COLOR = 'DIC.SYS.RECOMMENDED.COLOR'
+
+/**
+ * 系统参数定义
+ */
+
+/**
+ * 开启
+ */
+export const SYSTEMSETTING_OPEN = '1'
+
+/**
+ * 关闭
+ */
+export const SYSTEMSETTING_CLOSE = '0'
+
+/**
+ * 透析液是否含糖
+ */
+export const CUREFLOW_SUGAR_SHOW = 'CUREFLOW.SUGAR.SHOW'
+
+/**
+ * 透析时长单位
+ */
+export const DIALYSIS_DURATION_UNIT = 'DIALYSIS.DURATION.UNIT'
+
+/**
+ * 透析记录单占位符
+ */
+export const DIALYSIS_RECORD_DEFAULT_PLACEHOLDER = 'DIALYSIS.RECORD.DEFAULT.PLACEHOLDER'
+
+/**
+ * 评估项目自动生成
+ */
+export const DIALYSIS_RECORD_ASSEMENTITEM_AUTOGENERATE = 'DIALYSIS.RECORD.ASSEMENTITEM.AUTOGENERATE'
+
+/**
+ * 制定处方时展示重要信息
+ */
+export const CUREFLOW_PRESCRIPTION_SHORTCUT = 'CUREFLOW.PRESCRIPTION.SHORTCUT'
+
+/**
+ * 床单元清洁模式
+ */
+export const DIALYSIS_BEDUNIT_CLEAN = 'DIALYSIS.BEDUNIT.CLEAN'
+
+/**
+ * 医嘱执行指定执行时间
+ */
+export const CUREFLOW_ADJUSTMENT_EXECUTIONTIME_DA = 'CUREFLOW.ADJUSTMENT.EXECUTIONTIME.DA'
+
+/**
+ * 不用填写体重的测量方式
+ */
+export const CUREFLOW_WEIGHT_MODE_NOMEASURE = 'CUREFLOW.WEIGHT.MODE.NOMEASURE'
+
+/**
+ * 不用填写血压的测量位置
+ */
+export const CUREFLOW_BP_POSITION_NOMEASURE = 'CUREFLOW.BP.POSITION.NOMEASURE'
+
+/**
+ * 上机修改血流量
+ */
+export const CUREFLOW_MODIFY_BLOODFLOWRATE = 'CUREFLOW.MODIFY.BLOODFLOWRATE'
+/**
+ * 透析记录单是否显示电子签名
+ */
+export const DIALYSIS_RECORD_DISPLAY_SIGNATURE = 'DIALYSIS.RECORD.DISPLAY.SIGNATURE'
+
+export const DIALYSIS_UF_UNIT = 'DIALYSIS.UF.UNIT'
+/**
+ * 是否展示医院名称
+ */
+export const DIALYSIS_RECORD_HOSPITAL_SHOW = 'DIALYSIS.RECORD.HOSPITAL.SHOW'

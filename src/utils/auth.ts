@@ -3,7 +3,6 @@ import dayjs from 'dayjs'
 import { useLocalStorage } from '@vueuse/core'
 
 const token = useLocalStorage(TOKEN_STORAGE_NAME, '')
-
 /**
  * 获取会话
  * @returns {Token} - 返回token

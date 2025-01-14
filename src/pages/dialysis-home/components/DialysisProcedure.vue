@@ -15,6 +15,11 @@
     <div class="flex-1 overflow-auto p-1">
       <component :is="selectComponent" :cure-data="cureData" />
     </div>
+    <div class="flex justify-end">
+      <el-button v-if="cureData.allowSignedBefore || cureData.allowMeasureBefore" type="primary" size="large" @click="handleSaveClick">
+        确定
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -78,6 +83,10 @@ function handleStepClick(val: Step) {
 const selectComponent = computed(() => {
   return stepList.find(x => x.child === selectStep.value)?.comp
 })
+/** 保存 */
+function handleSaveClick() {
+  console.log('保存')
+}
 </script>
 
 <style scoped lang="less">

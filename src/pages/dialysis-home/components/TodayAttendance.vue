@@ -88,10 +88,6 @@ function handleCommandClick(val) {
   console.log('val', val)
   contentType.value = val
 }
-/** 查询患者生命体征阈值 */
-// function getPatientThresholdSetting() {
-
-// }
 </script>
 
 <style scoped lang="less">

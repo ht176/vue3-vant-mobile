@@ -29,4 +29,26 @@ declare global {
     label?: string
     placeholder?: string
   }
+  /** 生命体征异常 */
+  interface AbnormalInfo {
+    type: 'sbp' | 'dbp' | 'ufg' | 'pulse' | 'temp'
+    message: string
+  }
+  /** 预脱计算入参 */
+  interface CalcUfgModel {
+    /** 透前体重 */
+    beforeWeight: number
+    /** 干体重 */
+    bestWeight: number
+    /** 偏移调整 */
+    deductionWeight: string | number
+    /** 偏移调整单位 */
+    deductionWeightUnit: string
+    /** 预脱单位 */
+    ufgUnit: string
+    /** 上次透后 */
+    lastAfterWeight: number
+    /** 上次偏移调整 */
+    lastDeductionWeight: string | number
+  }
 }

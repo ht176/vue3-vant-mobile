@@ -95,14 +95,14 @@ const filter = reactive({
   date: dayjs().format('YYYYMMDD'),
   dialysisAreaId: [],
   shiftId: [],
-  dialysisMode: '',
+  dialysisMode: 'HD+HP,HF,HDF,test1,test3,22,Test11,Test12,Test13,Test14,Test15,Test16,Test17,Test18,321,Test19,HD2,HD3,HDF2,HD,HP,SUF,HDF+HP,HFHD,LFHD,PE,Test,Test10,Test9,Test8,Test7,Test6,Test3,Test2,Test1,Test5,Test4',
   infectiousDiseases: '',
   focus: '0',
   emptyBed: '0',
   gender: '0',
   sort: '2',
   hospitalAreaId: token.hid,
-  bedOrShift: '',
+  bedOrShift: 'bed',
 })
 /**
  * 获取透析首页患者数据
