@@ -86,6 +86,10 @@ const getAbnormal = computed(() => {
   }
   return array
 })
+
+defineExpose({
+  getAbnormal,
+})
 </script>
 
 <style scoped lang="less">

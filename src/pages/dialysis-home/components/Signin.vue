@@ -4,7 +4,7 @@
   </div>
   <div class="my-2">
     <AbnormalInfo
-      :patient-id="cureData.patientId" :blood-pressure-show="!!getFieldBloodPressure" :sbp="formData.beforeSbp" :dbp="formData.beforeDbp" :ufg-show="!!getFieldUfg" :ufg="formData.ufg"
+      ref="abnormalInfoRef" :patient-id="cureData.patientId" :blood-pressure-show="!!getFieldBloodPressure" :sbp="formData.beforeSbp" :dbp="formData.beforeDbp" :ufg-show="!!getFieldUfg" :ufg="formData.ufg"
       :best-weight="formData.bestWeight" :pulse-show="!!getFieldBeforePulse" :pulse="formData.beforePulse" :temp-show="!!(getFieldOnTemp && paramShowTemp)" :temp="formData.onTemp"
     />
   </div>
@@ -24,7 +24,7 @@
       </el-col>
       <!-- 透前体重 -->
       <el-col v-if="getFieldBeforeWeight" :span="8" :style="{ order: getFieldBeforeWeight.sequence }">
-        <el-form-item :label="getFieldBeforeWeight.label" prop="beforeWeight">
+        <el-form-item :label="getFieldBeforeWeight.label" prop="beforeWeight" :rules="getBeforeWeightRule">
           <el-input v-model="formData.beforeWeight" type="number" :placeholder="getFieldBeforeWeight.placeholder" :disabled="disabledWeight(formData.beforeWeightMode)" @change="handleBeforeWeightChange">
             <template #append>
               kg
@@ -70,13 +70,13 @@
       </el-col>
       <!-- 血压 -->
       <el-col v-if="getFieldBloodPressure" :span="8" :style="{ order: getFieldBloodPressure.sequence }">
-        <el-form-item :label="getFieldBloodPressure.label">
+        <el-form-item :label="getFieldBloodPressure.label" prop="bloodPressure" :rules="getBloodPressureRule">
           <BloodPressure v-model="formData" sbp-field="beforeSbp" dbp-field="beforeDbp" :disabled="disabledSbp(formData.beforeBpPosition)" @change="handleBloodPressureChange" />
         </el-form-item>
       </el-col>
       <!-- 脉搏 -->
       <el-col v-if="getFieldBeforePulse" :span="8" :style="{ order: getFieldBeforePulse.sequence }">
-        <el-form-item prop="beforePulse" :label="getFieldBeforePulse.label">
+        <el-form-item prop="beforePulse" :label="getFieldBeforePulse.label" :rules="getBeforePulseRule">
           <el-input v-model="formData.beforePulse" type="number" :placeholder="getFieldBeforePulse.placeholder" :disabled="disabledSbp(formData.beforeBpPosition)">
             <template #append>
               bpm
@@ -119,7 +119,7 @@ import { auth, calcUfgValue, disabledSbp, disabledWeight } from '@/utils/dialysi
 import { DIC_PATIENT_MEASURE_BP_POSITION, DIC_PATIENT_MEASURE_WEIGHT_MODE } from '@/utils/constant'
 import type { FormInstance, FormRules } from 'element-plus'
 
-const { cureData, type } = defineProps({
+const { cureData, type, formDisabled } = defineProps({
   cureData: CureTodayView,
   type: { type: Number, default: 1 },
   formDisabled: { type: Boolean, default: false },
@@ -134,9 +134,12 @@ onBeforeMount(() => {
 onMounted(() => {
   initLoad()
 })
+const abnormalInfoRef = ref(null)
 const ruleFormRef = ref<FormInstance>()
 const formData = ref<MeasureCureBeforeView>(new MeasureCureBeforeView()) // 透前测量表单数据
-const formRules = reactive<FormRules<MeasureCureBeforeView>>({}) // 表单校验规则
+// 表单校验规则
+const formRules = reactive<FormRules<MeasureCureBeforeView>>({})
+
 const lastDeductionWeight = ref(null)
 /** 透前体重默认测量方式 */
 const paramDefaultBeforeWeightModeData = getParameterData('CUREFLOW.DEFAULT.WEIGHT.MODE.BEFORE')
@@ -158,12 +161,18 @@ async function initLoad() {
     formData.value.beforeBpPositionLable = paramDefaultBeforeBpPositionData?.valueLabel || null
     formData.value.beforeBpPosition = paramDefaultBeforeBpPositionData?.value || null
   }
+  if (ruleFormRef.value) {
+    ruleFormRef.value.clearValidate()
+  }
 }
 /** 获取透前测量数据 */
 async function getMeasureCureBeforeData() {
   const cureServiceProxy = new CureServiceProxy()
   const { success, data } = await cureServiceProxy.measureCureBeforeGET2(cureData.cureRecordId || cureData.cureScheduleId)
   if (success) {
+    data.cureRecordFieldItems.forEach((x) => {
+      x.cureRecordId = x.cureRecordId || cureData.cureRecordId || cureData.cureScheduleId
+    })
     formData.value = data
     if (paramUfgUnit === 'kg') {
       formData.value.ufg = (data.ufg || data.ufg === 0) ? (Number(data.ufg) / 1000) : null
@@ -250,11 +259,12 @@ const getFieldBeforeWeightMode = computed(() => {
 const getFieldBeforeWeight = computed(() => {
   return getSysFieldProperty('beforeWeight', getFieldType.value)
 })
+const getBeforeWeightRule = computed(() => [{ required: !!getFieldBeforeWeight.value.required || (!disabledWeight(formData.value.beforeWeightMode) && formData.value.beforeWeightMode !== 'NOMEASURE'), message: getFieldBeforeWeight.value.placeholder, trigger: 'blur' }])
 const getFieldBestWeight = computed(() => {
   return getSysFieldProperty('bestWeight', getFieldType.value)
 })
 const getFieldDeductionWeight = computed(() => {
-  return getSysFieldProperty('beductionWeight', getFieldType.value)
+  return getSysFieldProperty('deductionWeight', getFieldType.value)
 })
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
@@ -267,9 +277,34 @@ const getFieldBeforeBpPosition = computed(() => {
 const getFieldBloodPressure = computed(() => {
   return getSysFieldProperty('bloodPressure', getFieldType.value)
 })
+const getBloodPressureRule = computed(() => [{ required: getFieldBloodPressure.value.required || (formData.value.beforeBpPosition !== 'NOMEASURE' && !(disabledSbp(formData.value.beforeBpPosition))), validator: validateBloodRule, trigger: ['blur', 'change'] }])
+function validateBloodRule(_rule, _value, callback) {
+  const { beforeSbp, beforeDbp } = formData.value
+  if ((!disabledSbp(formData.value.beforeBpPosition) && formData.value.beforeBpPosition !== 'NOMEASURE') || getFieldBloodPressure.value.required) {
+    if (!beforeSbp && beforeDbp) {
+      callback(new Error('请输入收缩压'))
+    }
+    else if (beforeSbp && !beforeDbp) {
+      callback(new Error('请输入舒张压'))
+    }
+    else if (!beforeSbp && !beforeDbp) {
+      callback(new Error('请输入血压'))
+    }
+    else if (beforeSbp > 999 || beforeSbp < 0 || beforeDbp > 999 || beforeDbp < 0) {
+      callback(new Error('请输入正确的正整数'))
+    }
+    else {
+      callback()
+    }
+  }
+  else {
+    callback()
+  }
+}
 const getFieldBeforePulse = computed(() => {
   return getSysFieldProperty('beforePulse', getFieldType.value)
 })
+const getBeforePulseRule = computed(() => [{ required: getFieldBeforePulse.value.required || (formData.value.beforeBpPosition !== 'NOMEASURE' && !(disabledSbp(formData.value.beforeBpPosition))), message: getFieldBeforePulse.value.placeholder, trigger: 'blur' }])
 const getFieldOnTemp = computed(() => {
   return getSysFieldProperty('onTemp', getFieldType.value)
 })
@@ -323,6 +358,23 @@ function handleBloodPressureChange() {
     formData.value.beforeBpPosition = (dicBpPosition.find(x => x.value === 'UP')?.value || '')
   }
 }
+/** 保存 */
+async function handleSaveForm() {
+  console.log(111)
+
+  let formSaveData = null
+  await ruleFormRef.value?.validate((valid) => {
+    if (valid) {
+      formSaveData = toRaw(formData.value)
+    }
+  })
+  return formSaveData
+}
+defineExpose({
+  handleSaveForm,
+  paramUfgUnit,
+  abnormalInfoRef,
+})
 </script>
 
 <style scoped lang="less">

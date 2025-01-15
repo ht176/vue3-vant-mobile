@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col overflow-hidden">
+  <div v-loading="loading" class="flex flex-col overflow-hidden">
     <div class="pos-relative py-2">
       <ul class="step-div flex justify-around">
         <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
@@ -13,7 +13,7 @@
       </ul>
     </div>
     <div class="flex-1 overflow-auto p-1">
-      <component :is="selectComponent" :cure-data="cureData" />
+      <component :is="selectComponent" ref="componentRef" :cure-data="cureData" />
     </div>
     <div class="flex justify-end">
       <el-button v-if="cureData.allowSignedBefore || cureData.allowMeasureBefore" type="primary" size="large" @click="handleSaveClick">
@@ -24,7 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import { CureTodayView } from '@/services/CureServiceProxies'
+import type { MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
+import { CureServiceProxy, CureTodayView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
 import { showNotify } from 'vant'
 
@@ -47,7 +48,7 @@ interface Step {
 const stepList = reactive<Step[]>([
   { name: '透前测量', show: true, action: 1, child: 'Signin', isDone: 'hasMeasureBefore', canDo: 'allowMeasureBefore', comp: markRaw(defineAsyncComponent(() => import('./Signin.vue'))) },
   { name: '透析评估', show: true, action: 12, child: 'DialysisEvaluation', isDone: 'hasAssementDialysis', canDo: 'allowAssementDialysis' },
-  { name: '制定处方', show: true, action: 2, child: 'MakePrescription', isDone: 'hasEnactBefore', canDo: 'allowEnactBefore' },
+  { name: '制定处方', show: true, action: 2, child: 'MakePrescription', isDone: 'hasEnactBefore', canDo: 'allowEnactBefore', comp: markRaw(defineAsyncComponent(() => import('./Prescription.vue'))) },
   { name: '确认处方', show: true, action: 3, child: 'ConfirmPrescription', isDone: 'hasCheckBefore', canDo: 'allowCheckBefore' },
   { name: '透前评估', show: true, action: 4, child: 'BeforeDialysisEvaluation', isDone: 'hasAssementBefore', canDo: 'allowAssementBefore' },
   { name: '透析上机', show: true, action: 5, child: 'OperateComputer', isDone: 'hasOnMiddle', canDo: 'allowOnMiddle' },
@@ -59,6 +60,8 @@ const stepList = reactive<Step[]>([
   { name: '透后小结', show: true, action: 10, child: 'AfterSummary', isDone: 'hasSummaryAfter', canDo: 'allowSummaryAfter' },
 ])
 
+const componentRef = ref(null)
+const loading = ref(false)
 onMounted(() => {
   initLoad()
 })
@@ -67,11 +70,13 @@ function initLoad() {
   const param = getParametersValue('CUREFLOW.CHECK.PRESCRIPTION')
   stepList.find(x => x.action === 3).show = !(param === '0')
 }
+/** 所有可用节点 */
 const getActionList = computed(() => {
   return stepList.filter(x => x.show)
 })
-
+/** 当前流程节点 */
 const selectStep = ref('Signin')
+/** 切换流程节点 */
 function handleStepClick(val: Step) {
   if (cureData[val.isDone] || cureData[val.canDo]) {
     selectStep.value = val.child
@@ -83,9 +88,45 @@ function handleStepClick(val: Step) {
 const selectComponent = computed(() => {
   return stepList.find(x => x.child === selectStep.value)?.comp
 })
-/** 保存 */
-function handleSaveClick() {
-  console.log('保存')
+/** 流程保存 */
+async function handleSaveClick() {
+  if (componentRef.value) {
+    const res = await componentRef.value.handleSaveForm()
+    console.log('保存', res, componentRef.value.abnormalInfoRef.getAbnormal, selectStep.value)
+    if (res) {
+      switch (selectStep.value) {
+        case 'Signin':
+          saveSignData(res)
+          break
+
+        default:
+          break
+      }
+    }
+  }
+}
+/** 透前测量保存 */
+async function saveSignData(val: MeasureCureBeforeEditModel) {
+  const { abnormalInfoRef, paramUfgUnit } = componentRef.value
+  if (abnormalInfoRef.getAbnormal && abnormalInfoRef.getAbnormal.length > 0) {
+    showNotify({ type: 'danger', message: `体征数值超过上下限，不允许保存` })
+  }
+  else {
+    loading.value = true
+    const cureServiceProxy = new CureServiceProxy()
+    val.ufg = paramUfgUnit === 'kg' ? val.ufg * 1000 : val.ufg
+    const { success, data, message } = await cureServiceProxy.measureCureBeforePOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+    console.log('success', success, data)
+    loading.value = false
+    if (success) {
+      showNotify({ type: 'success', message: `签到成功` })
+      return true
+    }
+    else {
+      showNotify({ type: 'danger', message })
+      return false
+    }
+  }
 }
 </script>
 
