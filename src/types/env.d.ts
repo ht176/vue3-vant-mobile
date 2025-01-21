@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+import type { CureDaView, PatientDaLongtermView, PatientDaTemporaryView } from '@/services/CureServiceProxies'
 import type { SysFieldItemView } from '@/services/SysServiceProxies'
 
 declare module '*.vue' {
@@ -24,6 +25,8 @@ declare global {
     insertTime: Date
     expireInterval: number
   }
+  /** 流程节点 */
+  type DialysisStepType = 'Signin' | 'DialysisEvaluation' | 'MakePrescription' | 'ConfirmPrescription' | 'BeforeDialysisEvaluation' | 'OperateComputer' | 'CrossCheck' | 'Monitoring' | 'OffAfter' | 'Disinfect' | 'AfterDialysisEvaluation' | 'AfterSummary'
   /** 流程自定义字段 */
   interface CustomSysFieldItemView extends SysFieldItemView {
     label?: string
@@ -50,5 +53,24 @@ declare global {
     lastAfterWeight: number
     /** 上次偏移调整 */
     lastDeductionWeight: string | number
+  }
+  // Inject the provided values
+  interface SysFieldProperty {
+    (field: string, typeCode: string): CustomSysFieldItemView | null
+  }
+  /** 长期医嘱 */
+  interface CustomPatientDaLongtermView extends PatientDaLongtermView {
+    edit?: boolean
+    merge?: number
+  }
+  /** 临时医嘱 */
+  interface CustomPatientDaTemporaryView extends PatientDaTemporaryView {
+    edit?: boolean
+    merge?: number
+  }
+  /** 透析医嘱 */
+  interface CustomCureDaView extends CureDaView {
+    edit?: boolean
+    merge?: number
   }
 }

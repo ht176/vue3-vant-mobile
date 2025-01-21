@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { clearToken, getToken, setToken } from '@/utils/auth'
-import type { LoginViewModel } from '@/services/ServiceProxies'
-import { TokenServiceProxy } from '@/services/ServiceProxies'
+import type { LoginViewModel } from '@/services/WebApiServiceProxies'
+import { TokenServiceProxy } from '@/services/WebApiServiceProxies'
 
 const tokenServiceProxy = new TokenServiceProxy()
 
 export const useUserStore = defineStore('user', () => {
-  let userInfo = getToken()
+  const userInfo = ref(getToken())
   function setUserInfo() {
-    userInfo = getToken()
+    userInfo.value = getToken()
   }
   const login = async (loginForm: LoginViewModel) => {
     try {

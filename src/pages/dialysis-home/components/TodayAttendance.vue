@@ -55,11 +55,9 @@ import { ArrowDown, WarnTriangleFilled } from '@element-plus/icons-vue'
 const { cureData } = defineProps({
   cureData: CureTodayView,
 })
-
 const emit = defineEmits(['handleBackClick'])
-
 onMounted(() => {
-
+  initLoad()
 })
 
 const contentType = ref(1)
@@ -80,12 +78,13 @@ const selectComp = computed(() => {
   return contentTypeList.find(x => x.value === contentType.value)?.comp
 })
 
+async function initLoad() {
+}
 function handleBackClick() {
   emit('handleBackClick')
 }
 /** 模块点击 */
 function handleCommandClick(val) {
-  console.log('val', val)
   contentType.value = val
 }
 </script>

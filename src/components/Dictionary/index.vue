@@ -1,48 +1,59 @@
 <template>
   <!-- Select 类型：支持单选和多选 -->
-  <el-select v-if="type === 'select'" v-bind="$attrs" v-model="selectedValue" :multiple="isMultiple" :placeholder="placeholder">
-    <el-option v-for="item in dictData" :key="item.value" :label="item.name" :value="item.value" />
+  <el-select v-if="type === 'select' && isMultiple" v-bind="$attrs" v-model="selectedCheckboxValue" :multiple="isMultiple" :placeholder="placeholder">
+    <el-option v-for="item in dicData" :key="item.value" :label="item.label" :value="item.value" />
   </el-select>
-
+  <el-select v-else-if="type === 'select'" v-bind="$attrs" v-model="selectedValue" :placeholder="placeholder">
+    <el-option v-for="item in dicData" :key="item.value" :label="item.label" :value="item.value" />
+  </el-select>
   <!-- Radio 类型：单选 -->
-  <el-radio-group v-if="type === 'radio'" v-bind="$attrs" v-model="selectedValue">
-    <el-radio v-for="item in dictData" :key="item.value" :label="item.value">
-      {{ item.name }}
+  <el-radio-group v-else-if="type === 'radio'" v-bind="$attrs" v-model="selectedValue">
+    <el-radio v-for="item in dicData" :key="item.value" :label="item.value">
+      {{ item.label }}
     </el-radio>
   </el-radio-group>
-
   <!-- Checkbox 类型：多选 -->
-  <el-checkbox-group v-if="type === 'checkbox'" v-bind="$attrs" v-model="selectedCheckboxValue">
-    <el-checkbox v-for="item in dictData" :key="item.value" :label="item.value">
-      {{ item.name }}
+  <el-checkbox-group v-else-if="type === 'checkbox'" v-bind="$attrs" v-model="selectedCheckboxValue">
+    <el-checkbox v-for="item in dicData" :key="item.value" :label="item.value">
+      {{ item.label }}
     </el-checkbox>
   </el-checkbox-group>
-
   <!-- Button 类型：按钮 -->
-  <el-button-group v-if="type === 'button'" v-bind="$attrs">
+  <el-button-group v-else-if="type === 'button'" v-bind="$attrs">
     <el-button
-      v-for="item in dictData"
+      v-for="item in dicData"
       :key="item.value"
       :type="item.value === selectedValue ? 'primary' : 'default'"
       @click="handleButtonClick(item)"
     >
-      {{ item.name }}
+      {{ item.label }}
     </el-button>
   </el-button-group>
+  <!-- label 类型：文字 -->
+  <div v-else-if="type === 'label'" v-bind="$attrs">
+    {{ dicData.find(x => x.value === selectedValue)?.label }}
+  </div>
 </template>
 
 <script setup lang="ts">
 import type { SysDicItemChildView } from '@/services/SysServiceProxies'
 import { useAppStore } from '@/stores'
-
+/** 字典明细 */
+interface CustomSysDicItemChildView extends SysDicItemChildView {
+  label?: string
+}
 const props = defineProps({
   dicCode: {
     type: String,
     required: true,
   },
   type: {
-    type: String as PropType<'select' | 'radio' | 'checkbox' | 'button'>,
+    type: String as PropType<'select' | 'radio' | 'checkbox' | 'button' | 'label'>,
     default: 'select', // 默认使用 select 类型
+  },
+  isMultiple: {
+    type: Boolean,
+    default: false,
   },
   modelValue: {
     type: String,
@@ -52,14 +63,30 @@ const props = defineProps({
     type: String,
     default: '请选择',
   },
+  optionValue: {
+    type: Array<CustomSysDicItemChildView>,
+    default: () => [],
+  },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string | number | Array<string | number>): void
   (event: 'change', value: string | number | Array<string | number>): void
 }>()
-const { getDicDataByCode } = useAppStore() // 假设我们有一个从 store 获取字典数据的 API
+const { getDicDataByCode } = useAppStore()
 
-const dictData = ref<SysDicItemChildView[]>([]) // 存储字典数据
+const dicData = computed<CustomSysDicItemChildView[]>(() => {
+  if (props.optionValue.length > 0) {
+    return props.optionValue
+  }
+  else {
+    return getDicDataByCode(props.dicCode).map((x) => {
+      return {
+        ...x,
+        label: x.name,
+      }
+    })
+  }
+})
 
 // 单选
 const selectedValue = computed({
@@ -82,22 +109,8 @@ const selectedCheckboxValue = computed({
   },
 })
 
-// 判断是否是多选
-const isMultiple = computed(() => props.type === 'select' && Array.isArray(selectedValue.value))
-
-// 获取字典数据
-async function fetchDictData() {
-  const data = await getDicDataByCode(props.dicCode) // 假设从 store 获取数据
-  dictData.value = data
-}
-
-// 获取字典数据
-onMounted(() => {
-  fetchDictData()
-})
-
 // 点击按钮时更新值
-function handleButtonClick(item: SysDicItemChildView) {
+function handleButtonClick(item: CustomSysDicItemChildView) {
   selectedValue.value = item.value
   emit('update:modelValue', item.value)
 }

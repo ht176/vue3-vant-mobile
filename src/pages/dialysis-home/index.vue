@@ -47,9 +47,9 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 overflow-auto p-1">
-      <el-row :gutter="10">
-        <el-col v-for="item in getCureDataList" :key="item.cureRecordId" class="pb-2" :span="12">
+    <div class="flex-1 overflow-auto px-2">
+      <el-row v-infinite-scroll="loadMoreData" :gutter="16" :disabled="loading" :infinite-scroll-distance="200">
+        <el-col v-for="item in visibleDataList" :key="item.cureRecordId" class="pb-2" :span="12">
           <DialysisCard :cure-data="item" :comands="comands.Comands" :color-object="getCardColorState(item.statusLabel)" @handle-command-click="handleCommandClick" @handle-card-click="handleCardClick" />
         </el-col>
       </el-row>
@@ -79,15 +79,23 @@ onMounted(() => {
   getSysTodayCard()
   getCureList()
 })
-const cureDataList = ref<CureTodayView[]>([])
-const getCureDataList = computed(() => {
-  return cureDataList.value.filter(item => item.patientNameFull && (
-    item.patientNameFull.toLowerCase().includes(filterKey.value)
-    || item.pinyinCode.toLowerCase().includes(filterKey.value)
-    || item.wubiCode.toLowerCase().includes(filterKey.value)))
+
+const pageSize = ref(10) // 每次加载的数量
+const currentIndex = ref(pageSize.value) // 当前显示到哪个数据位置
+
+const cureDataList = ref<CureTodayView[]>([]) // 存储所有数据
+const visibleDataList = computed(() => {
+  // 过滤出符合姓名搜索条件的数据
+  const filteredData = cureDataList.value.filter(item => item.patientNameFull
+    && (item.patientNameFull.toLowerCase().includes(filterKey.value)
+      || item.pinyinCode.toLowerCase().includes(filterKey.value)
+      || item.wubiCode.toLowerCase().includes(filterKey.value)),
+  )
+  // 根据 currentIndex 控制可见数据
+  return filteredData.slice(0, currentIndex.value)
 })
 
-const selectDialysisPatient = ref < CureTodayView | null > (null)
+const selectDialysisPatient = ref<CureTodayView | null>(null)
 
 const cureServiceProxy = new CureServiceProxy()
 
@@ -103,23 +111,55 @@ const filter = reactive({
   sort: '2',
   hospitalAreaId: token.hid,
   bedOrShift: 'bed',
+  source: '',
 })
+
 /**
  * 获取透析首页患者数据
  */
 async function getCureList() {
   loading.value = true
-  const { success, data } = await cureServiceProxy.cure(filter.date, filter.dialysisAreaId.join(','), filter.shiftId.join(','), filter.dialysisMode, filter.infectiousDiseases, filter.focus, filter.emptyBed, filter.gender, filter.sort, filter.hospitalAreaId, filter.bedOrShift)
+  const { success, data } = await cureServiceProxy.cure(
+    filter.date,
+    filter.dialysisAreaId.join(','),
+    filter.shiftId.join(','),
+    filter.dialysisMode,
+    filter.infectiousDiseases,
+    filter.focus,
+    filter.emptyBed,
+    filter.gender,
+    filter.sort,
+    filter.hospitalAreaId,
+    filter.bedOrShift,
+    filter.source,
+  )
   if (success) {
-    cureDataList.value = data
+    cureDataList.value = data // 加载所有数据
+    loadMoreData() // 初始化时加载部分数据
   }
   loading.value = false
 }
+
+/**
+ * 防抖获取患者数据
+ */
 const debounceGetCureList = debounce(getCureList, 500)
 
-const cardConfig = ref(new SysTodayCardSummaryView())
 /**
- *  获取今日就诊卡片配置
+ * 加载更多数据
+ */
+function loadMoreData() {
+  if (!loading.value && currentIndex.value < cureDataList.value.length) {
+    loading.value = true
+    currentIndex.value += pageSize.value // 更新 currentIndex
+    loading.value = false
+  }
+}
+
+const cardConfig = ref(new SysTodayCardSummaryView())
+
+/**
+ * 获取今日就诊卡片配置
  */
 async function getSysTodayCard() {
   const sysTodayCardServiceProxy = new SysTodayCardServiceProxy()
@@ -128,8 +168,9 @@ async function getSysTodayCard() {
     cardConfig.value = data
   }
 }
+
 /**
- *  获取当前患者状态颜色
+ * 获取当前患者状态颜色
  */
 function getCardColorState(val: string) {
   const { cardItems } = cardConfig.value.cards.find(x => x.stats === val)
@@ -143,13 +184,16 @@ function getCardColorState(val: string) {
     return acc
   }, {})
 }
+
 function handleCommandClick(cm, val) {
   console.log('handleCommandClick', cm, val)
 }
+
 function handleCardClick(statusLabel: string, val: CureTodayView) {
   console.log('handleCardClick', statusLabel, val)
   selectDialysisPatient.value = val
 }
+
 function handleBackClick() {
   selectDialysisPatient.value = null
 }
@@ -191,7 +235,6 @@ function handleBackClick() {
   background: #dcf0ff;
   color: #74bcf3;
 }
-
 .area-bed-div {
   width: 14vw;
   display: flex;
@@ -202,7 +245,6 @@ function handleBackClick() {
   border-top-left-radius: 16px;
   border-bottom-right-radius: 16px;
 }
-
 .middele-card {
   padding: 0px 10px;
   background: #f8f9fb;

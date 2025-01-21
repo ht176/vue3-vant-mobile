@@ -5,7 +5,7 @@
     </el-col>
     <el-col :span="9">
       <div class="h-full flex flex-col justify-center px-6">
-        <van-form :model="formData" :rules="rules" validate-trigger="onSubmit" @submit="login">
+        <van-form :model="formData" :rules="rules" validate-trigger="onSubmit" @submit="handleLoginClick">
           <van-field v-model="formData.userName" class="login_input" name="userName" :rules="rules.userName" left-icon="contact" clearable label="账号" placeholder="请输入账号" />
           <van-field v-model="formData.password" class="login_input" name="password" :rules="rules.password" left-icon="goods-collect-o" type="password" label="密码" placeholder="请输入密码" />
           <div class="mt-4">
@@ -20,22 +20,22 @@
 </template>
 
 <script setup lang="ts">
-import { CureShiftServiceProxy } from '@/services/CureV1_2ServiceProxies'
+import { CureShiftServiceProxy, DeptDialysisAreaServiceProxy, LoginViewModel } from '@/services/WebApiServiceProxies'
 import { HashCodeBase64, HmacSHA256encrypt } from '@/utils/crypto'
 // import { clearRememberUid, getRememberUid, setRememberUid } from '@/utils/storage'
 import { type RouteMap, useRouter } from 'vue-router'
-import { useAppStore, useUserStore } from '@/stores'
+import { useAppStore, useDialysisStore, useUserStore } from '@/stores'
 import jlLogo from '~/images/login_jl.png'
-import { LoginViewModel } from '@/services/ServiceProxies'
-import { DeptDialysisAreaServiceProxy } from '@/services/DeptV1ServiceProxies'
 import { showNotify } from 'vant'
 import { clearToken, getToken } from '@/utils/auth'
 import { SysDicItemServiceProxy, SysFieldItemServiceProxy, SysSettingServiceProxy } from '@/services/SysServiceProxies'
 import { PatientThresholdSettingServiceProxy } from '@/services/PatientServiceProxies'
+import { RoomItemListServiceProxy } from '@/services/RoomItemListServiceProxies'
 
 const router = useRouter()
 const appStore = useAppStore()
 const userStore = useUserStore()
+const dialysisStore = useDialysisStore()
 
 const viewData = reactive({
   loading: false,
@@ -57,7 +57,7 @@ const rules = reactive({
 onMounted(() => {
   clearToken()
 })
-async function login() {
+async function handleLoginClick() {
   viewData.loading = true
   const { redirect, ...othersQuery } = router.currentRoute.value.query
   const transformFormData = Object.assign({}, { ...formData, password: HashCodeBase64(HmacSHA256encrypt(formData.password)) })
@@ -98,7 +98,16 @@ async function login() {
 /** 加载相关数据 */
 async function loadOtherInfo() {
   viewData.loadingText = '正在加载配置信息...'
-  await Promise.all([getShiftList(), getDialysisAreaList(), getSysSettingList(), getSysFiledList(), getDicDataList(), getPatientThresholdSettingList()])
+  await Promise.all([
+    getShiftList(),
+    getDialysisAreaList(),
+    getSysSettingList(),
+    getSysFiledList(),
+    getDicDataList(),
+    getPatientThresholdSettingList(),
+    getRoomItemList(),
+    dialysisStore.setAdviceTempList([]),
+  ])
 }
 /** 获取班次信息 */
 async function getShiftList() {
@@ -110,7 +119,7 @@ async function getShiftList() {
     PredicateValues: [],
     Ordering: 'Sequence ASC',
   }
-  const res = await cureShiftServiceProxy.filter3(JSON.stringify(filter))
+  const res = await cureShiftServiceProxy.filter39(JSON.stringify(filter))
 
   if (res.success) {
     appStore.setDialysisShifts(res.data)
@@ -127,11 +136,9 @@ async function getDialysisAreaList() {
   const deptDialysisAreaServiceProxy = new DeptDialysisAreaServiceProxy()
   const data = {
     filter: {
-      PageIndex: 1,
-      PageSize: 1000,
-      Predicate: '',
-      PredicateValues: [],
-      Ordering: 'Sequence ASC',
+      pageIndex: 1,
+      pageSize: 1000,
+      order: 'Sequence ASC',
     },
   }
   const res = await deptDialysisAreaServiceProxy.tree(token.hid, 0, data as typeof undefined)
@@ -149,11 +156,11 @@ async function getSysSettingList() {
   const sysSettingServiceProxy = new SysSettingServiceProxy()
   const filter = {
     PageIndex: 1,
-    PageSize: 10000000,
+    PageSize: 1000,
     Predicate: '1=1',
     PredicateValues: [],
   }
-  const res = await sysSettingServiceProxy.filter29(JSON.stringify(filter))
+  const res = await sysSettingServiceProxy.filter31(JSON.stringify(filter))
   if (res.success) {
     appStore.setSettingList(res.data)
   }
@@ -178,17 +185,55 @@ async function getDicDataList() {
     appStore.setDicDataList(data)
   }
 }
+/** 获取所有患者生命体征阈值 */
 async function getPatientThresholdSettingList() {
   const patientThresholdSettingServiceProxy = new PatientThresholdSettingServiceProxy()
   const filter = {
     PageIndex: 1,
-    PageSize: 10000000,
+    PageSize: 10000,
     Predicate: '1=1',
     PredicateValues: [],
   }
   const { success, data } = await patientThresholdSettingServiceProxy.filterGET45(JSON.stringify(filter))
   if (success) {
     appStore.setPatientThresholdSettingList(data)
+  }
+}
+/** 获取科室项目数据 */
+async function getRoomItemList() {
+  const roomItemListServiceProxy = new RoomItemListServiceProxy()
+  await getDrugList(roomItemListServiceProxy)
+  await getConsumableList(roomItemListServiceProxy)
+  await getProjectList(roomItemListServiceProxy)
+}
+async function getDrugList(roomItemListServiceProxy: RoomItemListServiceProxy) {
+  const filter = {
+    pageIndex: 1,
+    pageSize: 1000,
+  }
+  const { success, data } = await roomItemListServiceProxy.drug(JSON.stringify(filter))
+  if (success) {
+    appStore.setDrugList(data)
+  }
+}
+async function getConsumableList(roomItemListServiceProxy: RoomItemListServiceProxy) {
+  const filter = {
+    pageIndex: 1,
+    pageSize: 10000,
+  }
+  const { success, data } = await roomItemListServiceProxy.consumable(JSON.stringify(filter))
+  if (success) {
+    appStore.setConsumableList(data)
+  }
+}
+async function getProjectList(roomItemListServiceProxy: RoomItemListServiceProxy) {
+  const filter = {
+    pageIndex: 1,
+    pageSize: 1000,
+  }
+  const { success, data } = await roomItemListServiceProxy.project(JSON.stringify(filter))
+  if (success) {
+    appStore.setProjectList(data)
   }
 }
 </script>

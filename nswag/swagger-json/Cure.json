@@ -100,6 +100,14 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "source",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -1100,6 +1108,13 @@
             }
           },
           {
+            "name": "key",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -1268,6 +1283,13 @@
             "name": "sort",
             "in": "query",
             "description": "排序（床位顺序：1 签到顺序：2）",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "key",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -7341,6 +7363,57 @@
         }
       }
     },
+    "/api/Cure/AssementCure/UpdateAssementTime/{cureAssementID}": {
+      "post": {
+        "tags": [
+          "Cure"
+        ],
+        "summary": "评估表单 - 更新评估日期",
+        "parameters": [
+          {
+            "name": "cureAssementID",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "assementTime",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Cure/Delete/{cureAssementId}/AssementCure": {
       "post": {
         "tags": [
@@ -7754,6 +7827,47 @@
           }
         }
       }
+    },
+    "/api/Cure/PatientInformationCard/{recordId}": {
+      "get": {
+        "tags": [
+          "Cure"
+        ],
+        "summary": "透中 - 患者信息卡片 - 查询 -- 根据透析记录ID查询",
+        "parameters": [
+          {
+            "name": "recordId",
+            "in": "path",
+            "description": "根据透析记录ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientInformationCardViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientInformationCardViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientInformationCardViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -7779,7 +7893,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -7807,7 +7924,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -7831,7 +7951,10 @@
             "description": "是否已经评估"
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
@@ -8034,7 +8157,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -8062,7 +8188,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -8076,7 +8205,10 @@
             "description": "是否已经评估"
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
@@ -8279,7 +8411,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -8308,7 +8443,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -8322,7 +8460,10 @@
             "description": "是否已经评估"
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
@@ -8526,7 +8667,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           }
@@ -8553,7 +8697,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -8591,7 +8738,10 @@
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -8600,7 +8750,10 @@
             "description": "是否已经评估"
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
@@ -8703,6 +8856,12 @@
           "updateTime": {
             "type": "string",
             "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "assementTime": {
+            "type": "string",
+            "description": "评估日期",
             "format": "date-time",
             "nullable": true
           }
@@ -8955,6 +9114,10 @@
               "$ref": "#/components/schemas/ComplicationFileItem"
             },
             "description": "文件列表",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -9484,6 +9647,14 @@
             "description": "患者姓名",
             "nullable": true
           },
+          "patientId": {
+            "type": "string",
+            "nullable": true
+          },
+          "cureRecordId": {
+            "type": "string",
+            "nullable": true
+          },
           "drugName": {
             "type": "array",
             "items": {
@@ -9533,6 +9704,14 @@
           "usage": {
             "type": "string",
             "description": "用法",
+            "nullable": true
+          },
+          "customPrint": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "",
             "nullable": true
           }
         },
@@ -10077,6 +10256,7 @@
       "CureDaCustomView": {
         "required": [
           "execDate",
+          "order",
           "owned"
         ],
         "type": "object",
@@ -10168,6 +10348,11 @@
             "type": "string",
             "description": "备注",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           },
           "unitBase": {
             "type": "string",
@@ -10398,9 +10583,19 @@
             "description": "执行状态名称",
             "nullable": true
           },
+          "spec": {
+            "type": "string",
+            "description": "规格",
+            "nullable": true
+          },
           "specLabel": {
             "type": "string",
             "description": "规格",
+            "nullable": true
+          },
+          "fullSpecLabel": {
+            "type": "string",
+            "description": "完整规格",
             "nullable": true
           },
           "nameGoods": {
@@ -10586,6 +10781,7 @@
       "CureDaEditModel": {
         "required": [
           "execDate",
+          "order",
           "owned",
           "patientId"
         ],
@@ -10684,6 +10880,11 @@
             "type": "string",
             "description": "备注",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -10718,6 +10919,7 @@
       "CureDaView": {
         "required": [
           "execDate",
+          "order",
           "owned"
         ],
         "type": "object",
@@ -10809,6 +11011,11 @@
             "type": "string",
             "description": "备注",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           },
           "unitBase": {
             "type": "string",
@@ -11039,9 +11246,19 @@
             "description": "执行状态名称",
             "nullable": true
           },
+          "spec": {
+            "type": "string",
+            "description": "规格",
+            "nullable": true
+          },
           "specLabel": {
             "type": "string",
             "description": "规格",
+            "nullable": true
+          },
+          "fullSpecLabel": {
+            "type": "string",
+            "description": "完整规格",
             "nullable": true
           },
           "nameGoods": {
@@ -13131,6 +13348,11 @@
             "description": "消毒说明",
             "nullable": true
           },
+          "citricAcidTemp": {
+            "type": "string",
+            "description": "柠檬酸消毒温度",
+            "nullable": true
+          },
           "iuf": {
             "type": "integer",
             "description": "是否单超0,1",
@@ -13395,12 +13617,18 @@
         "type": "object",
         "properties": {
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -14019,6 +14247,11 @@
             "type": "string",
             "description": "消毒温度",
             "nullable": true
+          },
+          "citricAcidTemp": {
+            "type": "string",
+            "description": "柠檬酸消毒温度",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -14169,9 +14402,9 @@
             "nullable": true
           },
           "ufv": {
-            "type": "integer",
+            "type": "number",
             "description": "超滤量 *ml Ultrafiltration Volume*",
-            "format": "int32",
+            "format": "double",
             "nullable": true
           },
           "ufvUnit": {
@@ -14520,6 +14753,21 @@
             "type": "string",
             "description": "交叉核对时间",
             "format": "date-time",
+            "nullable": true
+          },
+          "punctureMethod": {
+            "type": "string",
+            "description": "穿刺方法 `DIC.DIALYSIS.PUNCTURE.METHOD`",
+            "nullable": true
+          },
+          "punctureNurseId": {
+            "type": "string",
+            "description": "穿刺护士标识",
+            "nullable": true
+          },
+          "punctureNurseName": {
+            "type": "string",
+            "description": "穿刺护士姓名",
             "nullable": true
           },
           "cureCostGroups": {
@@ -15145,6 +15393,28 @@
             "description": "",
             "nullable": true
           },
+          "monitorFirstPulse": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitorFirstTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "monitorLastBP": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitorLastPulse": {
+            "type": "string",
+            "nullable": true
+          },
+          "monitorLastTime": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
           "assementAfterNurseName": {
             "type": "string",
             "description": "透后评估护士姓名",
@@ -15201,6 +15471,12 @@
             "type": "string",
             "description": "住院号",
             "nullable": true
+          },
+          "hospitalNumber": {
+            "type": "string",
+            "description": "门诊住院号",
+            "nullable": true,
+            "readOnly": true
           },
           "diagnosis": {
             "type": "string",
@@ -16681,6 +16957,66 @@
             },
             "description": "穿刺节点",
             "nullable": true
+          },
+          "beforeSbp": {
+            "type": "integer",
+            "description": "透前收缩压 *mmHg*",
+            "format": "int32",
+            "nullable": true
+          },
+          "beforeDbp": {
+            "type": "integer",
+            "description": "透前舒张压 *mmHg*",
+            "format": "int32",
+            "nullable": true
+          },
+          "beforeBp": {
+            "type": "string",
+            "description": "透前血压",
+            "nullable": true,
+            "readOnly": true
+          },
+          "beforePulse": {
+            "type": "integer",
+            "description": "透前脉搏 *次/分*",
+            "format": "int32",
+            "nullable": true
+          },
+          "afterSbp": {
+            "type": "integer",
+            "description": "透后收缩压 *mmHg*",
+            "format": "int32",
+            "nullable": true
+          },
+          "afterDbp": {
+            "type": "integer",
+            "description": "透后舒张压 *mmHg*",
+            "format": "int32",
+            "nullable": true
+          },
+          "afterBp": {
+            "type": "string",
+            "description": "透后血压",
+            "nullable": true,
+            "readOnly": true
+          },
+          "afterPulse": {
+            "type": "integer",
+            "description": "透后脉搏 *次/分*",
+            "format": "int32",
+            "nullable": true
+          },
+          "beforeWeight": {
+            "type": "number",
+            "description": "透前体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "afterWeight": {
+            "type": "number",
+            "description": "透后体重 *kg*",
+            "format": "double",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -17386,6 +17722,11 @@
             "description": "消毒说明",
             "nullable": true
           },
+          "citricAcidTemp": {
+            "type": "string",
+            "description": "柠檬酸消毒温度",
+            "nullable": true
+          },
           "cureRecordFieldItems": {
             "type": "array",
             "items": {
@@ -17491,6 +17832,11 @@
           "disinfectInstructions": {
             "type": "string",
             "description": "消毒说明",
+            "nullable": true
+          },
+          "citricAcidTemp": {
+            "type": "string",
+            "description": "柠檬酸消毒温度",
             "nullable": true
           },
           "timeOff": {
@@ -18007,6 +18353,9 @@
         "additionalProperties": false,
         "description": "Reponse"
       },
+      "JToken": {
+        "type": "string"
+      },
       "LabelModel": {
         "type": "object",
         "properties": {
@@ -18269,6 +18618,16 @@
           "patientNameFull": {
             "type": "string",
             "description": "患者全名",
+            "nullable": true
+          },
+          "pinyinCode": {
+            "type": "string",
+            "description": "姓名拼音码 *首字母*",
+            "nullable": true
+          },
+          "wubiCode": {
+            "type": "string",
+            "description": "姓名五笔码 *首字母*",
             "nullable": true
           },
           "dialysisModeLabel": {
@@ -18567,9 +18926,9 @@
             "nullable": true
           },
           "ufv": {
-            "type": "integer",
+            "type": "number",
             "description": "超滤量 *ml Ultrafiltration Volume*",
-            "format": "int32",
+            "format": "double",
             "nullable": true
           },
           "dialysateFlowRate": {
@@ -18627,7 +18986,6 @@
             "nullable": true
           },
           "remark": {
-            "maxLength": 512,
             "type": "string",
             "description": "病情与处理 *病情与处理模板* `DIC.DIALYSIS.MONITOR.REMARK` *选择后往编辑域中追加*",
             "nullable": true
@@ -18792,9 +19150,9 @@
             "nullable": true
           },
           "ufv": {
-            "type": "integer",
+            "type": "number",
             "description": "超滤量 *ml Ultrafiltration Volume*",
-            "format": "int32",
+            "format": "double",
             "nullable": true
           },
           "dialysateFlowRate": {
@@ -18852,7 +19210,6 @@
             "nullable": true
           },
           "remark": {
-            "maxLength": 512,
             "type": "string",
             "description": "病情与处理 *病情与处理模板* `DIC.DIALYSIS.MONITOR.REMARK` *选择后往编辑域中追加*",
             "nullable": true
@@ -20948,6 +21305,11 @@
             "type": "string",
             "description": "首次肾脏代替治疗时血肌酐水平",
             "nullable": true
+          },
+          "photoAuxiliary": {
+            "type": "string",
+            "description": "附加照片路径",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -21264,6 +21626,7 @@
           "doctorId",
           "doctorName",
           "enabled",
+          "order",
           "owned",
           "patientId"
         ],
@@ -21409,6 +21772,11 @@
             "type": "string",
             "description": "开立时间",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           },
           "orallyLabel": {
             "type": "string",
@@ -21879,6 +22247,162 @@
         },
         "additionalProperties": false,
         "description": "临时医嘱View"
+      },
+      "PatientInformationCardView": {
+        "type": "object",
+        "properties": {
+          "dialysisMode": {
+            "type": "string",
+            "description": "透析方式",
+            "nullable": true
+          },
+          "dialysisDurationSet": {
+            "type": "string",
+            "description": "透析时长",
+            "nullable": true
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重",
+            "format": "double",
+            "nullable": true
+          },
+          "remarkAnticoagulationLabel": {
+            "type": "string",
+            "description": "抗凝情况显示值",
+            "nullable": true
+          },
+          "patientVascularAccessType": {
+            "type": "string",
+            "description": "血管通路",
+            "nullable": true
+          },
+          "age": {
+            "type": "integer",
+            "description": "年龄",
+            "format": "int32",
+            "nullable": true
+          },
+          "beforeSbp": {
+            "type": "integer",
+            "description": "透前收缩压 *mmHg*",
+            "format": "int32",
+            "nullable": true
+          },
+          "beforeDbp": {
+            "type": "integer",
+            "description": "透前舒张压 *mmHg*",
+            "format": "int32",
+            "nullable": true
+          },
+          "bloodPressure": {
+            "type": "string",
+            "description": "患者首字母",
+            "nullable": true
+          },
+          "beforePulse": {
+            "type": "integer",
+            "description": "透前脉搏 *次/分*",
+            "format": "int32",
+            "nullable": true
+          },
+          "onTemp": {
+            "type": "number",
+            "description": "透前体温 *℃*",
+            "format": "double",
+            "nullable": true
+          },
+          "bloodFlowRate": {
+            "type": "integer",
+            "description": "血流量 *ml/min*",
+            "format": "int32",
+            "nullable": true
+          },
+          "bedName": {
+            "type": "string",
+            "description": "床位名称",
+            "nullable": true
+          },
+          "ufg": {
+            "type": "integer",
+            "description": "目标脱水量 *ml Ultrafiltration Goal*",
+            "format": "int32",
+            "nullable": true
+          },
+          "patientName": {
+            "type": "string",
+            "description": "患者姓名",
+            "nullable": true
+          },
+          "timeSignin": {
+            "type": "string",
+            "description": "签到时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "consumableName": {
+            "type": "string",
+            "description": "透析器",
+            "nullable": true
+          },
+          "sex": {
+            "type": "string",
+            "description": "性别",
+            "nullable": true
+          },
+          "beforeWeight": {
+            "type": "number",
+            "description": "透前体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "height": {
+            "type": "integer",
+            "description": "身高 *cm*",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PatientInformationCardViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientInformationCardView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
       },
       "PatientLisAbnormaView": {
         "type": "object",
@@ -23449,6 +23973,16 @@
             "description": "患者全名",
             "nullable": true
           },
+          "pinyinCode": {
+            "type": "string",
+            "description": "姓名拼音码 *首字母*",
+            "nullable": true
+          },
+          "wubiCode": {
+            "type": "string",
+            "description": "姓名五笔码 *首字母*",
+            "nullable": true
+          },
           "dialysisModeLabel": {
             "type": "string",
             "description": "透析方式",
@@ -24028,6 +24562,13 @@
           "isEnact": {
             "type": "boolean",
             "description": ""
+          },
+          "customPrint": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false,

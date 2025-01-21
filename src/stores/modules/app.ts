@@ -1,7 +1,6 @@
-import type { CureShift } from '@/services/CureV1_2ServiceProxies'
-import type { DialysisTreeView } from '@/services/DeptV1ServiceProxies'
+import type { CureShift, DialysisTreeView, RoleRightMenuListView } from '@/services/WebApiServiceProxies'
 import type { PatientThresholdSettingView } from '@/services/PatientServiceProxies'
-import type { RoleRightMenuListView } from '@/services/ServiceProxies'
+import type { RoomItemFullView } from '@/services/RoomItemListServiceProxies'
 import type { SysDicAllView, SysSettingView } from '@/services/SysServiceProxies'
 import { SysFieldItemView } from '@/services/SysServiceProxies'
 import { defineStore } from 'pinia'
@@ -61,6 +60,7 @@ const useAppStore = defineStore('app', () => {
   function getParameterData(code: string) {
     return sysSettingList.value.find(_ => _.code === code)
   }
+  /** 流程自定义字段 */
   const sysFiledList = ref<SysFieldItemView[]>([])
   function setSysFiledList(val: SysFieldItemView[]) {
     sysFiledList.value = val.map((x) => {
@@ -89,6 +89,21 @@ const useAppStore = defineStore('app', () => {
   function getPatientThresholdSettingById(id: string) {
     return patientThresholdSettingList.value.find(x => x.patientId === id)
   }
+  const drugList = ref<RoomItemFullView[]>([])
+  /** 药品数据 */
+  function setDrugList(val: RoomItemFullView[]) {
+    drugList.value = val
+  }
+  /** 耗材数据 */
+  const consumableList = ref<RoomItemFullView[]>([])
+  function setConsumableList(val: RoomItemFullView[]) {
+    consumableList.value = val
+  }
+  /** 项目数据 */
+  const projectList = ref<RoomItemFullView[]>([])
+  function setProjectList(val: RoomItemFullView[]) {
+    projectList.value = val
+  }
   return {
     mode,
     switchMode,
@@ -110,6 +125,12 @@ const useAppStore = defineStore('app', () => {
     setPatientThresholdSettingList,
     getPatientThresholdSettingById,
     getParameterData,
+    drugList,
+    setDrugList,
+    consumableList,
+    setConsumableList,
+    projectList,
+    setProjectList,
   }
 }, {
   persist: true,

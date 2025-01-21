@@ -14447,6 +14447,20 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -14621,6 +14635,20 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -14703,6 +14731,20 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期(yyyy-MM-dd)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ageGroup",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -16212,6 +16254,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "ageGroup",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -16588,6 +16637,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -16639,6 +16695,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -16708,6 +16771,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -16767,6 +16837,13 @@
             "name": "type",
             "in": "query",
             "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -16836,6 +16913,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -16900,6 +16984,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -16950,6 +17041,13 @@
             "name": "type",
             "in": "query",
             "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -17006,6 +17104,13 @@
             "name": "type",
             "in": "query",
             "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -17071,6 +17176,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期(yyyy-MM-dd)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -17157,6 +17269,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -17238,6 +17357,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -17306,6 +17432,13 @@
             "name": "complication",
             "in": "query",
             "description": "并发症",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -17685,6 +17818,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -17757,6 +17897,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -17816,6 +17963,13 @@
             "name": "source",
             "in": "query",
             "description": "患者来源",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -17885,6 +18039,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -17944,6 +18105,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期(yyyy-MM-dd)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -18013,6 +18181,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18064,6 +18239,13 @@
             "name": "PositionType",
             "in": "query",
             "description": "类型",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -18125,6 +18307,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18181,6 +18370,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18232,6 +18428,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期（yyyy-MM-dd）",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -18311,6 +18514,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18380,6 +18590,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期（yyyy-MM-dd）",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -18689,6 +18906,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18753,6 +18977,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18809,6 +19040,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18860,6 +19098,13 @@
             "name": "BloodFlow",
             "in": "query",
             "description": "血流量",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -18929,6 +19174,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -18993,6 +19245,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -19049,6 +19308,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -19100,6 +19366,13 @@
             "name": "Anticoagulant",
             "in": "query",
             "description": "抗凝剂名称",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -19169,6 +19442,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -19233,6 +19513,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -19289,6 +19576,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -19340,6 +19634,13 @@
             "name": "Ca",
             "in": "query",
             "description": "钙离子浓度",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -19865,6 +20166,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -19929,6 +20237,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -19977,6 +20292,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -20020,6 +20342,13 @@
             "name": "date",
             "in": "query",
             "description": "日期",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -20089,6 +20418,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -20137,6 +20473,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -20180,6 +20523,13 @@
             "name": "date",
             "in": "query",
             "description": "日期",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -20540,6 +20890,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件（分组条件）",
@@ -20604,6 +20961,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -20660,6 +21024,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -20711,6 +21082,13 @@
             "name": "ufg",
             "in": "query",
             "description": "ufg",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -20780,6 +21158,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件（分组条件）",
@@ -20844,6 +21229,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -20900,6 +21292,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -20951,6 +21350,13 @@
             "name": "ufv",
             "in": "query",
             "description": "ufg",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -21574,6 +21980,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -21633,6 +22046,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束时间",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -21814,6 +22234,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -21873,6 +22300,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束时间",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -22058,6 +22492,14 @@
             "name": "dateStr",
             "in": "query",
             "description": "日期格式:yyyy-MM-dd;yyyy-MM;yyyy",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
             "schema": {
               "type": "string"
             }
@@ -22262,6 +22704,14 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -22324,6 +22774,14 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -22504,6 +22962,14 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "查询条件",
@@ -22634,6 +23100,14 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -22703,6 +23177,14 @@
             "name": "endDate",
             "in": "query",
             "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
             "schema": {
               "type": "string"
             }
@@ -22848,6 +23330,14 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "description": "班次",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -22917,6 +23407,14 @@
             "name": "endDate",
             "in": "query",
             "description": "结束时间",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
+            "description": "",
             "schema": {
               "type": "string"
             }
@@ -23224,6 +23722,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "schema": {
@@ -23366,6 +23871,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -23438,6 +23950,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "过滤条件",
@@ -23502,6 +24021,13 @@
             }
           },
           {
+            "name": "shiftId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "filter",
             "in": "header",
             "description": "",
@@ -23561,6 +24087,13 @@
             "name": "endDate",
             "in": "query",
             "description": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftId",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -28943,6 +29476,13 @@
             "name": "endDate",
             "in": "query",
             "description": "结束日期（yyyy-MM-dd）",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "shiftIds",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -34832,7 +35372,7 @@
             }
           },
           {
-            "name": "ageMax",
+            "name": "maxAge",
             "in": "query",
             "description": "",
             "schema": {
@@ -34840,7 +35380,7 @@
             }
           },
           {
-            "name": "ageMin",
+            "name": "minAge",
             "in": "query",
             "description": "",
             "schema": {
@@ -38225,6 +38765,57 @@
           }
         }
       }
+    },
+    "/api/Report/Patient/{patientId}/{year}": {
+      "get": {
+        "tags": [
+          "Report"
+        ],
+        "summary": "患者血透数据",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "year",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientReportTestViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientReportTestViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientReportTestViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -39990,7 +40581,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -40388,7 +40980,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -40719,7 +41312,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -40983,7 +41577,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -41317,7 +41912,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -41649,7 +42245,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -41919,7 +42516,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -42231,7 +42829,8 @@
           "height": {
             "type": "integer",
             "description": "身高(cm)",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "weight": {
             "type": "number",
@@ -42241,7 +42840,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI(kg/㎡)",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -42515,7 +43115,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -42591,7 +43192,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI(kg/㎡)",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -42842,7 +43444,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -43187,7 +43790,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -43457,11 +44061,6 @@
             "format": "date-time",
             "nullable": true
           },
-          "date": {
-            "type": "string",
-            "description": "使用日期",
-            "format": "date-time"
-          },
           "frequency": {
             "type": "integer",
             "description": "使用次数",
@@ -43516,7 +44115,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -43573,6 +44173,11 @@
             "type": "string",
             "description": "床号",
             "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "日期",
+            "format": "date-time"
           }
         },
         "additionalProperties": false,
@@ -44145,7 +44750,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -44209,11 +44815,21 @@
             "format": "date-time",
             "nullable": true
           },
+          "timeSigninThs": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "timeOff": {
             "type": "string",
             "description": "透析结束时间",
             "format": "date-time",
             "nullable": true
+          },
+          "timeOffThs": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
           "dialysisDurationSet": {
             "type": "integer",
@@ -44476,7 +45092,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -44884,11 +45501,6 @@
             "format": "date-time",
             "nullable": true
           },
-          "date": {
-            "type": "string",
-            "description": "使用日期",
-            "format": "date-time"
-          },
           "frequency": {
             "type": "integer",
             "description": "使用次数",
@@ -44943,7 +45555,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -45021,6 +45634,11 @@
             "description": "实际透析时长 *分钟*",
             "format": "int32",
             "nullable": true
+          },
+          "date": {
+            "type": "string",
+            "description": "日期",
+            "format": "date-time"
           }
         },
         "additionalProperties": false,
@@ -45393,7 +46011,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -45717,7 +46336,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -46044,7 +46664,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -46573,7 +47194,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -46950,7 +47572,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -49455,10 +50078,20 @@
             "description": "开始时间 *HH:mm:ss*",
             "format": "date-time"
           },
+          "beginDateThs": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
           "endDate": {
             "type": "string",
             "description": "停止时间 *HH:mm:ss*",
             "format": "date-time"
+          },
+          "endDateThs": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
           "bedUnitCleaning": {
             "type": "string",
@@ -49503,6 +50136,11 @@
           "externalOperatorName": {
             "type": "string",
             "description": "机外消毒人名称",
+            "nullable": true
+          },
+          "sn": {
+            "type": "string",
+            "description": "设备号",
             "nullable": true
           }
         },
@@ -51649,6 +52287,10 @@
             "type": "string",
             "nullable": true
           },
+          "shiftId": {
+            "type": "string",
+            "nullable": true
+          },
           "_filter": {
             "$ref": "#/components/schemas/QueryFilter"
           }
@@ -52688,7 +53330,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -53016,7 +53659,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -53387,7 +54031,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -53769,6 +54414,11 @@
             "type": "string",
             "description": "转出时间",
             "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "次数",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -53976,7 +54626,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -54226,7 +54877,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -54481,7 +55133,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -54709,7 +55362,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -54886,7 +55540,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -55273,7 +55928,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -55779,7 +56435,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -56112,7 +56769,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -56428,7 +57086,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -56919,7 +57578,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -57273,7 +57933,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -57545,7 +58206,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -57912,7 +58574,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -58389,6 +59052,63 @@
         "additionalProperties": false,
         "description": "Reponse"
       },
+      "PatientReportTestView": {
+        "type": "object",
+        "properties": {
+          "reportColumns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportColumnView"
+            },
+            "description": "表头",
+            "nullable": true
+          },
+          "reportRowViews": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportRowView"
+            },
+            "description": "列",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "血透数据"
+      },
+      "PatientReportTestViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientReportTestView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
       "PatientSource": {
         "type": "object",
         "properties": {
@@ -58536,7 +59256,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -58832,7 +59553,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -59236,7 +59958,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -60192,6 +60915,68 @@
         "additionalProperties": false,
         "description": "动态查询条件"
       },
+      "ReportCellView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "编码",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "值",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
+      "ReportColumnView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "编码",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "检验名称",
+            "nullable": true
+          },
+          "referenceRange": {
+            "type": "string",
+            "description": "范围",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "表头"
+      },
+      "ReportRowView": {
+        "type": "object",
+        "properties": {
+          "month": {
+            "type": "integer",
+            "description": "月份",
+            "format": "int32"
+          },
+          "reportCells": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReportCellView"
+            },
+            "description": "报表明细",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": ""
+      },
       "Result": {
         "type": "object",
         "properties": {
@@ -60866,7 +61651,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -61249,7 +62035,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",
@@ -61392,6 +62179,11 @@
       "ShiftConsumableUsed": {
         "type": "object",
         "properties": {
+          "shiftId": {
+            "type": "string",
+            "description": "班次id",
+            "nullable": true
+          },
           "shiftName": {
             "type": "string",
             "description": "班次名称",
@@ -61971,7 +62763,8 @@
           "weightBest": {
             "type": "number",
             "description": "干体重",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "tags": {
             "type": "string",

@@ -74,7 +74,6 @@ function format(filter: Filter): QueryItem {
 /**
  * 将前端过滤器转换为后端请求格式
  * @param filter - 前端传入的过滤器对象
- * @param order - 排序字段
  * @returns 返回JSON字符串格式的请求过滤器
  * @throws
  * - 当filter为空时返回错误信息

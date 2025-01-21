@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="loading" class="flex flex-col overflow-hidden">
+  <div class="flex flex-col overflow-hidden">
     <div class="pos-relative py-2">
       <ul class="step-div flex justify-around">
         <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
@@ -12,8 +12,10 @@
         </li>
       </ul>
     </div>
-    <div class="flex-1 overflow-auto p-1">
-      <component :is="selectComponent" ref="componentRef" :cure-data="cureData" />
+    <div v-loading="loading" class="flex-1 overflow-auto">
+      <div>
+        <component :is="selectComponent" ref="componentRef" :cure-data="cureData" :step-type="selectStep" @hanlde-change-loading="hanldeChangeLoading" />
+      </div>
     </div>
     <div class="flex justify-end">
       <el-button v-if="cureData.allowSignedBefore || cureData.allowMeasureBefore" type="primary" size="large" @click="handleSaveClick">
@@ -27,11 +29,13 @@
 import type { MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
 import { CureServiceProxy, CureTodayView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
+import { convertDialysisUnit } from '@/utils/dialysis'
 import { showNotify } from 'vant'
 
 const { cureData } = defineProps({
   cureData: CureTodayView,
 })
+const newCureData = ref<CureTodayView>()
 
 const { getParametersValue } = useAppStore()
 
@@ -66,9 +70,18 @@ onMounted(() => {
   initLoad()
 })
 
-function initLoad() {
+async function initLoad() {
+  await getCureStatusData()
   const param = getParametersValue('CUREFLOW.CHECK.PRESCRIPTION')
   stepList.find(x => x.action === 3).show = !(param === '0')
+}
+/** 查询当前流程节点信息 */
+async function getCureStatusData() {
+  const cureServiceProxy = new CureServiceProxy()
+  const { success, data } = await cureServiceProxy.cureStatus(cureData.cureRecordId || cureData.cureScheduleId)
+  if (success) {
+    newCureData.value = new CureTodayView({ ...cureData, ...data, timeOn: data.timeOn as unknown as string })
+  }
 }
 /** 所有可用节点 */
 const getActionList = computed(() => {
@@ -91,32 +104,35 @@ const selectComponent = computed(() => {
 /** 流程保存 */
 async function handleSaveClick() {
   if (componentRef.value) {
-    const res = await componentRef.value.handleSaveForm()
-    console.log('保存', res, componentRef.value.abnormalInfoRef.getAbnormal, selectStep.value)
-    if (res) {
+    const resForm = await componentRef.value.handleSaveForm()
+    let res = false
+    if (resForm) {
       switch (selectStep.value) {
         case 'Signin':
-          saveSignData(res)
+          res = await saveSignData(resForm)
           break
 
         default:
           break
+      }
+      if (res) {
+        getCureStatusData()
       }
     }
   }
 }
 /** 透前测量保存 */
 async function saveSignData(val: MeasureCureBeforeEditModel) {
-  const { abnormalInfoRef, paramUfgUnit } = componentRef.value
+  const { abnormalInfoRef, paramDeductionUnit, paramUfgUnit } = componentRef.value
   if (abnormalInfoRef.getAbnormal && abnormalInfoRef.getAbnormal.length > 0) {
     showNotify({ type: 'danger', message: `体征数值超过上下限，不允许保存` })
   }
   else {
     loading.value = true
     const cureServiceProxy = new CureServiceProxy()
-    val.ufg = paramUfgUnit === 'kg' ? val.ufg * 1000 : val.ufg
-    const { success, data, message } = await cureServiceProxy.measureCureBeforePOST(cureData.cureRecordId || cureData.cureScheduleId, val)
-    console.log('success', success, data)
+    val.ufg = convertDialysisUnit(val.ufg, paramUfgUnit, 1 / 1000)
+    val.deductionWeight = convertDialysisUnit(val.deductionWeight, paramDeductionUnit, 1 / 1000)
+    const { success, message } = await cureServiceProxy.measureCureBeforePOST(cureData.cureRecordId || cureData.cureScheduleId, val)
     loading.value = false
     if (success) {
       showNotify({ type: 'success', message: `签到成功` })
@@ -127,6 +143,10 @@ async function saveSignData(val: MeasureCureBeforeEditModel) {
       return false
     }
   }
+}
+/** 修改流程loading状态 */
+function hanldeChangeLoading(val) {
+  loading.value = val
 }
 </script>
 

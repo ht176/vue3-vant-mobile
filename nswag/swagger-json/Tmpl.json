@@ -7915,7 +7915,7 @@
         }
       }
     },
-    "/api/TmplQuestionnaireItem/{tmplQuestionnaireItemId}": {
+    "/api/TmplQuestionnaireItem/CopyById/{tmplQuestionnaireItemId}": {
       "post": {
         "tags": [
           "TmplQuestionnaireItem"
@@ -9279,13 +9279,19 @@
             "nullable": true
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "返回数据封装",
             "nullable": true
           }
         },
         "additionalProperties": false,
         "description": "Reponse"
+      },
+      "JToken": {
+        "type": "string"
       },
       "LabelModel": {
         "type": "object",
@@ -9727,6 +9733,11 @@
           "firstScr": {
             "type": "string",
             "description": "首次肾脏代替治疗时血肌酐水平",
+            "nullable": true
+          },
+          "photoAuxiliary": {
+            "type": "string",
+            "description": "附加照片路径",
             "nullable": true
           }
         },
@@ -11526,6 +11537,16 @@
             "description": "灌流器名称",
             "nullable": true
           },
+          "dialysateId": {
+            "type": "string",
+            "description": "透析液标识",
+            "nullable": true
+          },
+          "dialysateName": {
+            "type": "string",
+            "description": "透析液名称",
+            "nullable": true
+          },
           "remark": {
             "type": "string",
             "description": "备注",
@@ -13264,6 +13285,7 @@
       },
       "TmplDaDetailEditModel": {
         "required": [
+          "order",
           "tmplDaId"
         ],
         "type": "object",
@@ -13339,6 +13361,11 @@
             "type": "string",
             "description": "备注",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           }
         },
         "additionalProperties": false,
@@ -13346,6 +13373,7 @@
       },
       "TmplDaDetailView": {
         "required": [
+          "order",
           "tmplDaId"
         ],
         "type": "object",
@@ -13421,6 +13449,11 @@
             "type": "string",
             "description": "备注",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           },
           "id": {
             "maxLength": 32,
@@ -13469,6 +13502,16 @@
           "spec": {
             "type": "string",
             "description": "规格",
+            "nullable": true
+          },
+          "specLabel": {
+            "type": "string",
+            "description": "规格",
+            "nullable": true
+          },
+          "fullSpecLabel": {
+            "type": "string",
+            "description": "完整规格",
             "nullable": true
           },
           "cureDaContent": {
@@ -14439,7 +14482,10 @@
             "description": "版本"
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
@@ -14686,7 +14732,10 @@
         "type": "object",
         "properties": {
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构"
           }
         },

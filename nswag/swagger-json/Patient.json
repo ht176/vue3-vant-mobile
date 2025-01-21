@@ -226,6 +226,13 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -540,6 +547,13 @@
             "name": "mine",
             "in": "query",
             "description": "是否我的患者",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "order",
+            "in": "query",
             "schema": {
               "type": "string"
             }
@@ -17723,17 +17737,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PatientVascularAccessResultEntry"
+                  "$ref": "#/components/schemas/PatientVascularAccessVoResultEntry"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PatientVascularAccessResultEntry"
+                  "$ref": "#/components/schemas/PatientVascularAccessVoResultEntry"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PatientVascularAccessResultEntry"
+                  "$ref": "#/components/schemas/PatientVascularAccessVoResultEntry"
                 }
               }
             }
@@ -17761,22 +17775,22 @@
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/PatientVascularAccessViewModel"
+                "$ref": "#/components/schemas/PatientVascularAccessEditModel"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatientVascularAccessViewModel"
+                "$ref": "#/components/schemas/PatientVascularAccessEditModel"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatientVascularAccessViewModel"
+                "$ref": "#/components/schemas/PatientVascularAccessEditModel"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PatientVascularAccessViewModel"
+                "$ref": "#/components/schemas/PatientVascularAccessEditModel"
               }
             }
           }
@@ -17914,6 +17928,970 @@
           "PatientVascularAccess"
         ],
         "summary": "患者血管通路 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessAssessment/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessAssessment"
+        ],
+        "summary": "患者血管通路评估 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessAssessmentViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessAssessmentViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessAssessmentViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessAssessment"
+        ],
+        "summary": "患者血管通路评估 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessAssessment/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessAssessment"
+        ],
+        "summary": "患者血管通路评估 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessAssessmentViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessAssessmentViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessAssessmentViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessAssessment": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessAssessment"
+        ],
+        "summary": "患者血管通路评估 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessAssessmentEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessAssessment/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessAssessment"
+        ],
+        "summary": "患者血管通路评估 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessChange/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessChange"
+        ],
+        "summary": "患者血管通路改变 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessChangeViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessChangeViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessChangeViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessChange"
+        ],
+        "summary": "患者血管通路改变 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessChange/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessChange"
+        ],
+        "summary": "患者血管通路改变 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessChangeViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessChangeViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessChangeViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessChange": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessChange"
+        ],
+        "summary": "患者血管通路改变 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessChange/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessChange"
+        ],
+        "summary": "患者血管通路改变 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessDiagnosisResult/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessDiagnosisResult"
+        ],
+        "summary": "患者血管通路诊断结果 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessDiagnosisResult"
+        ],
+        "summary": "患者血管通路诊断结果 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessDiagnosisResult/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessDiagnosisResult"
+        ],
+        "summary": "患者血管通路诊断结果 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessDiagnosisResult": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessDiagnosisResult"
+        ],
+        "summary": "患者血管通路诊断结果 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessDiagnosisResult/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessDiagnosisResult"
+        ],
+        "summary": "患者血管通路诊断结果 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessExamine/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessExamine"
+        ],
+        "summary": "患者血管通路检查信息 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessExamineViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessExamineViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessExamineViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessExamine"
+        ],
+        "summary": "患者血管通路检查信息 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessExamine/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessExamine"
+        ],
+        "summary": "患者血管通路检查信息 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessExamineViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessExamineViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessExamineViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessExamine": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessExamine"
+        ],
+        "summary": "患者血管通路检查信息 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessExamineEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessExamine/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessExamine"
+        ],
+        "summary": "患者血管通路检查信息 -- 根据Id删除数据",
         "parameters": [
           {
             "name": "id",
@@ -18155,6 +19133,1091 @@
           "PatientVascularAccessFile"
         ],
         "summary": "患者血管通路照片 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessIntervene/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessIntervene"
+        ],
+        "summary": "患者血管通路干预 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessInterveneViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessInterveneViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessInterveneViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessIntervene"
+        ],
+        "summary": "患者血管通路干预 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessIntervene/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessIntervene"
+        ],
+        "summary": "患者血管通路干预 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessInterveneViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessInterveneViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessInterveneViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessIntervene": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessIntervene"
+        ],
+        "summary": "患者血管通路干预 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessInterveneEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessIntervene/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessIntervene"
+        ],
+        "summary": "患者血管通路干预 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPlan/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPlan"
+        ],
+        "summary": "患者血管通路计划 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPlanViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPlanViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPlanViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessPlan"
+        ],
+        "summary": "患者血管通路计划 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPlan/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPlan"
+        ],
+        "summary": "患者血管通路计划 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPlanViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPlanViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPlanViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPlan": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPlan"
+        ],
+        "summary": "患者血管通路计划 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPlanEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPlan/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPlan"
+        ],
+        "summary": "患者血管通路计划 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture/{patientId}/Views": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture/{patientId}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记 -- 批量新增数据",
+        "parameters": [
+          {
+            "name": "patientId",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+                }
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture/Update/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPuncture/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPuncture"
+        ],
+        "summary": "患者血管通路穿刺标记 -- 根据Id删除数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPunctureSite/{id}": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPunctureSite"
+        ],
+        "summary": "患者血管通路穿刺标记点位 -- 根据Id查询数据(有数据返回TRUE，无数据返回FALSE)",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteViewResultEntry"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteViewResultEntry"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteViewResultEntry"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "PatientVascularAccessPunctureSite"
+        ],
+        "summary": "患者血管通路穿刺标记点位 -- 更新数据",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPunctureSite/Filter": {
+      "get": {
+        "tags": [
+          "PatientVascularAccessPunctureSite"
+        ],
+        "summary": "患者血管通路穿刺标记点位 -- 根据条件查询数据",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "header",
+            "description": "查询条件",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteViewResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteViewResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteViewResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPunctureSite": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPunctureSite"
+        ],
+        "summary": "患者血管通路穿刺标记点位 -- 新增数据",
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Result"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PatientVascularAccessPunctureSite/Delete/{id}": {
+      "post": {
+        "tags": [
+          "PatientVascularAccessPunctureSite"
+        ],
+        "summary": "患者血管通路穿刺标记点位 -- 根据Id删除数据",
         "parameters": [
           {
             "name": "id",
@@ -19139,6 +21202,9 @@
         "additionalProperties": false,
         "description": "文件列表"
       },
+      "JToken": {
+        "type": "string"
+      },
       "Patient": {
         "type": "object",
         "properties": {
@@ -19505,6 +21571,11 @@
             "type": "string",
             "description": "首次肾脏代替治疗时血肌酐水平",
             "nullable": true
+          },
+          "photoAuxiliary": {
+            "type": "string",
+            "description": "附加照片路径",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -19531,7 +21602,8 @@
           "height": {
             "type": "integer",
             "description": "身高 *cm*",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "weight": {
             "type": "number",
@@ -19541,7 +21613,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI *自动计算*",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -19573,6 +21646,29 @@
             "type": "number",
             "description": "URR *% 自动计算*",
             "format": "double",
+            "nullable": true
+          },
+          "patientCondition": {
+            "type": "string",
+            "description": "患者情况",
+            "nullable": true
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "bestWeightCompliance": {
+            "type": "integer",
+            "description": "干体重是否达标0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "manualFlag": {
+            "type": "integer",
+            "description": "是否手工录入0,1",
+            "format": "int32",
             "nullable": true
           },
           "creater": {
@@ -20300,12 +22396,18 @@
             "nullable": true
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单结构",
             "nullable": true
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -20450,7 +22552,10 @@
             "format": "date-time"
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -20572,7 +22677,10 @@
             "format": "date-time"
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -21529,9 +23637,9 @@
             "nullable": true
           },
           "ufv": {
-            "type": "integer",
+            "type": "number",
             "description": "超滤量 *ml Ultrafiltration Volume*",
-            "format": "int32",
+            "format": "double",
             "nullable": true
           },
           "bloodFlowRate": {
@@ -22076,7 +24184,8 @@
           "height": {
             "type": "integer",
             "description": "身高 *cm*",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "weight": {
             "type": "number",
@@ -22086,7 +24195,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI *自动计算*",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -22113,6 +24223,29 @@
             "type": "number",
             "description": "URR *% 自动计算*",
             "format": "double",
+            "nullable": true
+          },
+          "patientCondition": {
+            "type": "string",
+            "description": "患者情况",
+            "nullable": true
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "bestWeightCompliance": {
+            "type": "integer",
+            "description": "干体重是否达标0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "manualFlag": {
+            "type": "integer",
+            "description": "是否手工录入0,1",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -24536,6 +26669,11 @@
             "description": "开立时间",
             "nullable": true
           },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
+          },
           "patients": {
             "$ref": "#/components/schemas/Patient"
           },
@@ -24550,6 +26688,7 @@
         "required": [
           "dialysis",
           "enabled",
+          "order",
           "owned",
           "patientId"
         ],
@@ -24695,6 +26834,11 @@
             "type": "string",
             "description": "开立时间",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -24739,6 +26883,7 @@
           "doctorId",
           "doctorName",
           "enabled",
+          "order",
           "owned",
           "patientId"
         ],
@@ -24884,6 +27029,11 @@
             "type": "string",
             "description": "开立时间",
             "nullable": true
+          },
+          "order": {
+            "type": "integer",
+            "description": "排序",
+            "format": "int32"
           },
           "orallyLabel": {
             "type": "string",
@@ -27852,6 +30002,12 @@
             "maxLength": 32,
             "type": "string",
             "nullable": true
+          },
+          "isChanged": {
+            "type": "integer",
+            "description": "有误变化 *0,1*",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -28029,6 +30185,12 @@
             "type": "string",
             "nullable": true
           },
+          "isChanged": {
+            "type": "integer",
+            "description": "有误变化 *0,1*",
+            "format": "int32",
+            "nullable": true
+          },
           "patientId": {
             "type": "string",
             "description": "[患者标识](患者信息Id)",
@@ -28176,13 +30338,13 @@
             "description": "来源 `DIC.PATIENT.SOURCE` *门诊,住院*"
           },
           "hospitalNumberOut": {
-            "maxLength": 16,
+            "maxLength": 32,
             "type": "string",
             "description": "门诊号",
             "nullable": true
           },
           "hospitalNumberIn": {
-            "maxLength": 16,
+            "maxLength": 32,
             "type": "string",
             "description": "住院号",
             "nullable": true
@@ -28445,6 +30607,12 @@
             "maxLength": 32,
             "type": "string",
             "description": "首次肾脏代替治疗时血肌酐水平",
+            "nullable": true
+          },
+          "photoAuxiliary": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "附加照片路径",
             "nullable": true
           },
           "cardNumber": {
@@ -30055,7 +32223,10 @@
         "type": "object",
         "properties": {
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "宣教评估表单vaule",
             "nullable": true
           },
@@ -30153,7 +32324,10 @@
             "format": "date-time"
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "宣教评估表单vaule",
             "nullable": true
           },
@@ -30240,7 +32414,10 @@
             "format": "date-time"
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "宣教评估表单vaule",
             "nullable": true
           },
@@ -30278,7 +32455,10 @@
             "nullable": true
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "宣教评估表单结构",
             "nullable": true
           },
@@ -30434,7 +32614,8 @@
           "height": {
             "type": "integer",
             "description": "身高 *cm*",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "weight": {
             "type": "number",
@@ -30444,7 +32625,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI *自动计算*",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -30476,6 +32658,29 @@
             "type": "number",
             "description": "URR *% 自动计算*",
             "format": "double",
+            "nullable": true
+          },
+          "patientCondition": {
+            "type": "string",
+            "description": "患者情况",
+            "nullable": true
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "bestWeightCompliance": {
+            "type": "integer",
+            "description": "干体重是否达标0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "manualFlag": {
+            "type": "integer",
+            "description": "是否手工录入0,1",
+            "format": "int32",
             "nullable": true
           },
           "creater": {
@@ -30534,7 +32739,8 @@
           "height": {
             "type": "integer",
             "description": "身高 *cm*",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "weight": {
             "type": "number",
@@ -30544,7 +32750,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI *自动计算*",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -30576,6 +32783,30 @@
             "type": "number",
             "description": "URR *% 自动计算*",
             "format": "double",
+            "nullable": true
+          },
+          "patientCondition": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "患者情况",
+            "nullable": true
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "bestWeightCompliance": {
+            "type": "integer",
+            "description": "干体重是否达标0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "manualFlag": {
+            "type": "integer",
+            "description": "是否手工录入0,1",
+            "format": "int32",
             "nullable": true
           }
         },
@@ -30633,7 +32864,8 @@
           "height": {
             "type": "integer",
             "description": "身高 *cm*",
-            "format": "int32"
+            "format": "int32",
+            "nullable": true
           },
           "weight": {
             "type": "number",
@@ -30643,7 +32875,8 @@
           "bmi": {
             "type": "number",
             "description": "BMI *自动计算*",
-            "format": "double"
+            "format": "double",
+            "nullable": true
           },
           "bunBefore": {
             "type": "number",
@@ -30675,6 +32908,30 @@
             "type": "number",
             "description": "URR *% 自动计算*",
             "format": "double",
+            "nullable": true
+          },
+          "patientCondition": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "患者情况",
+            "nullable": true
+          },
+          "bestWeight": {
+            "type": "number",
+            "description": "干体重 *kg*",
+            "format": "double",
+            "nullable": true
+          },
+          "bestWeightCompliance": {
+            "type": "integer",
+            "description": "干体重是否达标0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "manualFlag": {
+            "type": "integer",
+            "description": "是否手工录入0,1",
+            "format": "int32",
             "nullable": true
           },
           "patientName": {
@@ -30816,7 +33073,7 @@
             "description": "[患者标识](#患者信息)"
           },
           "hospitalNumberIn": {
-            "maxLength": 16,
+            "maxLength": 32,
             "minLength": 1,
             "type": "string",
             "description": "住院号"
@@ -30852,7 +33109,7 @@
             "description": "[患者标识](#患者信息)"
           },
           "hospitalNumberIn": {
-            "maxLength": 16,
+            "maxLength": 32,
             "minLength": 1,
             "type": "string",
             "description": "住院号"
@@ -30999,7 +33256,7 @@
             "description": "[患者标识](#患者信息)"
           },
           "hospitalNumberOut": {
-            "maxLength": 16,
+            "maxLength": 32,
             "minLength": 1,
             "type": "string",
             "description": "门诊号"
@@ -31035,7 +33292,7 @@
             "description": "[患者标识](#患者信息)"
           },
           "hospitalNumberOut": {
-            "maxLength": 16,
+            "maxLength": 32,
             "minLength": 1,
             "type": "string",
             "description": "门诊号"
@@ -36658,18 +38915,6 @@
             "type": "string",
             "description": "转归类型 `DIC.PROGNOSIS.TYPE` *转入,转出,退出*"
           },
-          "outLocation": {
-            "maxLength": 32,
-            "type": "string",
-            "description": "转出地点 `DIC.PROGNOSIS.OUT.LOCATION`",
-            "nullable": true
-          },
-          "outCause": {
-            "maxLength": 32,
-            "type": "string",
-            "description": "转出原因 `DIC.PROGNOSIS.OUT.CAUSE`",
-            "nullable": true
-          },
           "outCauseOther": {
             "maxLength": 64,
             "type": "string",
@@ -36803,9 +39048,17 @@
             "description": "转出地点显示值",
             "nullable": true
           },
+          "outLocation": {
+            "type": "string",
+            "nullable": true
+          },
           "outCauseLabel": {
             "type": "string",
             "description": "转出原因显示值",
+            "nullable": true
+          },
+          "outCause": {
+            "type": "string",
             "nullable": true
           },
           "quitCauseLabel": {
@@ -38514,6 +40767,14 @@
             "type": "string",
             "description": "医生签名(路径)",
             "nullable": true
+          },
+          "customPrint": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -40052,7 +42313,10 @@
             "description": "[表单模板标识](#表单模板)"
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -40105,7 +42369,10 @@
             "description": "[表单模板标识](#表单模板)"
           },
           "dataValue": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "表单vaule",
             "nullable": true
           },
@@ -40165,7 +42432,10 @@
             "nullable": true
           },
           "data": {
-            "type": "string",
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
             "description": "模板",
             "nullable": true
           }
@@ -40390,6 +42660,1114 @@
         "additionalProperties": false,
         "description": "患者血管通路"
       },
+      "PatientVascularAccessAssessmentEditModel": {
+        "required": [
+          "date",
+          "patientId",
+          "patientVascularAccessId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "评估类型"
+          },
+          "date": {
+            "type": "string",
+            "description": "评估日期",
+            "format": "date-time"
+          },
+          "operator": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "评估人",
+            "nullable": true
+          },
+          "operatorId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "评估人标识",
+            "nullable": true
+          },
+          "dataValue": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路评估"
+      },
+      "PatientVascularAccessAssessmentView": {
+        "required": [
+          "date",
+          "patientId",
+          "patientVascularAccessId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "评估类型"
+          },
+          "date": {
+            "type": "string",
+            "description": "评估日期",
+            "format": "date-time"
+          },
+          "operator": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "评估人",
+            "nullable": true
+          },
+          "operatorId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "评估人标识",
+            "nullable": true
+          },
+          "dataValue": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "表单vaule",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路评估"
+      },
+      "PatientVascularAccessAssessmentViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessAssessmentView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessAssessmentViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessAssessmentView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessChangeEditModel": {
+        "required": [
+          "changeCause",
+          "location",
+          "parentId",
+          "patientId",
+          "patientVascularAccessId",
+          "processMode"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "change": {
+            "type": "integer",
+            "description": "是否改变通路0,1",
+            "format": "int32"
+          },
+          "changeDate": {
+            "type": "string",
+            "description": "改变日期",
+            "format": "date-time"
+          },
+          "changeCause": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "改变原因 `DIC.VASCULAR.ACCESS.CHANGECAUSE` *可以多选,使用`;`分隔*"
+          },
+          "processMode": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "处理方式 `DIC.VASCULAR.ACCESS.PROCESS.MODE`"
+          },
+          "location": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "位置(左-右) `DIC.VASCULAR.ACCESS.LOCATION` *左侧,右侧*"
+          },
+          "position": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "部位 `DIC.VASCULAR.ACCESS.POSITION.CVC` `DIC.VASCULAR.ACCESS.POSITION.AVF` `DIC.VASCULAR.ACCESS.POSITION.AVG`",
+            "nullable": true
+          },
+          "way": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "中心静脉置管方法 `DIC.VASCULAR.ACCESS.WAY.CVC`",
+            "nullable": true
+          },
+          "parentId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "父节点 *根节点填 0 ,否则为父节点ID*"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路改变"
+      },
+      "PatientVascularAccessChangeView": {
+        "required": [
+          "changeCause",
+          "location",
+          "parentId",
+          "patientId",
+          "patientVascularAccessId",
+          "processMode"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "change": {
+            "type": "integer",
+            "description": "是否改变通路0,1",
+            "format": "int32"
+          },
+          "changeDate": {
+            "type": "string",
+            "description": "改变日期",
+            "format": "date-time"
+          },
+          "changeCause": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string",
+            "description": "改变原因 `DIC.VASCULAR.ACCESS.CHANGECAUSE` *可以多选,使用`;`分隔*"
+          },
+          "processMode": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "处理方式 `DIC.VASCULAR.ACCESS.PROCESS.MODE`"
+          },
+          "location": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "位置(左-右) `DIC.VASCULAR.ACCESS.LOCATION` *左侧,右侧*"
+          },
+          "position": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "部位 `DIC.VASCULAR.ACCESS.POSITION.CVC` `DIC.VASCULAR.ACCESS.POSITION.AVF` `DIC.VASCULAR.ACCESS.POSITION.AVG`",
+            "nullable": true
+          },
+          "way": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "中心静脉置管方法 `DIC.VASCULAR.ACCESS.WAY.CVC`",
+            "nullable": true
+          },
+          "parentId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "父节点 *根节点填 0 ,否则为父节点ID*"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "processModeLabel": {
+            "type": "string",
+            "description": "处理方式",
+            "nullable": true
+          },
+          "locationLabel": {
+            "type": "string",
+            "description": "位置(左-右)",
+            "nullable": true
+          },
+          "wayLabel": {
+            "type": "string",
+            "description": "中心静脉置管方法",
+            "nullable": true
+          },
+          "changeCauseLabel": {
+            "type": "string",
+            "description": "改变原因",
+            "nullable": true
+          },
+          "lifetime": {
+            "type": "integer",
+            "description": "已用天数",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路改变"
+      },
+      "PatientVascularAccessChangeViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessChangeView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessChangeViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessChangeView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessDiagnosisResultEditModel": {
+        "required": [
+          "date",
+          "patientId",
+          "patientVascularAccessId"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "date": {
+            "type": "string",
+            "description": "诊断日期",
+            "format": "date-time"
+          },
+          "result": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "诊断结果",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路诊断结果"
+      },
+      "PatientVascularAccessDiagnosisResultView": {
+        "required": [
+          "date",
+          "patientId",
+          "patientVascularAccessId"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "date": {
+            "type": "string",
+            "description": "诊断日期",
+            "format": "date-time"
+          },
+          "result": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "诊断结果",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路诊断结果"
+      },
+      "PatientVascularAccessDiagnosisResultViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessDiagnosisResultViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessDiagnosisResultView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessEditModel": {
+        "required": [
+          "enabled",
+          "patientId",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "createDate": {
+            "type": "string",
+            "description": "建立日期",
+            "format": "date-time",
+            "nullable": true
+          },
+          "change": {
+            "type": "integer",
+            "description": "是否改变通路0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "changeDate": {
+            "type": "string",
+            "description": "改变日期",
+            "format": "date-time",
+            "nullable": true
+          },
+          "changeCause": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "改变原因 `DIC.VASCULAR.ACCESS.CHANGECAUSE` *可以多选,使用`;`分隔*",
+            "nullable": true
+          },
+          "changeCauseOther": {
+            "maxLength": 64,
+            "type": "string",
+            "description": "其它改变原因",
+            "nullable": true
+          },
+          "location": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "位置(左-右) `DIC.VASCULAR.ACCESS.LOCATION` *左侧,右侧*",
+            "nullable": true
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "通路类型 `DIC.VASCULAR.ACCESS.TYPE` *LCVC,TCVC,AVF,AVG,OTHER*"
+          },
+          "position": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "位置 `DIC.VASCULAR.ACCESS.POSITION.CVC` `DIC.VASCULAR.ACCESS.POSITION.AVF` `DIC.VASCULAR.ACCESS.POSITION.AVG`",
+            "nullable": true
+          },
+          "way": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "中心静脉置管方法 `DIC.VASCULAR.ACCESS.WAY.CVC`",
+            "nullable": true
+          },
+          "remarkOther": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "其他描述",
+            "nullable": true
+          },
+          "firstDate": {
+            "type": "string",
+            "description": "首次启用时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "default": {
+            "type": "integer",
+            "description": "默认在处方应用0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "disableDate": {
+            "type": "string",
+            "description": "停用时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "disableReason": {
+            "maxLength": 256,
+            "type": "string",
+            "description": "停用原因",
+            "nullable": true
+          },
+          "lifetime": {
+            "type": "integer",
+            "description": "已用天数",
+            "format": "int32",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "patientVascularAccessChanges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessChangeEditModel"
+            },
+            "description": "血管通路改变",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路"
+      },
+      "PatientVascularAccessExamineEditModel": {
+        "required": [
+          "patientId",
+          "patientVascularAccessId"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "visualInspection": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "物理检查视",
+            "nullable": true
+          },
+          "voiceInspection": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "物理检查听",
+            "nullable": true
+          },
+          "touchInspection": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "物理检查触",
+            "nullable": true
+          },
+          "armRaiseTest": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "举臂实验",
+            "nullable": true
+          },
+          "pulsationIncreaseTrial": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "搏动增强实验",
+            "nullable": true
+          },
+          "ultrasonicResult": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "超声结果",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路检查信息"
+      },
+      "PatientVascularAccessExamineView": {
+        "required": [
+          "patientId",
+          "patientVascularAccessId"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "visualInspection": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "物理检查视",
+            "nullable": true
+          },
+          "voiceInspection": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "物理检查听",
+            "nullable": true
+          },
+          "touchInspection": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "物理检查触",
+            "nullable": true
+          },
+          "armRaiseTest": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "举臂实验",
+            "nullable": true
+          },
+          "pulsationIncreaseTrial": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "搏动增强实验",
+            "nullable": true
+          },
+          "ultrasonicResult": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/JToken"
+            },
+            "description": "超声结果",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路检查信息"
+      },
+      "PatientVascularAccessExamineViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessExamineView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessExamineViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessExamineView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
       "PatientVascularAccessFile": {
         "type": "object",
         "properties": {
@@ -40543,7 +43921,222 @@
         "additionalProperties": false,
         "description": "患者血管通路照片 (ViewModel)"
       },
-      "PatientVascularAccessResultEntry": {
+      "PatientVascularAccessInterveneEditModel": {
+        "required": [
+          "cause",
+          "date",
+          "isIntervene",
+          "location",
+          "patientId",
+          "patientVascularAccessId"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "date": {
+            "type": "string",
+            "description": "干预日期",
+            "format": "date-time"
+          },
+          "cause": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "干预原因"
+          },
+          "processMode": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "处理方式 `DIC.VASCULAR.ACCESS.PROCESS.MODE`",
+            "nullable": true
+          },
+          "type": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "通路类型 `DIC.VASCULAR.ACCESS.TYPE` *LCVC,TCVC,AVF,AVG,OTHER*",
+            "nullable": true
+          },
+          "location": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "位置(左-右) `DIC.VASCULAR.ACCESS.LOCATION` *左侧,右侧*"
+          },
+          "position": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "部位 `DIC.VASCULAR.ACCESS.POSITION.CVC` `DIC.VASCULAR.ACCESS.POSITION.AVF` `DIC.VASCULAR.ACCESS.POSITION.AVG`",
+            "nullable": true
+          },
+          "way": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "中心静脉置管方法 `DIC.VASCULAR.ACCESS.WAY.CVC`",
+            "nullable": true
+          },
+          "isIntervene": {
+            "type": "integer",
+            "description": "是否干预",
+            "format": "int32"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路干预"
+      },
+      "PatientVascularAccessInterveneView": {
+        "required": [
+          "cause",
+          "date",
+          "isIntervene",
+          "location",
+          "patientId",
+          "patientVascularAccessId"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "date": {
+            "type": "string",
+            "description": "干预日期",
+            "format": "date-time"
+          },
+          "cause": {
+            "maxLength": 64,
+            "minLength": 1,
+            "type": "string",
+            "description": "干预原因"
+          },
+          "processMode": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "处理方式 `DIC.VASCULAR.ACCESS.PROCESS.MODE`",
+            "nullable": true
+          },
+          "type": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "通路类型 `DIC.VASCULAR.ACCESS.TYPE` *LCVC,TCVC,AVF,AVG,OTHER*",
+            "nullable": true
+          },
+          "location": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "位置(左-右) `DIC.VASCULAR.ACCESS.LOCATION` *左侧,右侧*"
+          },
+          "position": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "部位 `DIC.VASCULAR.ACCESS.POSITION.CVC` `DIC.VASCULAR.ACCESS.POSITION.AVF` `DIC.VASCULAR.ACCESS.POSITION.AVG`",
+            "nullable": true
+          },
+          "way": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "中心静脉置管方法 `DIC.VASCULAR.ACCESS.WAY.CVC`",
+            "nullable": true
+          },
+          "isIntervene": {
+            "type": "integer",
+            "description": "是否干预",
+            "format": "int32"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "processModeLabel": {
+            "type": "string",
+            "description": "处理方式",
+            "nullable": true
+          },
+          "typeLabel": {
+            "type": "string",
+            "description": "通路类型",
+            "nullable": true
+          },
+          "locationLabel": {
+            "type": "string",
+            "description": "位置(左-右)",
+            "nullable": true
+          },
+          "wayLabel": {
+            "type": "string",
+            "description": "中心静脉置管方法",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路干预"
+      },
+      "PatientVascularAccessInterveneViewResult": {
         "type": "object",
         "properties": {
           "success": {
@@ -40571,7 +44164,1026 @@
             "nullable": true
           },
           "data": {
-            "$ref": "#/components/schemas/PatientVascularAccess"
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessInterveneView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessInterveneViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessInterveneView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessPlanEditModel": {
+        "required": [
+          "patientId",
+          "patientVascularAccessId",
+          "surgeryDate",
+          "surgeryName"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "surgeryName": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "手术名称"
+          },
+          "surgeryDate": {
+            "type": "string",
+            "description": "手术时间",
+            "format": "date-time"
+          },
+          "surgeryMode": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "术式",
+            "nullable": true
+          },
+          "type": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "通路类型 `DIC.VASCULAR.ACCESS.TYPE` *LCVC,TCVC,AVF,AVG,OTHER*",
+            "nullable": true
+          },
+          "firstDate": {
+            "type": "string",
+            "description": "首次启用时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "anastomoticMode": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "吻合口方式",
+            "nullable": true
+          },
+          "anastomoticDistance": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "距吻合口（cm）",
+            "nullable": true
+          },
+          "punctureModeA": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "A穿刺方式",
+            "nullable": true
+          },
+          "punctureModeB": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "v穿刺方式",
+            "nullable": true
+          },
+          "punctureArterialSite": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "动脉穿刺点",
+            "nullable": true
+          },
+          "punctureVenousSite": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "静脉穿刺点",
+            "nullable": true
+          },
+          "draftsmanId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "绘图人标识",
+            "nullable": true
+          },
+          "draftsman": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "绘图人名称",
+            "nullable": true
+          },
+          "draftsmanDate": {
+            "type": "string",
+            "description": "绘图时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "proposal": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "计划建议",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路计划"
+      },
+      "PatientVascularAccessPlanView": {
+        "required": [
+          "patientId",
+          "patientVascularAccessId",
+          "surgeryDate",
+          "surgeryName"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "patientVascularAccessId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[血管通路标识](#患者血管通路)"
+          },
+          "surgeryName": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "手术名称"
+          },
+          "surgeryDate": {
+            "type": "string",
+            "description": "手术时间",
+            "format": "date-time"
+          },
+          "surgeryMode": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "术式",
+            "nullable": true
+          },
+          "type": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "通路类型 `DIC.VASCULAR.ACCESS.TYPE` *LCVC,TCVC,AVF,AVG,OTHER*",
+            "nullable": true
+          },
+          "firstDate": {
+            "type": "string",
+            "description": "首次启用时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "anastomoticMode": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "吻合口方式",
+            "nullable": true
+          },
+          "anastomoticDistance": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "距吻合口（cm）",
+            "nullable": true
+          },
+          "punctureModeA": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "A穿刺方式",
+            "nullable": true
+          },
+          "punctureModeB": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "v穿刺方式",
+            "nullable": true
+          },
+          "punctureArterialSite": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "动脉穿刺点",
+            "nullable": true
+          },
+          "punctureVenousSite": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "静脉穿刺点",
+            "nullable": true
+          },
+          "draftsmanId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "绘图人标识",
+            "nullable": true
+          },
+          "draftsman": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "绘图人名称",
+            "nullable": true
+          },
+          "draftsmanDate": {
+            "type": "string",
+            "description": "绘图时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "proposal": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "计划建议",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "typeLabel": {
+            "type": "string",
+            "description": "通路类型",
+            "nullable": true
+          },
+          "surgeryModeLabel": {
+            "type": "string",
+            "description": "术式",
+            "nullable": true
+          },
+          "anastomoticModeLabel": {
+            "type": "string",
+            "description": "吻合口方式",
+            "nullable": true
+          },
+          "punctureModeALabel": {
+            "type": "string",
+            "description": "A穿刺方式",
+            "nullable": true
+          },
+          "punctureModeBLabel": {
+            "type": "string",
+            "description": "v穿刺方式",
+            "nullable": true
+          },
+          "punctureArterialSiteLabel": {
+            "type": "string",
+            "description": "动脉穿刺点",
+            "nullable": true
+          },
+          "punctureVenousSiteLabel": {
+            "type": "string",
+            "description": "静脉穿刺点",
+            "nullable": true
+          },
+          "proposalLabel": {
+            "type": "string",
+            "description": "计划建议",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路计划"
+      },
+      "PatientVascularAccessPlanViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessPlanView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessPlanViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessPlanView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessPunctureEditModel": {
+        "required": [
+          "method",
+          "patientId",
+          "siteCount",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "类型 *A端,V端*"
+          },
+          "method": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "穿刺方式 *打点,扣眼*"
+          },
+          "siteCount": {
+            "type": "integer",
+            "description": "点位数",
+            "format": "int32"
+          },
+          "imgUrl": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "图片路径",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "patientVascularAccessPunctureSites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteEditModel"
+            },
+            "description": "患者血管通路穿刺标记点",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路穿刺标记"
+      },
+      "PatientVascularAccessPunctureSiteEditModel": {
+        "required": [
+          "no",
+          "patientVascularAccessPunctureId",
+          "punctureCount",
+          "rotate",
+          "scale",
+          "xPosition",
+          "yPosition"
+        ],
+        "type": "object",
+        "properties": {
+          "patientVascularAccessPunctureId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[通路穿刺标记](#通路穿刺标记)"
+          },
+          "punctureMethod": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺方法 `DIC.DIALYSIS.PUNCTURE.METHOD`",
+            "nullable": true
+          },
+          "punctureDate": {
+            "type": "string",
+            "description": "穿刺时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "punctureCount": {
+            "type": "integer",
+            "description": "穿刺次数",
+            "format": "int32"
+          },
+          "punctureInjury": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺损伤",
+            "nullable": true
+          },
+          "failCause": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "失败原因",
+            "nullable": true
+          },
+          "piercer": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺人",
+            "nullable": true
+          },
+          "piercerId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺人标识",
+            "nullable": true
+          },
+          "needleExtractor": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "拔针人",
+            "nullable": true
+          },
+          "needleExtractorId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "拔针人标识",
+            "nullable": true
+          },
+          "direction": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "方向",
+            "nullable": true
+          },
+          "complication": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "通路并发症",
+            "nullable": true
+          },
+          "painScore": {
+            "type": "integer",
+            "description": "疼痛评分",
+            "format": "int32",
+            "nullable": true
+          },
+          "xPosition": {
+            "type": "number",
+            "description": "x 轴坐标",
+            "format": "double"
+          },
+          "yPosition": {
+            "type": "number",
+            "description": "y 轴坐标",
+            "format": "double"
+          },
+          "rotate": {
+            "type": "number",
+            "description": "旋转角度",
+            "format": "double"
+          },
+          "scale": {
+            "type": "number",
+            "description": "缩放倍数",
+            "format": "double"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "no": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路穿刺标记点位"
+      },
+      "PatientVascularAccessPunctureSiteView": {
+        "required": [
+          "no",
+          "patientVascularAccessPunctureId",
+          "punctureCount",
+          "rotate",
+          "scale",
+          "xPosition",
+          "yPosition"
+        ],
+        "type": "object",
+        "properties": {
+          "patientVascularAccessPunctureId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[通路穿刺标记](#通路穿刺标记)"
+          },
+          "punctureMethod": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺方法 `DIC.DIALYSIS.PUNCTURE.METHOD`",
+            "nullable": true
+          },
+          "punctureDate": {
+            "type": "string",
+            "description": "穿刺时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "punctureCount": {
+            "type": "integer",
+            "description": "穿刺次数",
+            "format": "int32"
+          },
+          "punctureInjury": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺损伤",
+            "nullable": true
+          },
+          "failCause": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "失败原因",
+            "nullable": true
+          },
+          "piercer": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺人",
+            "nullable": true
+          },
+          "piercerId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "穿刺人标识",
+            "nullable": true
+          },
+          "needleExtractor": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "拔针人",
+            "nullable": true
+          },
+          "needleExtractorId": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "拔针人标识",
+            "nullable": true
+          },
+          "direction": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "方向",
+            "nullable": true
+          },
+          "complication": {
+            "maxLength": 32,
+            "type": "string",
+            "description": "通路并发症",
+            "nullable": true
+          },
+          "painScore": {
+            "type": "integer",
+            "description": "疼痛评分",
+            "format": "int32",
+            "nullable": true
+          },
+          "xPosition": {
+            "type": "number",
+            "description": "x 轴坐标",
+            "format": "double"
+          },
+          "yPosition": {
+            "type": "number",
+            "description": "y 轴坐标",
+            "format": "double"
+          },
+          "rotate": {
+            "type": "number",
+            "description": "旋转角度",
+            "format": "double"
+          },
+          "scale": {
+            "type": "number",
+            "description": "缩放倍数",
+            "format": "double"
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "no": {
+            "type": "integer",
+            "description": "序号",
+            "format": "int32"
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路穿刺标记点位"
+      },
+      "PatientVascularAccessPunctureSiteViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessPunctureSiteViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteView"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessPunctureView": {
+        "required": [
+          "method",
+          "patientId",
+          "siteCount",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "patientId": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "[患者标识](#患者信息)"
+          },
+          "type": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "类型 *A端,V端*"
+          },
+          "method": {
+            "maxLength": 32,
+            "minLength": 1,
+            "type": "string",
+            "description": "穿刺方式 *打点,扣眼*"
+          },
+          "siteCount": {
+            "type": "integer",
+            "description": "点位数",
+            "format": "int32"
+          },
+          "imgUrl": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "图片路径",
+            "nullable": true
+          },
+          "remark": {
+            "maxLength": 512,
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "imgUrlStr": {
+            "type": "string",
+            "description": "图片完整路径",
+            "nullable": true
+          },
+          "sites": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessPunctureSiteView"
+            },
+            "description": "点位",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "患者血管通路穿刺标记"
+      },
+      "PatientVascularAccessPunctureViewResult": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessPunctureView"
+            },
+            "description": "返回数据封装",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
+      "PatientVascularAccessPunctureViewResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessPunctureView"
           }
         },
         "additionalProperties": false,
@@ -40951,6 +45563,14 @@
             "type": "string",
             "description": "其他描述",
             "nullable": true
+          },
+          "patientVascularAccessChanges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessChangeView"
+            },
+            "description": "血管通路变动",
+            "nullable": true
           }
         },
         "additionalProperties": false,
@@ -41114,6 +45734,192 @@
         "additionalProperties": false,
         "description": "Reponse"
       },
+      "PatientVascularAccessVo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "标识",
+            "nullable": true
+          },
+          "patientId": {
+            "type": "string",
+            "description": "[患者标识](患者信息)",
+            "nullable": true
+          },
+          "createDate": {
+            "type": "string",
+            "description": "建立日期",
+            "format": "date-time",
+            "nullable": true
+          },
+          "change": {
+            "type": "integer",
+            "description": "是否改变通路0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "changeDate": {
+            "type": "string",
+            "description": "改变日期",
+            "format": "date-time",
+            "nullable": true
+          },
+          "changeCause": {
+            "type": "string",
+            "description": "改变原因 `DIC.VASCULAR.ACCESS.CHANGECAUSE` *可以多选,使用`;`分隔*",
+            "nullable": true
+          },
+          "changeCauseOther": {
+            "type": "string",
+            "description": "其它改变原因",
+            "nullable": true
+          },
+          "location": {
+            "type": "string",
+            "description": "位置(左-右) `DIC.VASCULAR.ACCESS.LOCATION` *左侧,右侧*",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "description": "通路类型 `DIC.VASCULAR.ACCESS.TYPE` *LCVC,TCVC,AVF,AVG,OTHER*",
+            "nullable": true
+          },
+          "position": {
+            "type": "string",
+            "description": "位置 `DIC.VASCULAR.ACCESS.POSITION.CVC` `DIC.VASCULAR.ACCESS.POSITION.AVF` `DIC.VASCULAR.ACCESS.POSITION.AVG`",
+            "nullable": true
+          },
+          "way": {
+            "type": "string",
+            "description": "中心静脉置管方法 `DIC.VASCULAR.ACCESS.WAY.CVC`",
+            "nullable": true
+          },
+          "remarkOther": {
+            "type": "string",
+            "description": "其他描述",
+            "nullable": true
+          },
+          "firstDate": {
+            "type": "string",
+            "description": "首次启用时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "default": {
+            "type": "integer",
+            "description": "默认在处方应用0,1",
+            "format": "int32",
+            "nullable": true
+          },
+          "disableDate": {
+            "type": "string",
+            "description": "停用时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "disableReason": {
+            "type": "string",
+            "description": "停用原因",
+            "nullable": true
+          },
+          "lifetime": {
+            "type": "integer",
+            "description": "已用天数",
+            "format": "int32",
+            "nullable": true
+          },
+          "enabled": {
+            "type": "integer",
+            "description": "启用状态0,1",
+            "format": "int32"
+          },
+          "remark": {
+            "type": "string",
+            "description": "备注",
+            "nullable": true
+          },
+          "creater": {
+            "type": "string",
+            "description": "创建者",
+            "nullable": true
+          },
+          "createId": {
+            "type": "string",
+            "description": "创建者标识",
+            "nullable": true
+          },
+          "createTime": {
+            "type": "string",
+            "description": "创建时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updater": {
+            "type": "string",
+            "description": "最近更新者",
+            "nullable": true
+          },
+          "updateId": {
+            "type": "string",
+            "description": "最近更新者标识",
+            "nullable": true
+          },
+          "updateTime": {
+            "type": "string",
+            "description": "最近更新时间",
+            "format": "date-time",
+            "nullable": true
+          },
+          "patients": {
+            "$ref": "#/components/schemas/Patient"
+          },
+          "patientVascularAccessChangeView": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PatientVascularAccessChangeView"
+            },
+            "description": "血管通路改变",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "血管通路"
+      },
+      "PatientVascularAccessVoResultEntry": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "请求是否成功"
+          },
+          "code": {
+            "type": "string",
+            "description": "错误码",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "description": "消息",
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "description": "数据量",
+            "format": "int64"
+          },
+          "url": {
+            "type": "string",
+            "description": "相关的链接地址",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PatientVascularAccessVo"
+          }
+        },
+        "additionalProperties": false,
+        "description": "Reponse"
+      },
       "PatientView": {
         "required": [
           "dialysisStateTransition",
@@ -41167,13 +45973,13 @@
             "description": "来源 `DIC.PATIENT.SOURCE` *门诊,住院*"
           },
           "hospitalNumberOut": {
-            "maxLength": 16,
+            "maxLength": 32,
             "type": "string",
             "description": "门诊号",
             "nullable": true
           },
           "hospitalNumberIn": {
-            "maxLength": 16,
+            "maxLength": 32,
             "type": "string",
             "description": "住院号",
             "nullable": true
@@ -41428,6 +46234,12 @@
             "description": "首次肾脏代替治疗时血肌酐水平",
             "nullable": true
           },
+          "photoAuxiliary": {
+            "maxLength": 128,
+            "type": "string",
+            "description": "附加照片路径",
+            "nullable": true
+          },
           "positiveLabel": {
             "type": "string",
             "description": "传染病显示值",
@@ -41596,6 +46408,11 @@
             "description": "照片文件Url",
             "nullable": true
           },
+          "urlAuxiliary": {
+            "type": "string",
+            "description": "附加照片文件Url",
+            "nullable": true
+          },
           "lastScheduleDate": {
             "type": "string",
             "description": "最近一次排床日期",
@@ -41735,6 +46552,12 @@
             "type": "string",
             "description": "指纹",
             "nullable": true
+          },
+          "hospitalNumber": {
+            "type": "string",
+            "description": "门诊住院号",
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false,
@@ -43226,12 +48049,44 @@
       "description": "患者自定义表单记录"
     },
     {
+      "name": "PatientVascularAccessAssessment",
+      "description": "患者血管通路评估"
+    },
+    {
+      "name": "PatientVascularAccessChange",
+      "description": "患者血管通路改变"
+    },
+    {
       "name": "PatientVascularAccess",
       "description": "患者血管通路"
     },
     {
+      "name": "PatientVascularAccessDiagnosisResult",
+      "description": "患者血管通路诊断结果"
+    },
+    {
+      "name": "PatientVascularAccessExamine",
+      "description": "患者血管通路检查信息"
+    },
+    {
       "name": "PatientVascularAccessFile",
       "description": "患者血管通路照片"
+    },
+    {
+      "name": "PatientVascularAccessIntervene",
+      "description": "患者血管通路干预"
+    },
+    {
+      "name": "PatientVascularAccessPlan",
+      "description": "患者血管通路计划"
+    },
+    {
+      "name": "PatientVascularAccessPuncture",
+      "description": "患者血管通路穿刺标记"
+    },
+    {
+      "name": "PatientVascularAccessPunctureSite",
+      "description": "患者血管通路穿刺标记点位"
     },
     {
       "name": "PatientVascularAccessSurgery",
