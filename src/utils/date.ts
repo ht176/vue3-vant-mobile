@@ -1,10 +1,16 @@
 /**
  * Independent time operation tool to facilitate subsequent switch to dayjs
  */
+import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 
+dayjs.extend(utc)
+dayjs.extend(timezone)
 dayjs.locale('zh-cn')
+dayjs.tz.setDefault('Asia/Shanghai')
 
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
 const DATE_FORMAT = 'YYYY-MM-DD'
@@ -50,4 +56,4 @@ export function formatToYear(
   return date ? dayjs(date).format(format) : ''
 }
 
-export const dateUtil = dayjs
+export const dateUtil = () => formatToDateTime(dayjs()) as unknown as Dayjs

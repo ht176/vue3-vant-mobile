@@ -112,3 +112,16 @@ export function directAuth(key: string, code: string): boolean {
   }
   return false
 }
+/**
+ * 透析单位转换
+ * @param {number | string} val 需要转换的值（预脱、偏移调整等需要转换的值）
+ * @param {string} unit 目标单位
+ * @param {number} conversionFactor 转换因子
+ * @returns {number | null} 转换后的值
+ */
+export function convertDialysisUnit(val: number | string, unit: string, conversionFactor: number = 1000): number | null {
+  if (unit === 'kg') {
+    return (val || val === 0) ? (Number(val) / conversionFactor) : null
+  }
+  return (val || val === 0) ? Number(val) : null
+}

@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "./swagger-json/Patient.json",
+      "url": "./swagger-json/WebApi.json",
       "output": null,
       "newLineBehavior": "Auto"
     }
@@ -69,7 +69,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../src/services/PatientServiceProxies.ts",
+      "output": "../src/services/WebApiServiceProxies.ts",
       "newLineBehavior": "Auto"
     }
   }

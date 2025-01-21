@@ -7,6 +7,8 @@ import 'virtual:uno.css'
 import '@/styles/app.less'
 import '@/styles/var.less'
 import '@/styles/public.less'
+import 'element-plus/theme-chalk/el-message-box.css'
+import 'element-plus/theme-chalk/el-message.css'
 import { i18n } from '@/utils/i18n'
 import 'dayjs/locale/zh-cn'
 // Vant 桌面端适配

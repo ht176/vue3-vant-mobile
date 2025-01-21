@@ -1,5 +1,7 @@
 import httpSign from '@/utils/http.sign'
+import queryFilter from '@/utils/formatFilter'
 import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios'
+import { showNotify } from 'vant'
 // import { checkUserLoginExpire } from '../utils/user'
 // import { WeChatAuthServiceProxy } from './ServiceProxies'
 interface AnyObject { [key: string]: any }
@@ -10,6 +12,8 @@ interface CustomCancelToken extends CancelToken {
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   cancelToken?: CustomCancelToken
 }
+
+const router = useRouter()
 
 // 接口白名单
 const urlGuardList = [
@@ -32,12 +36,13 @@ export class ServiceProxyBase {
     //   token = await this.refreshTokenWx()
     // }
     // 添加header
-    const { filter } = options?.cancelToken || {}
+    const filter = options?.cancelToken?.filter || (options.headers?.filter ? JSON.parse(options.headers?.filter) : null)
     options.headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${httpSign()}`,
-      'filter': filter ? encodeURIComponent(JSON.stringify(options?.cancelToken?.filter)) : undefined,
+      'filter': filter ? encodeURIComponent(queryFilter(filter)) : undefined,
     }
+
     if (options.cancelToken) {
       delete options.cancelToken.filter
       if (Object.keys(options.cancelToken).length === 0) {
@@ -71,7 +76,8 @@ export class ServiceProxyBase {
     }
     else if (response.status >= 500) {
       const msg = `请求异常`
-      console.log(msg)
+      showNotify({ type: 'danger', message: msg })
+
       // Taro.showToast({
       //   title: msg,
       //   icon: 'none',
@@ -82,11 +88,17 @@ export class ServiceProxyBase {
     const { code, message, data } = response.data
     if (code) {
       console.log(message)
-      // Taro.showToast({
-      //   title: message,
-      //   icon: 'none',
-      //   duration: 2000,
-      // })
+      switch (code) {
+        case '10011':
+          showNotify({ type: 'danger', message })
+          router.push({
+            name: 'login',
+          })
+          break
+
+        default:
+          break
+      }
     }
     if (data) {
       this.transformKeys(data)
