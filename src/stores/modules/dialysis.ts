@@ -1,3 +1,4 @@
+import type { PatientVascularAccessView } from '@/services/PatientServiceProxies'
 import type { TmplAnticoagulantView, TmplDaGroupView, TmplDialysate } from '@/services/TmplServiceProxies'
 import { defineStore } from 'pinia'
 
@@ -18,7 +19,12 @@ const useDialysisStore = defineStore('dialysis', () => {
   const dialysateList = ref<TmplDialysate[]>([])
   /** 透析液列表赋值 */
   function setDialysateList(val: TmplDialysate[]) {
-    anticoagulantList.value = val
+    dialysateList.value = val
+  }
+  /** 透析流程-当前选中患者的血管通路列表 */
+  const selectDialysisPatientVascularAccessList = ref<PatientVascularAccessView[]>([])
+  function setSelectDialysisPatientVascularAccessList(val: PatientVascularAccessView[]) {
+    selectDialysisPatientVascularAccessList.value = val
   }
   return {
     adviceTempList,
@@ -27,6 +33,8 @@ const useDialysisStore = defineStore('dialysis', () => {
     setAnticoagulantList,
     dialysateList,
     setDialysateList,
+    selectDialysisPatientVascularAccessList,
+    setSelectDialysisPatientVascularAccessList,
   }
 }, {
   persist: true,

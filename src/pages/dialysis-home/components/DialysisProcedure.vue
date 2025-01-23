@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col overflow-hidden">
+    <!-- 流程步骤条 -->
     <div class="pos-relative py-2">
       <ul class="step-div flex justify-around">
         <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
@@ -12,15 +13,92 @@
         </li>
       </ul>
     </div>
+    <!-- 步骤内容 -->
     <div v-loading="loading" class="flex-1 overflow-auto">
       <div>
         <component :is="selectComponent" ref="componentRef" :cure-data="cureData" :step-type="selectStep" @hanlde-change-loading="hanldeChangeLoading" />
       </div>
     </div>
+    <!-- 底部保存操作按钮 -->
     <div class="flex justify-end">
-      <el-button v-if="cureData.allowSignedBefore || cureData.allowMeasureBefore" type="primary" size="large" @click="handleSaveClick">
-        确定
-      </el-button>
+      <!-- 签到 -->
+      <template v-if="selectStep === 'Signin' && (cureData.allowSignedBefore || cureData.allowMeasureBefore)">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 透析评估 -->
+      <template v-else-if="selectStep === 'DialysisEvaluation'">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 制定处方 -->
+      <template v-else-if="selectStep === 'MakePrescription' && cureData.allowEnactBefore">
+        <el-button size="large" @click="handleSaveTempPerscriptionClick">
+          另存为处方
+        </el-button>
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 确认处方 -->
+      <template v-else-if="selectStep === 'ConfirmPrescription' && cureData.allowCheckBefore">
+        <el-button size="large" @click="handleRejectPerscriptionClick">
+          拒绝
+        </el-button>
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 透前评估 -->
+      <template v-else-if="selectStep === 'BeforeDialysisEvaluation'">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 透析上机 -->
+      <template v-else-if="selectStep === 'OperateComputer' && cureData.allowOnMiddle">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 交叉核对 -->
+      <template v-else-if="selectStep === 'CrossCheck' && cureData.allowVerifyMiddle">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 透中监测 -->
+      <template v-else-if="selectStep === 'Monitoring'">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 下机 -->
+      <template v-else-if="selectStep === 'OffAfter' && cureData.allowOffAfter">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 消毒 -->
+      <template v-else-if="selectStep === 'Disinfect' && cureData.allowDisinfectAfter">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 透后评估 -->
+      <template v-else-if="selectStep === 'AfterDialysisEvaluation'">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
+      <!-- 透后小结 -->
+      <template v-else-if="selectStep === 'AfterSummary'">
+        <el-button type="primary" size="large" @click="handleSaveClick">
+          确定
+        </el-button>
+      </template>
     </div>
   </div>
 </template>
@@ -33,7 +111,9 @@ import { convertDialysisUnit } from '@/utils/dialysis'
 import { showNotify } from 'vant'
 
 const { cureData } = defineProps({
-  cureData: CureTodayView,
+  cureData: {
+    type: Object as PropType<CureTodayView>,
+  },
 })
 const newCureData = ref<CureTodayView>()
 
@@ -43,7 +123,7 @@ interface Step {
   name: string
   show: boolean
   action: number
-  child: string
+  child: DialysisStepType
   isDone: string
   canDo: string
   comp?: Component
@@ -53,9 +133,9 @@ const stepList = reactive<Step[]>([
   { name: '透前测量', show: true, action: 1, child: 'Signin', isDone: 'hasMeasureBefore', canDo: 'allowMeasureBefore', comp: markRaw(defineAsyncComponent(() => import('./Signin.vue'))) },
   { name: '透析评估', show: true, action: 12, child: 'DialysisEvaluation', isDone: 'hasAssementDialysis', canDo: 'allowAssementDialysis' },
   { name: '制定处方', show: true, action: 2, child: 'MakePrescription', isDone: 'hasEnactBefore', canDo: 'allowEnactBefore', comp: markRaw(defineAsyncComponent(() => import('./Prescription.vue'))) },
-  { name: '确认处方', show: true, action: 3, child: 'ConfirmPrescription', isDone: 'hasCheckBefore', canDo: 'allowCheckBefore' },
+  { name: '确认处方', show: true, action: 3, child: 'ConfirmPrescription', isDone: 'hasCheckBefore', canDo: 'allowCheckBefore', comp: markRaw(defineAsyncComponent(() => import('./Prescription.vue'))) },
   { name: '透前评估', show: true, action: 4, child: 'BeforeDialysisEvaluation', isDone: 'hasAssementBefore', canDo: 'allowAssementBefore' },
-  { name: '透析上机', show: true, action: 5, child: 'OperateComputer', isDone: 'hasOnMiddle', canDo: 'allowOnMiddle' },
+  { name: '透析上机', show: true, action: 5, child: 'OperateComputer', isDone: 'hasOnMiddle', canDo: 'allowOnMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
   { name: '交叉核对', show: true, action: 6, child: 'CrossCheck', isDone: 'hasVerifyMiddle', canDo: 'allowVerifyMiddle' },
   { name: '透中监测', show: true, action: 7, child: 'Monitoring', isDone: 'hasMonitorMiddle', canDo: 'allowMonitorMiddle' },
   { name: '下机', show: true, action: 8, child: 'OffAfter', isDone: 'hasOffAfter', canDo: 'allowOffAfter' },
@@ -88,7 +168,7 @@ const getActionList = computed(() => {
   return stepList.filter(x => x.show)
 })
 /** 当前流程节点 */
-const selectStep = ref('Signin')
+const selectStep = ref<DialysisStepType>('Signin')
 /** 切换流程节点 */
 function handleStepClick(val: Step) {
   if (cureData[val.isDone] || cureData[val.canDo]) {
@@ -123,8 +203,8 @@ async function handleSaveClick() {
 }
 /** 透前测量保存 */
 async function saveSignData(val: MeasureCureBeforeEditModel) {
-  const { abnormalInfoRef, paramDeductionUnit, paramUfgUnit } = componentRef.value
-  if (abnormalInfoRef.getAbnormal && abnormalInfoRef.getAbnormal.length > 0) {
+  const { signinRef, paramDeductionUnit, paramUfgUnit } = componentRef.value
+  if (signinRef.abnormalInfoRef.getAbnormal && signinRef.abnormalInfoRef.getAbnormal.length > 0) {
     showNotify({ type: 'danger', message: `体征数值超过上下限，不允许保存` })
   }
   else {
@@ -143,6 +223,13 @@ async function saveSignData(val: MeasureCureBeforeEditModel) {
       return false
     }
   }
+}
+/** 另存为处方 */
+function handleSaveTempPerscriptionClick() {
+}
+/** 拒绝处方 */
+function handleRejectPerscriptionClick() {
+
 }
 /** 修改流程loading状态 */
 function hanldeChangeLoading(val) {

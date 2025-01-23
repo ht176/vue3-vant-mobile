@@ -1,6 +1,10 @@
 <template>
   <div class="px-2">
-    <div>处方信息</div>
+    <div>
+      <slot name="header">
+        处方信息
+      </slot>
+    </div>
     <el-row :gutter="16">
       <!-- 上机时间 -->
       <el-col v-if="getFieldTimeOn" :span="8" :style="{ order: getFieldTimeOn.sequence }">
@@ -31,48 +35,72 @@
       <!-- 透析方式 -->
       <el-col v-if="getFieldDialysisMode" :span="8" :style="{ order: getFieldDialysisMode.sequence }">
         <el-form-item :label="getFieldDialysisMode.label" prop="dialysisMode">
-          <Dictionary v-model="formData.dialysisMode" :dic-code="DIC_DIALYSIS_MODE" type="select" :placeholder="getFieldDialysisMode.placeholder" />
+          <div class="w-full flex items-center gap-1">
+            <Dictionary v-model="formData.dialysisMode" class="flex-1" :dic-code="DIC_DIALYSIS_MODE" type="select" :placeholder="getFieldDialysisMode.placeholder" />
+            <el-popover placement="right" :width="400" trigger="click">
+              <template #reference>
+                <el-icon color="red" size="24" @click="getPatientSummary">
+                  <InfoFilled />
+                </el-icon>
+              </template>
+              <el-table :data="chargeTableData" border max-height="60vh">
+                <el-table-column prop="roomItemListName" min-width="180" label="项目名称" />
+                <el-table-column prop="surplusCount" label="次数">
+                  <template #default="scope">
+                    <span v-if="scope.row.surplusCount > paramCostRemindCount">
+                      {{ scope.row.surplusCount }}
+                    </span>
+                    <span v-else class="text-red">{{ scope.row.surplusCount }}</span>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-popover>
+          </div>
         </el-form-item>
       </el-col>
       <!-- 透析时长 -->
       <el-col v-if="getFieldDialysisDurationSet" :span="8" :style="{ order: getFieldDialysisDurationSet.sequence }">
         <el-form-item :label="getFieldDialysisDurationSet.label" prop="dialysisDurationSet">
-          <el-input v-model="formData.dialysisDurationSet" type="number" :placeholder="getFieldDialysisDurationSet.placeholder" @change="handleChangeRfr" />
+          <DialysisDuration v-model="formData.dialysisDurationSet" />
+          <!-- <el-input v-model="formData.dialysisDurationSet" type="number" :placeholder="getFieldDialysisDurationSet.placeholder" @change="handleChangeRfr" /> -->
         </el-form-item>
       </el-col>
       <!-- 血管通路 -->
       <el-col v-if="getFieldPatientVascularAccessId" :span="8" :style="{ order: getFieldPatientVascularAccessId.sequence }">
-        <el-form-item :label="getFieldPatientVascularAccessId.label">
-          <el-select v-model="formData.patientVascularAccessId" :placeholder="getFieldPatientVascularAccessId.placeholder">
-            <el-option v-for="item in patientVascularAccessList" :key="item.value" :label="item.label" :value="item.value" />
+        <el-form-item :label="getFieldPatientVascularAccessId.label" prop="patientVascularAccessId">
+          <el-select :model-value="formData.patientVascularAccessId" multiple :placeholder="getFieldPatientVascularAccessId.placeholder" @change="handlePatientVascularAccessChange">
+            <el-option v-for="item in patientVascularAccessList" :key="item.id" :label="item.typeName" :value="item.id" />
           </el-select>
         </el-form-item>
       </el-col>
       <!-- 血管通路图片 -->
       <el-col v-if="getFieldPatientVascularAccessId" :span="8" :style="{ order: getFieldPatientVascularAccessId.sequence }">
         <el-form-item label="血管通路图片：">
-          待完善
+          <div v-if="selectVascularAccessImgList.length > 0" class="item-center flex gap-2">
+            <el-image class="h-8 w-10" :src=" selectVascularAccessImgList[0]" :zoom-rate="1.2" :max-scale="7" :min-scale="0.2" :preview-src-list="selectVascularAccessImgList" :initial-index="4" fit="cover" />
+            <div class="text-xs text-gray">
+              点击查<br>看大图
+            </div>
+          </div>
         </el-form-item>
       </el-col>
       <!-- 通路位置 -->
       <el-col v-if="getFieldVascularAccessPosition" :span="8" :style="{ order: getFieldVascularAccessPosition.sequence }">
         <el-form-item :label="getFieldVascularAccessPosition.label">
-          {{ getVascularAccessPositionValue }}
+          {{ selectVascularAccessList.map(x => `${x.location}-${x.position} `).join('；') }}
         </el-form-item>
       </el-col>
       <template v-if="showPunctureMethod">
         <!-- 穿刺方法 -->
         <el-col :span="8" :style="{ order: getFieldVascularAccessPosition?.sequence || getFieldPatientVascularAccessId.sequence }">
-          <el-form-item label="穿刺方法：" prop="punctureMethod" :rule="getPunctureMethodRule">
+          <el-form-item label="穿刺方法：" prop="punctureMethod">
             <Dictionary v-model="formData.punctureMethod" :dic-code="DIC_DIALYSIS_PUNCTURE_METHOD" type="select" placeholder="请选择穿刺方法" />
           </el-form-item>
         </el-col>
         <!-- 穿刺护士 -->
         <el-col v-if="['OperateComputer', 'CrossCheck'].includes(stepType)" :span="8" :style="{ order: getFieldVascularAccessPosition?.sequence || getFieldPatientVascularAccessId.sequence }">
           <el-form-item label="穿刺护士：" prop="punctureNurseId">
-            <el-select v-model="formData.punctureNurseId" placeholder="请选择穿刺护士">
-              <el-option v-for="item in userNurseList" :key="item.value" :label="item.label" :value="item.value" />
-            </el-select>
+            <UserInfoSelect v-model="formData.punctureNurseId" user-type="nurse" placeholder="请选择穿刺护士" />
           </el-form-item>
         </el-col>
       </template>
@@ -163,25 +191,19 @@
       </template>
       <el-col v-if="showPlacementMethod && stepType === 'OperateComputer'" :span="8" :style="{ order: getFieldPatientVascularAccessId?.sequence }">
         <el-form-item label="置管护士：" prop="placementNurseId">
-          <el-select v-model="(formData as OnCureMiddleView).placementNurseId" placeholder="请选择置管护士">
-            <el-option v-for="item in userNurseList" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
+          <UserInfoSelect v-model="(formData as OnCureMiddleView).placementNurseId" user-type="nurse" placeholder="请选择置管护士" />
         </el-form-item>
       </el-col>
       <!-- 管床护士 -->
       <el-col v-if="stepType === 'OperateComputer' && getFieldBedNurseId" :span="8" :style="{ order: getFieldBedNurseId.sequence }">
         <el-form-item :label="getFieldBedNurseId.label" prop="bedNurseId">
-          <el-select v-model="(formData as OnCureMiddleView).bedNurseId" :placeholder="getFieldBedNurseId.placeholder">
-            <el-option v-for="item in userNurseList" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
+          <UserInfoSelect v-model="(formData as OnCureMiddleView).bedNurseId" user-type="nurse" :placeholder="getFieldBedNurseId.placeholder" />
         </el-form-item>
       </el-col>
       <!-- 质控护士 -->
       <el-col v-if="stepType === 'OperateComputer' && getFieldQualityNurseId" :span="8" :style="{ order: getFieldQualityNurseId.sequence }">
         <el-form-item :label="getFieldQualityNurseId.label" prop="qualityNurseId">
-          <el-select v-model="(formData as OnCureMiddleView).qualityNurseId" :placeholder="getFieldQualityNurseId.placeholder">
-            <el-option v-for="item in userNurseList" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
+          <UserInfoSelect v-model="(formData as OnCureMiddleView).qualityNurseId" user-type="nurse" :placeholder="getFieldQualityNurseId.placeholder" />
         </el-form-item>
       </el-col>
       <template v-if="stepType !== 'CrossCheck'">
@@ -206,28 +228,42 @@
 
 <script setup lang="ts">
 import type { OnCureMiddleView, PrescriptionCureBeforeView, VerifyCureMiddleView } from '@/services/CureServiceProxies'
-import { useAppStore } from '@/stores'
+import type { CostBalanceView } from '@/services/RoomItemListServiceProxies'
+import { CostBalanceServiceProxy } from '@/services/RoomItemListServiceProxies'
+import { useAppStore, useDialysisStore } from '@/stores'
 import { CUREFLOW_MODIFY_BLOODFLOWRATE, DIC_DIALYSIS_MODE, DIC_DIALYSIS_PUNCTURE_METHOD, DIC_DIALYSIS_RFM } from '@/utils/constant'
 import { dateUtil } from '@/utils/date'
+import { InfoFilled } from '@element-plus/icons-vue'
 
 const props = defineProps({
   modelValue: {
     type: Object as PropType<PrescriptionCureBeforeView | OnCureMiddleView | VerifyCureMiddleView>,
     required: true,
   },
-  stepType: { type: String as PropType<DialysisStepType>, default: 'MakePrescription' },
+  stepType: { type: String as PropType<DialysisStepType>, required: true },
 })
 
 const emit = defineEmits(['update:modelValue'])
 const { getParametersValue } = useAppStore()
 const formData = computed({
-  get: () => props.modelValue,
+  get: () => {
+    const patientVascularAccessIdArray = (typeof props.modelValue.patientVascularAccessId === 'string' ? (props.modelValue.patientVascularAccessId ? props.modelValue.patientVascularAccessId.split(',') : null) : null) as unknown as string
+    return Object.assign({ ...props.modelValue }, { patientVascularAccessId: patientVascularAccessIdArray })
+  },
   set: value => emit('update:modelValue', value),
 })
 /** 患者处方列表 */
 const prescriptionList = ref([])
 /** 患者血管通路列表 */
-const patientVascularAccessList = ref([])
+const { selectDialysisPatientVascularAccessList: patientVascularAccessList } = useDialysisStore()
+/** 患者透析中使用的血管通路 */
+const selectVascularAccessList = computed(() => {
+  return patientVascularAccessList.filter(x => formData.value.patientVascularAccessId.includes(x.id))
+})
+/** 患者透析中使用的血管图片 */
+const selectVascularAccessImgList = computed(() => {
+  return selectVascularAccessList.value.flatMap(item => item.files.map(file => file.hfsFiless.url))
+})
 /** 护士列表 */
 const userNurseList = ref([])
 const getSysFieldProperty = inject<SysFieldProperty>('getSysFieldProperty')
@@ -258,21 +294,10 @@ const getFieldVascularAccessPosition = computed(() => getSysFieldProperty('posit
 const getFieldBloodFlowRate = computed(() => getSysFieldProperty('bloodFlowRate', getFieldType.value))
 /** 上机修改血流量 */
 const paramBloodFlowRateReadOnly = getParametersValue(CUREFLOW_MODIFY_BLOODFLOWRATE, true)
-const getVascularAccessPositionValue = computed(() => '待完善')
 /** 显示穿刺相关 */
 const showPunctureMethod = computed(() => {
   const array = ['AVF', 'AVG']
   return array.includes(formData.value.patientOtherVascularAccessType || formData.value.patientVascularAccessType)
-})
-const getPunctureMethodRule = computed(() => {
-  return [{ required: props.stepType !== 'MakePrescription', validator: (rule, value, callback) => {
-    if (!rule?.required || value) {
-      callback()
-    }
-    else {
-      callback(new Error('请选择穿刺方法'))
-    }
-  }, trigger: 'change' }]
 })
 const getFieldVerifyNurseId = computed(() => getSysFieldProperty('verifyNurseId', getFieldType.value))
 /** 显示HDF相关 */
@@ -286,7 +311,7 @@ const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 const paramShowIuf = getParametersValue('CUREFLOW.SHOW.IUF', true)
 const getFieldIuf = computed(() => getSysFieldProperty('iuf', getFieldType.value))
 function handleIufChange() {
-  (formData.value as PrescriptionCureBeforeView).iufStartTime = formData.value.iuf ? dateUtil() : null
+  (formData.value as unknown as PrescriptionCureBeforeView).iufStartTime = formData.value.iuf ? dateUtil() : null
   formData.value.iufHour = null
   formData.value.iufMode = null
   formData.value.iufValue = null
@@ -310,6 +335,20 @@ const getFieldQualityNurseId = computed(() => getSysFieldProperty('qualityNurseI
 const getFieldBedNurseId = computed(() => getSysFieldProperty('bedNurseId', getFieldType.value))
 const getFieldSuggestion = computed(() => getSysFieldProperty('suggestion', getFieldType.value))
 const getFieldSuggestionNext = computed(() => getSysFieldProperty('suggestionNext', getFieldType.value))
+/** 预警次数 */
+const paramCostRemindCount = Number(getParametersValue('COST.REMIND.COUNT', false, 0))
+/** 费用数据 */
+const chargeTableData = ref<CostBalanceView[]>([])
+async function getPatientSummary() {
+  const costBalanceServiceProxy = new CostBalanceServiceProxy()
+  const { success, data } = await costBalanceServiceProxy.summary(formData.value.patientId)
+  if (success) {
+    chargeTableData.value = data
+  }
+}
+function handlePatientVascularAccessChange(val) {
+  emit('update:modelValue', { ...formData.value, patientVascularAccessId: val.toString() })
+}
 </script>
 
 <style lang="scss" scoped>

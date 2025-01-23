@@ -47,7 +47,7 @@
         </div>
       </div>
     </div>
-    <div class="flex-1 overflow-auto px-2">
+    <div class="flex-1 overflow-auto p-2">
       <el-row v-infinite-scroll="loadMoreData" :gutter="16" :disabled="loading" :infinite-scroll-distance="200">
         <el-col v-for="item in visibleDataList" :key="item.cureRecordId" class="pb-2" :span="12">
           <DialysisCard :cure-data="item" :comands="comands.Comands" :color-object="getCardColorState(item.statusLabel)" @handle-command-click="handleCommandClick" @handle-card-click="handleCardClick" />
@@ -64,13 +64,16 @@ import { CreditCard } from '@element-plus/icons-vue'
 import dayjs from 'dayjs'
 import comands from '@/assets/json/DialysisOperationComands.json'
 import { SysTodayCardServiceProxy, SysTodayCardSummaryView } from '@/services/SysServiceProxies'
-import { useAppStore, useUserStore } from '@/stores'
+import { useAppStore, useDialysisStore, useUserStore } from '@/stores'
 import { debounce } from 'lodash-es'
 import { getToken } from '@/utils/auth'
+import { PatientVascularAccessServiceProxy } from '@/services/PatientServiceProxies'
+import { formatToDate } from '@/utils/date'
 
 const token = getToken()
 const { dialysisShiftList, dialysisAreaList } = useAppStore()
 const userStore = useUserStore()
+const { setSelectDialysisPatientVascularAccessList } = useDialysisStore()
 const filterType = ref('')
 const filterKey = ref('')
 const loading = ref(false)
@@ -192,10 +195,38 @@ function handleCommandClick(cm, val) {
 function handleCardClick(statusLabel: string, val: CureTodayView) {
   console.log('handleCardClick', statusLabel, val)
   selectDialysisPatient.value = val
+  getPatientVascularAccess()
 }
 
 function handleBackClick() {
   selectDialysisPatient.value = null
+}
+/** 查询患者血管通路 */
+async function getPatientVascularAccess() {
+  console.log('111')
+
+  const patientVascularAccessServiceProxy = new PatientVascularAccessServiceProxy()
+  const filter = {
+    pageIndex: 1,
+    pageSize: 1000,
+    PatientId: {
+      value: selectDialysisPatient.value.patientId,
+      type: '=',
+    },
+    Enabled: {
+      value: 1,
+      type: '=',
+    },
+    FirstDate: {
+      value: formatToDate(new Date()),
+      type: '<=',
+    },
+
+  }
+  const { success, data } = await patientVascularAccessServiceProxy.filterGET48(JSON.stringify(filter), undefined)
+  if (success) {
+    setSelectDialysisPatientVascularAccessList(data)
+  }
 }
 </script>
 

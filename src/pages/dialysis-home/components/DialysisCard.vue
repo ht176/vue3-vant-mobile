@@ -154,13 +154,15 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { CureTodayView } from '@/services/CureServiceProxies'
+import type { CureTodayView } from '@/services/CureServiceProxies'
 import { Menu, MoreFilled } from '@element-plus/icons-vue'
 import { formatToDate } from '@/utils/date'
 import { requireImg } from '@/utils'
 
 const props = defineProps({
-  cureData: CureTodayView,
+  cureData: {
+    type: Object as PropType<CureTodayView>,
+  },
   comands: { type: Object, default: () => {} },
   colorObject: {
     type: Object,

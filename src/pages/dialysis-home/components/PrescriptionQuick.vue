@@ -35,11 +35,9 @@
         </el-form-item>
       </el-col>
       <!-- 抗凝剂 -->
-      <el-col v-if="getFieldAnticoagulantName" :span="8" :style="{ order: getFieldAnticoagulantName.sequence }">
-        <el-form-item :label="getFieldAnticoagulantName.label" prop="anticoagulantName">
-          <el-input v-model="formData.anticoagulantName" :placeholder="getFieldAnticoagulantName.placeholder" />
-        </el-form-item>
-      </el-col>
+      <template v-if="getFieldAnticoagulantName">
+        <Anticoagulant v-model="formData" :label="getFieldAnticoagulantName.label" prop="anticoagulantName" :sequence="getFieldAnticoagulantName.sequence" :placeholder="getFieldAnticoagulantName.placeholder" />
+      </template>
       <!-- 自定义字段 -->
       <el-col v-for="item in getCustomFieldList?.filter(x => x.sysFieldTypeCode === 'Prescribing.PatientSource')" :key="item.fieldKey" :span="8" :style="{ order: item.sequence }">
         <DialysisCustomFiled v-model="formData.cureRecordFieldItems.find(x => x.fieldKey === item.fieldKey).fieldValue" :item="item" :index="formData.cureRecordFieldItems.findIndex(x => x.fieldKey === item.fieldKey)" />

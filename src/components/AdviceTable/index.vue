@@ -152,7 +152,7 @@ const { patientId, cureRecordId, adviceData, adviceType, showInventoryCount } = 
     type: Object as PropType<CustomPatientDaLongtermView[] | CustomCureDaView[]>,
     required: true,
   },
-  stepType: { type: String, default: 'MakePrescription' },
+  stepType: { type: String, required: true },
   showInventoryCount: { type: Boolean, default: false },
 })
 

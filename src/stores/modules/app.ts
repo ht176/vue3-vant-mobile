@@ -1,7 +1,7 @@
 import type { CureShift, DialysisTreeView, RoleRightMenuListView } from '@/services/WebApiServiceProxies'
 import type { PatientThresholdSettingView } from '@/services/PatientServiceProxies'
 import type { RoomItemFullView } from '@/services/RoomItemListServiceProxies'
-import type { SysDicAllView, SysSettingView } from '@/services/SysServiceProxies'
+import type { SysDicAllView, SysSettingView, SysUserView } from '@/services/SysServiceProxies'
 import { SysFieldItemView } from '@/services/SysServiceProxies'
 import { defineStore } from 'pinia'
 import type { ConfigProviderTheme } from 'vant'
@@ -18,6 +18,14 @@ const useAppStore = defineStore('app', () => {
   const switchMode = (val: ConfigProviderTheme) => {
     mode.value = val
   }
+  /** 用户信息列表 */
+  const userInfoList = ref<SysUserView[]>([])
+  function setUserInfoList(val: SysUserView[]) {
+    userInfoList.value = val
+  }
+  const nurseInfoList = computed(() => userInfoList.value.filter(x => x.sysRoleCodes.some(role => ['SYS_ROLE_ADMINISTRATOR', 'SYS_ROLE_HEADNURSE', 'SYS_ROLE_NURSE'].includes(role))))
+  const doctorInfoList = computed(() => userInfoList.value.filter(x => x.sysRoleCodes.some(role => ['SYS_ROLE_ADMINISTRATOR', 'SYS_ROLE_DIRECTOR', 'SYS_ROLE_DOCTOR'].includes(role))))
+
   // 全局透析班次
   const dialysisShiftList = ref<CureShift[]>([])
   function setDialysisShifts(val: CureShift[]) {
@@ -41,8 +49,8 @@ const useAppStore = defineStore('app', () => {
    * @returns 如果找到参数，则返回参数值，否则返回默认值。如果 `boolean` 为 true，则返回布尔值。
    */
   function getParametersValue(code: string, boolean: true, defaults?: boolean): boolean
-  function getParametersValue(code: string, boolean?: false, defaults?: string): string
-  function getParametersValue(code: string, boolean: boolean = false, defaults: string | boolean = ''): string | boolean {
+  function getParametersValue(code: string, boolean?: false, defaults?: string | number): string
+  function getParametersValue(code: string, boolean: boolean = false, defaults: string | number | boolean = ''): string | number | boolean {
     const itemFind = sysSettingList.value.find(_ => _.code === code)
     if (itemFind) {
       return boolean ? itemFind.value === '1' : itemFind.value
@@ -56,6 +64,8 @@ const useAppStore = defineStore('app', () => {
   }
   /**
    * 根据参数代码从系统设置列表中获取参数。
+   * @param code
+   * @returns SysSettingView
    */
   function getParameterData(code: string) {
     return sysSettingList.value.find(_ => _.code === code)
@@ -107,6 +117,10 @@ const useAppStore = defineStore('app', () => {
   return {
     mode,
     switchMode,
+    userInfoList,
+    nurseInfoList,
+    doctorInfoList,
+    setUserInfoList,
     dialysisShiftList,
     setDialysisShifts,
     dialysisAreaList,

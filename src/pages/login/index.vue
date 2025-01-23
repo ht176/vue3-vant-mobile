@@ -28,7 +28,7 @@ import { useAppStore, useDialysisStore, useUserStore } from '@/stores'
 import jlLogo from '~/images/login_jl.png'
 import { showNotify } from 'vant'
 import { clearToken, getToken } from '@/utils/auth'
-import { SysDicItemServiceProxy, SysFieldItemServiceProxy, SysSettingServiceProxy } from '@/services/SysServiceProxies'
+import { SysDicItemServiceProxy, SysFieldItemServiceProxy, SysSettingServiceProxy, SysUserServiceProxy } from '@/services/SysServiceProxies'
 import { PatientThresholdSettingServiceProxy } from '@/services/PatientServiceProxies'
 import { RoomItemListServiceProxy } from '@/services/RoomItemListServiceProxies'
 
@@ -36,6 +36,7 @@ const router = useRouter()
 const appStore = useAppStore()
 const userStore = useUserStore()
 const dialysisStore = useDialysisStore()
+const token = getToken()
 
 const viewData = reactive({
   loading: false,
@@ -107,17 +108,16 @@ async function loadOtherInfo() {
     getPatientThresholdSettingList(),
     getRoomItemList(),
     dialysisStore.setAdviceTempList([]),
+    getUserInfoList(),
   ])
 }
 /** 获取班次信息 */
 async function getShiftList() {
   const cureShiftServiceProxy = new CureShiftServiceProxy()
   const filter = {
-    PageIndex: 1,
-    PageSize: 1000,
-    Predicate: '',
-    PredicateValues: [],
-    Ordering: 'Sequence ASC',
+    pageIndex: 1,
+    pageSize: 1000,
+    order: 'Sequence ASC',
   }
   const res = await cureShiftServiceProxy.filter39(JSON.stringify(filter))
 
@@ -132,7 +132,6 @@ async function getShiftList() {
  * 获取透析区域列表
  */
 async function getDialysisAreaList() {
-  const token = getToken()
   const deptDialysisAreaServiceProxy = new DeptDialysisAreaServiceProxy()
   const data = {
     filter: {
@@ -155,10 +154,8 @@ async function getDialysisAreaList() {
 async function getSysSettingList() {
   const sysSettingServiceProxy = new SysSettingServiceProxy()
   const filter = {
-    PageIndex: 1,
-    PageSize: 1000,
-    Predicate: '1=1',
-    PredicateValues: [],
+    pageIndex: 1,
+    pageSize: 1000,
   }
   const res = await sysSettingServiceProxy.filter31(JSON.stringify(filter))
   if (res.success) {
@@ -189,10 +186,8 @@ async function getDicDataList() {
 async function getPatientThresholdSettingList() {
   const patientThresholdSettingServiceProxy = new PatientThresholdSettingServiceProxy()
   const filter = {
-    PageIndex: 1,
-    PageSize: 10000,
-    Predicate: '1=1',
-    PredicateValues: [],
+    pageIndex: 1,
+    pageSize: 10000,
   }
   const { success, data } = await patientThresholdSettingServiceProxy.filterGET45(JSON.stringify(filter))
   if (success) {
@@ -206,6 +201,7 @@ async function getRoomItemList() {
   await getConsumableList(roomItemListServiceProxy)
   await getProjectList(roomItemListServiceProxy)
 }
+/** 药品数据 */
 async function getDrugList(roomItemListServiceProxy: RoomItemListServiceProxy) {
   const filter = {
     pageIndex: 1,
@@ -216,6 +212,7 @@ async function getDrugList(roomItemListServiceProxy: RoomItemListServiceProxy) {
     appStore.setDrugList(data)
   }
 }
+/** 耗材数据 */
 async function getConsumableList(roomItemListServiceProxy: RoomItemListServiceProxy) {
   const filter = {
     pageIndex: 1,
@@ -226,6 +223,7 @@ async function getConsumableList(roomItemListServiceProxy: RoomItemListServicePr
     appStore.setConsumableList(data)
   }
 }
+/** 项目数据 */
 async function getProjectList(roomItemListServiceProxy: RoomItemListServiceProxy) {
   const filter = {
     pageIndex: 1,
@@ -234,6 +232,15 @@ async function getProjectList(roomItemListServiceProxy: RoomItemListServiceProxy
   const { success, data } = await roomItemListServiceProxy.project(JSON.stringify(filter))
   if (success) {
     appStore.setProjectList(data)
+  }
+}
+async function getUserInfoList() {
+  const sysUserServiceProxy = new SysUserServiceProxy()
+  const filter = { pageIndex: 1, pageSize: 10000, order: 'SysUserJobNumber ASC' }
+
+  const { success, data } = await sysUserServiceProxy.getSysUserBySysHospitalAreaId(token.hid, undefined, JSON.stringify(filter), undefined)
+  if (success) {
+    appStore.setUserInfoList(data)
   }
 }
 </script>

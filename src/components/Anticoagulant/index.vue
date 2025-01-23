@@ -1,23 +1,23 @@
 <template>
-  <el-col :span="8">
+  <el-col :span="8" :style="{ order: sequence }">
     <el-form-item :label="label" :prop="propName">
       <el-select v-model="formData.anticoagulantName" :placeholder="`请选择${label}`" @change="handleAnticoagulantChange">
         <el-option v-for="item in dialysisStore.anticoagulantList" :key="item.id" :label="item.name" :value="item.name" />
       </el-select>
     </el-form-item>
   </el-col>
-  <el-col v-if="formData?.classify1" :span="8">
+  <el-col v-if="formData?.classify1" :span="8" :style="{ order: sequence }">
     <el-form-item label="种类：">
       <Dictionary v-model="formData.classify1" :dic-code="DIC_ANTICOAGULANT_TYPE" type="label" />
     </el-form-item>
   </el-col>
-  <el-col v-if="formData?.antiTmplType === '低分子肝素模板'" :span="8">
+  <el-col v-if="formData?.antiTmplType === '低分子肝素模板'" :span="8" :style="{ order: sequence }">
     <el-form-item label="子类：">
       <Dictionary v-model="formData.classify2" :dic-code="DIC_ANTICOAGULANT_LMWH_TYPE" type="select" placeholder="请选择子类" />
     </el-form-item>
   </el-col>
   <template v-else-if="formData?.antiTmplType === '模板1'">
-    <el-col :span="8">
+    <el-col :span="8" :style="{ order: sequence }">
       <el-form-item label="首剂：">
         <el-input v-model="formData.first" type="number" placeholder="请输入首剂">
           <template #append>
@@ -26,7 +26,7 @@
         </el-input>
       </el-form-item>
     </el-col>
-    <el-col :span="8">
+    <el-col :span="8" :style="{ order: sequence }">
       <el-form-item label="追加速率：">
         <el-input v-model="formData.appendRate" type="number" placeholder="请输入追加速率">
           <template #append>
@@ -37,7 +37,7 @@
     </el-col>
   </template>
   <template v-else-if="formData?.antiTmplType === '模板2'">
-    <el-col :span="8">
+    <el-col :span="8" :style="{ order: sequence }">
       <el-form-item label="浓度：">
         <el-input v-model="formData.concentration" type="number">
           <template #append>
@@ -46,7 +46,7 @@
         </el-input>
       </el-form-item>
     </el-col>
-    <el-col :span="8">
+    <el-col :span="8" :style="{ order: sequence }">
       <el-form-item label="速率：">
         <el-input v-model="formData.appendRate" type="number">
           <template #append>
@@ -57,7 +57,7 @@
     </el-col>
   </template>
   <template v-if="formData?.antiTmplType === '模板1' || formData?.antiTmplType === '模板2' || formData?.antiTmplType === '模板4' || formData?.antiTmplType === '低分子肝素模板'">
-    <el-col v-if="formData?.antiTmplType === '模板4' || formData?.antiTmplType === '低分子肝素模板'" :span="8">
+    <el-col v-if="formData?.antiTmplType === '模板4' || formData?.antiTmplType === '低分子肝素模板'" :span="8" :style="{ order: sequence }">
       <el-form-item label="剂量：">
         <el-input v-model="formData.total" type="number">
           <template #append>
@@ -67,7 +67,7 @@
       </el-form-item>
     </el-col>
     <template v-else>
-      <el-col :span="8">
+      <el-col :span="8" :style="{ order: sequence }">
         <el-form-item label="追加时间：">
           <el-input v-model="formData.appendTime" type="number">
             <template #append>
@@ -76,7 +76,7 @@
           </el-input>
         </el-form-item>
       </el-col>
-      <el-col :span="8">
+      <el-col :span="8" :style="{ order: sequence }">
         <el-form-item label="总量：">
           <el-input v-model="formData.total" type="number">
             <template #append>
@@ -92,7 +92,7 @@
       </el-col>
     </template>
   </template>
-  <el-col v-if="formData?.antiTmplType === '模板4'" :span="8">
+  <el-col v-if="formData?.antiTmplType === '模板4'" :span="8" :style="{ order: sequence }">
     <el-form-item label="追加剂量：">
       <el-input v-model="formData.append" type="number">
         <template #append>
@@ -114,7 +114,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
+import type { OnCureMiddleView, PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
 import { TmplAnticoagulantServiceProxy } from '@/services/TmplServiceProxies'
 import { useAppStore, useDialysisStore } from '@/stores'
 import { DIC_ANTICOAGULANT_LMWH_TYPE, DIC_ANTICOAGULANT_TYPE, DIC_ANTICOAGULANT_UNIT } from '@/utils/constant'
@@ -122,23 +122,19 @@ import { divide, plus, times } from 'number-precision'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<PrescriptionCureBeforeView>,
+    type: Object as PropType<PrescriptionCureBeforeView | OnCureMiddleView>,
     required: true,
   },
-  propName: {
-    type: String,
-    default: 'anticoagulantName',
-  },
-  label: {
-    type: String,
-    default: '抗凝剂',
-  },
+  propName: { type: String, default: 'anticoagulantName' },
+  label: { type: String, default: '抗凝剂' },
+  sequence: { type: Number },
+  placeholder: { type: String, default: '请选择抗凝剂' },
 })
 
 const emit = defineEmits(['update:modelValue'])
 const { getDicDataByCode, getParametersValue } = useAppStore()
 const dialysisStore = useDialysisStore()
-const formData = computed<PrescriptionCureBeforeView>({
+const formData = computed<PrescriptionCureBeforeView | OnCureMiddleView>({
   get: () => {
     return props.modelValue
   },

@@ -24,6 +24,11 @@ export default ({ mode }: ConfigEnv): UserConfig => {
           ws: false,
           changeOrigin: true,
         },
+        '/hfs': {
+          target: 'http://192.168.8.98:64401/',
+          ws: false,
+          changeOrigin: true,
+        },
       },
     },
 

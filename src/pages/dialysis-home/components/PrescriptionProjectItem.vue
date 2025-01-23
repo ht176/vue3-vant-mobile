@@ -36,16 +36,18 @@
 </template>
 
 <script setup lang="ts">
-import { CureTodayView, type PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
+import type { CureTodayView, OnCureMiddleView, PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<PrescriptionCureBeforeView>,
+    type: Object as PropType<PrescriptionCureBeforeView | OnCureMiddleView>,
     required: true,
   },
-  cureData: CureTodayView,
-  stepType: { type: String as PropType<DialysisStepType>, default: 'MakePrescription' },
+  cureData: {
+    type: Object as PropType<CureTodayView>,
+  },
+  stepType: { type: String as PropType<DialysisStepType>, required: true },
 })
 const emit = defineEmits(['update:modelValue'])
 /** 是否核对-待完善 */

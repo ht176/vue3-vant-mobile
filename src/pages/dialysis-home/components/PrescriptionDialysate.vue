@@ -105,10 +105,10 @@ import { useDialysisStore } from '@/stores'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<PrescriptionCureBeforeView>,
+    type: Object as PropType<PrescriptionCureBeforeView | OnCureMiddleView>,
     required: true,
   },
-  stepType: { type: String as PropType<DialysisStepType>, default: 'MakePrescription' },
+  stepType: { type: String as PropType<DialysisStepType>, required: true },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -171,7 +171,7 @@ const getFieldHco = computed(() => getSysFieldProperty('hco', getFieldType.value
 const getFieldGlucose = computed(() => getSysFieldProperty('glucose', getFieldType.value))
 
 function handleDialysateChange() {
-  const res = dialysisStore.dialysateList.find(x => x.name === formData.value.anticoagulantName)
+  const res = dialysisStore.dialysateList.find(x => x.name === formData.value.dialysateName)
   if (res) {
     Object.assign(formData.value, {
       flowRate: res.flowRate,

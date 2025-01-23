@@ -1,20 +1,16 @@
 <template>
-  <el-form v-if="formData.patientId" ref="ruleFormRef" :model="formData" :rules="formRules" label-width="auto" :disabled="stepType === 'ConfirmPrescription'">
+  <el-form v-if="formData.patientId" ref="ruleFormRef" :model="formData" :rules="formRules" label-width="auto" :disabled="stepType === 'CrossCheck'">
     <div class="flex flex-col">
       <!-- 来源 -->
       <PrescriptionSource v-model="formData" :step-type="stepType" />
-      <!-- 快捷处方 -->
-      <PrescriptionQuick v-model="formData" />
-      <!-- 处方信息 -->
-      <PrescriptionInfo v-model="formData" :step-type="stepType" />
-      <!-- 治疗信息 -->
-      <PerscriptionSignin v-model="formData" :cure-data="cureData" :step-type="stepType">
+      <!-- 治疗方式 -->
+      <PrescriptionInfo v-model="formData" :step-type="stepType">
         <template #header>
-          治疗信息
+          治疗方式
         </template>
-      </PerscriptionSignin>
-      <!-- 医嘱 -->
-      <PrescriptionAdvice v-model="formData" :step-type="stepType" />
+      </PrescriptionInfo>
+      <!-- 透前测量 -->
+      <PerscriptionSignin v-model="formData" :cure-data="cureData" :step-type="stepType" />
       <div class="py-2">
         <div>抗凝剂 - {{ formData.anticoagulantName }}</div>
         <el-row :gutter="16">
@@ -29,7 +25,7 @@
 
 <script setup lang="ts">
 import type { CureTodayView } from '@/services/CureServiceProxies'
-import { CureServiceProxy, PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
+import { CureServiceProxy, OnCureMiddleView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
@@ -51,13 +47,16 @@ onMounted(() => {
 })
 const ruleFormRef = ref<FormInstance>()
 
-const formData = ref<PrescriptionCureBeforeView>(new PrescriptionCureBeforeView()) // 处方数据
+const formData = ref<OnCureMiddleView>(new OnCureMiddleView()) // 上机数据
 // 表单校验规则
-const formRules = reactive<FormRules<PrescriptionCureBeforeView>>({})
+const formRules = reactive<FormRules<OnCureMiddleView>>({
+  punctureMethod: [{ required: true, message: '请选择穿刺方法', trigger: 'change' }],
+  punctureNurseId: [{ required: true, message: '请选择穿刺护士', trigger: 'change' }],
+})
 
 async function initLoad() {
   emit('hanldeChangeLoading', true)
-  await getPrescriptionCureBeforeData()
+  await getOnCureMiddleData()
   emit('hanldeChangeLoading', false)
 }
 const allFiledList = ref<CustomSysFieldItemView[]>([]) // 模块自定义字段
@@ -96,7 +95,7 @@ const getCustomFieldList = computed (() => {
 provide('getCustomFieldList', getCustomFieldList)
 /** 获取模块所有字段 */
 function getAllFieldList() {
-  const fieldTypeList = ['Prescribing.PatientSource', 'Prescribing.QuickPrescription', 'Prescribing.PrescriptionInfo', 'Prescribing.VitalSigns', 'Prescribing.Dialysate']
+  const fieldTypeList = ['OnCureMiddle.PatientSource', 'OnCureMiddle.CureMode', 'OnCureMiddle.MeasureCureBefore', 'OnCureMiddle.Dialysate']
   allFiledList.value = sysFiledList.filter(x => x.show && fieldTypeList.includes(x.sysFieldTypeCode)).map((x) => {
     const label = x.name2 || x.name
     return { ...x, label: `${label}：`, placeholder: `${x.dataType === 'OPTION' ? '请选择' : '请输入'}${label}` }
@@ -111,9 +110,9 @@ const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
 /** 查询患者处方 */
-async function getPrescriptionCureBeforeData() {
+async function getOnCureMiddleData() {
   const cureServiceProxy = new CureServiceProxy()
-  const { success, data, message } = await cureServiceProxy.prescriptionCureBeforeGET2(0, cureData.cureRecordId || cureData.cureScheduleId)
+  const { success, data, message } = await cureServiceProxy.onCureMiddleGET(cureData.cureRecordId || cureData.cureScheduleId)
   if (success) {
     // 预脱根据单位转换
     data.ufg = convertDialysisUnit(data.ufg, paramUfgUnit)
@@ -125,19 +124,6 @@ async function getPrescriptionCureBeforeData() {
     showNotify({ type: 'danger', message })
   }
 }
-/** 保存 */
-async function handleSaveForm() {
-  let formSaveData = null
-  await ruleFormRef.value?.validate((valid) => {
-    if (valid) {
-      formSaveData = toRaw(formData.value)
-    }
-  })
-  return formSaveData
-}
-defineExpose({
-  handleSaveForm,
-})
 </script>
 
 <style scoped lang="less">

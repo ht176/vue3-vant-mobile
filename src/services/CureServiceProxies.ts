@@ -1408,7 +1408,6 @@ export class CureServiceProxy extends ServiceProxyBase {
      * @return Success
      */
     measureCureBeforePOST(cureScheduleId: string, body: MeasureCureBeforeEditModel | undefined , cancelToken?: CancelToken | undefined): Promise<Result> {
-      debugger
         let url_ = this.baseUrl + "/api/Cure/{cureScheduleId}/MeasureCureBefore";
         if (cureScheduleId === undefined || cureScheduleId === null)
             throw new Error("The parameter 'cureScheduleId' must be defined.");

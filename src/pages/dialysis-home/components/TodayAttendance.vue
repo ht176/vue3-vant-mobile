@@ -48,12 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import { CureTodayView } from '@/services/CureServiceProxies'
+import type { CureTodayView } from '@/services/CureServiceProxies'
 import { formatToDate } from '@/utils/date'
 import { ArrowDown, WarnTriangleFilled } from '@element-plus/icons-vue'
 
 const { cureData } = defineProps({
-  cureData: CureTodayView,
+  cureData: {
+    type: Object as PropType<CureTodayView>,
+  },
 })
 const emit = defineEmits(['handleBackClick'])
 onMounted(() => {

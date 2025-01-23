@@ -35,6 +35,7 @@
       </div>
       <AdviceTable
         ref="longAdviceTableRef"
+        :step-type="stepType"
         :patient-id="modelValue.patientId"
         :cure-record-id="modelValue.cureRecordId"
         advice-type="long"
@@ -58,6 +59,7 @@
       </div>
       <AdviceTable
         ref="adviceTableRef"
+        :step-type="stepType"
         :patient-id="modelValue.patientId"
         :cure-record-id="modelValue.cureRecordId"
         :advice-data="formData.cureDa"
@@ -81,7 +83,7 @@ const { modelValue } = defineProps({
     type: Object as PropType<PrescriptionCureBeforeView>,
     required: true,
   },
-  stepType: { type: String as PropType<DialysisStepType>, default: 'MakePrescription' },
+  stepType: { type: String as PropType<DialysisStepType>, required: true },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -155,7 +157,7 @@ async function handleUpdateAdviceData() {
     const filter = {
       pageIndex: 1,
       pageSize: 1000,
-      enabled: {
+      Enabled: {
         value: 1,
         type: '=',
       },

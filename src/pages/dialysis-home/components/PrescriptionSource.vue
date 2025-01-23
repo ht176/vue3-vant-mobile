@@ -21,17 +21,17 @@
         </el-form-item>
       </el-col>
       <!-- 床号 -->
-      <el-col v-if="!modelValue.dialysisAreaId" :span="8" :style="{ order: getFieldHospitalNumberIn?.sequence }">
+      <el-col v-if="!formData.dialysisAreaId" :span="8" :style="{ order: getFieldHospitalNumberIn?.sequence }">
         <el-form-item label="床号">
           <el-input v-model="formData.bedName" readonly>
             <template #append>
-              <el-button icon="el-icon-search" @click="handleSelectBed(modelValue.dialysisAreaId)" />
+              <el-button icon="el-icon-search" @click="handleSelectBed(formData.dialysisAreaId)" />
             </template>
           </el-input>
         </el-form-item>
       </el-col>
       <!-- 自定义字段 -->
-      <el-col v-for="item in getCustomFieldList?.filter(x => x.sysFieldTypeCode === 'Prescribing.PatientSource')" :key="item.fieldKey" :span="8" :style="{ order: item.sequence }">
+      <el-col v-for="item in getCustomFieldList?.filter(x => x.sysFieldTypeCode === getFieldType)" :key="item.fieldKey" :span="8" :style="{ order: item.sequence }">
         <DialysisCustomFiled v-model="formData.cureRecordFieldItems.find(x => x.fieldKey === item.fieldKey).fieldValue" :item="item" :index="formData.cureRecordFieldItems.findIndex(x => x.fieldKey === item.fieldKey)" />
       </el-col>
     </el-row>
@@ -40,11 +40,15 @@
 
 <script setup lang="ts">
 import { DIC_PATIENT_SOURCE } from '@/utils/constant'
-import type { PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
+import type { OnCureMiddleView, PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
 
 const props = defineProps({
   modelValue: {
-    type: Object as PropType<PrescriptionCureBeforeView>,
+    type: Object as PropType<PrescriptionCureBeforeView | OnCureMiddleView>,
+    required: true,
+  },
+  stepType: {
+    type: String as PropType<DialysisStepType>,
     required: true,
   },
 })
@@ -54,13 +58,27 @@ const formData = computed({
   get: () => props.modelValue,
   set: value => emit('update:modelValue', value),
 })
-
+const getFieldType = computed(() => {
+  let type = 'Prescribing.PatientSource'
+  switch (props.stepType) {
+    case 'MakePrescription':
+      type = 'Prescribing.PatientSource'
+      break
+    case 'OperateComputer':
+      type = 'OnCureMiddle.PatientSource'
+      break
+    case 'CrossCheck':
+      type = 'VerifyCureMiddle.PatientSource'
+      break
+  }
+  return type
+})
 const getSysFieldProperty = inject<SysFieldProperty>('getSysFieldProperty')
 const getCustomFieldList = inject<any[]>('getCustomFieldList')
 
-const getFieldSource = computed(() => getSysFieldProperty?.('source', 'Prescribing.PatientSource'))
-const getFieldHospitalNumberOut = computed(() => props.modelValue.source === 'OUTPATIENT' ? getSysFieldProperty?.('hospitalNumberOut', 'Prescribing.PatientSource') : null)
-const getFieldHospitalNumberIn = computed(() => props.modelValue.source === 'INPATIENT' ? getSysFieldProperty?.('hospitalNumberIn', 'Prescribing.PatientSource') : null)
+const getFieldSource = computed(() => getSysFieldProperty?.('source', getFieldType.value))
+const getFieldHospitalNumberOut = computed(() => props.modelValue.source === 'OUTPATIENT' ? getSysFieldProperty?.('hospitalNumberOut', getFieldType.value) : null)
+const getFieldHospitalNumberIn = computed(() => props.modelValue.source === 'INPATIENT' ? getSysFieldProperty?.('hospitalNumberIn', getFieldType.value) : null)
 
 /**
  * 选择床位

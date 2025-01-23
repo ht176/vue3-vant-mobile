@@ -32,7 +32,7 @@ export function formatToDate(
   return date ? dayjs(date).format(format) : ''
 }
 export function getNowDate() {
-  return dayjs(formatToDate(new Date()))
+  return formatToDate(dayjs())
 }
 
 export function formatToTime(
