@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2">
+  <div>
     <div>快捷处方</div>
     <el-row :gutter="16">
       <!-- 透析方式 -->
@@ -11,13 +11,13 @@
       <!-- 透析时长 -->
       <el-col v-if="getFieldDialysisDurationSet" :span="8" :style="{ order: getFieldDialysisDurationSet.sequence }">
         <el-form-item :label="getFieldDialysisDurationSet.label" prop="dialysisDurationSet">
-          <el-input v-model="formData.dialysisDurationSet" :placeholder="getFieldDialysisDurationSet.placeholder" />
+          <DialysisDuration v-model="formData.dialysisDurationSet" />
         </el-form-item>
       </el-col>
       <!-- 干体重 -->
       <el-col v-if="getFieldBestWeight" :span="8" :style="{ order: getFieldBestWeight.sequence }">
         <el-form-item :label="getFieldBestWeight.label" prop="bestWeight">
-          <el-input v-model="formData.bestWeight" :placeholder="getFieldBestWeight.placeholder">
+          <el-input v-model.number="formData.bestWeight" type="number" :placeholder="getFieldBestWeight.placeholder">
             <template #append>
               kg
             </template>
@@ -74,6 +74,6 @@ const getFieldBestWeight = computed(() => getSysFieldProperty('bestWeight', 'Pre
 const getFieldUfg = computed(() => getSysFieldProperty('ufg', 'Prescribing.QuickPrescription'))
 const getFieldAnticoagulantName = computed(() => getSysFieldProperty('anticoagulantName', 'Prescribing.QuickPrescription'))
 
-/** 预脱单位 */
+/** 超滤单位 */
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 </script>

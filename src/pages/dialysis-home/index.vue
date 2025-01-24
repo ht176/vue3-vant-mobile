@@ -193,7 +193,6 @@ function handleCommandClick(cm, val) {
 }
 
 function handleCardClick(statusLabel: string, val: CureTodayView) {
-  console.log('handleCardClick', statusLabel, val)
   selectDialysisPatient.value = val
   getPatientVascularAccess()
 }
@@ -203,8 +202,6 @@ function handleBackClick() {
 }
 /** 查询患者血管通路 */
 async function getPatientVascularAccess() {
-  console.log('111')
-
   const patientVascularAccessServiceProxy = new PatientVascularAccessServiceProxy()
   const filter = {
     pageIndex: 1,

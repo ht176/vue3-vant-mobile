@@ -1,5 +1,5 @@
 <template>
-  <div class="py-2">
+  <div>
     <div>透析液 - {{ formData.dialysateName }}</div>
     <el-row :gutter="16">
       <!-- 透析液 -->
@@ -99,7 +99,7 @@
 </template>
 
 <script setup lang="ts">
-import type { PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
+import type { OnCureMiddleView, PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
 import { TmplDialysateServiceProxy } from '@/services/TmplServiceProxies'
 import { useDialysisStore } from '@/stores'
 
@@ -113,7 +113,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 const dialysisStore = useDialysisStore()
-const formData = computed<PrescriptionCureBeforeView>({
+const formData = computed<PrescriptionCureBeforeView | OnCureMiddleView>({
   get: () => {
     return props.modelValue
   },

@@ -3,7 +3,7 @@
     <!-- 流程步骤条 -->
     <div class="pos-relative py-2">
       <ul class="step-div flex justify-around">
-        <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
+        <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureStatusData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
           <div class="step-div-index">
             {{ (index + 1) }}
           </div>
@@ -104,8 +104,8 @@
 </template>
 
 <script setup lang="ts">
-import type { MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
-import { CureServiceProxy, CureTodayView } from '@/services/CureServiceProxies'
+import type { CureTodayView, MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
+import { CureServiceProxy, CureStatusView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import { showNotify } from 'vant'
@@ -115,7 +115,8 @@ const { cureData } = defineProps({
     type: Object as PropType<CureTodayView>,
   },
 })
-const newCureData = ref<CureTodayView>()
+/** 流程状态 */
+const cureStatusData = ref<CureStatusView>(new CureStatusView())
 
 const { getParametersValue } = useAppStore()
 
@@ -136,12 +137,12 @@ const stepList = reactive<Step[]>([
   { name: '确认处方', show: true, action: 3, child: 'ConfirmPrescription', isDone: 'hasCheckBefore', canDo: 'allowCheckBefore', comp: markRaw(defineAsyncComponent(() => import('./Prescription.vue'))) },
   { name: '透前评估', show: true, action: 4, child: 'BeforeDialysisEvaluation', isDone: 'hasAssementBefore', canDo: 'allowAssementBefore' },
   { name: '透析上机', show: true, action: 5, child: 'OperateComputer', isDone: 'hasOnMiddle', canDo: 'allowOnMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
-  { name: '交叉核对', show: true, action: 6, child: 'CrossCheck', isDone: 'hasVerifyMiddle', canDo: 'allowVerifyMiddle' },
+  { name: '交叉核对', show: true, action: 6, child: 'CrossCheck', isDone: 'hasVerifyMiddle', canDo: 'allowVerifyMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
   { name: '透中监测', show: true, action: 7, child: 'Monitoring', isDone: 'hasMonitorMiddle', canDo: 'allowMonitorMiddle' },
-  { name: '下机', show: true, action: 8, child: 'OffAfter', isDone: 'hasOffAfter', canDo: 'allowOffAfter' },
-  { name: '消毒', show: true, action: 11, child: 'Disinfect', isDone: 'hasDisinfectAfter', canDo: 'allowDisinfectAfter' },
+  { name: '下机', show: true, action: 8, child: 'OffAfter', isDone: 'hasOffAfter', canDo: 'allowOffAfter', comp: markRaw(defineAsyncComponent(() => import('./OffAfter.vue'))) },
+  { name: '消毒', show: true, action: 11, child: 'Disinfect', isDone: 'hasDisinfectAfter', canDo: 'allowDisinfectAfter', comp: markRaw(defineAsyncComponent(() => import('./Disinfect.vue'))) },
   { name: '透后评估', show: true, action: 9, child: 'AfterDialysisEvaluation', isDone: 'hasAssementAfter', canDo: 'allowAssementAfter' },
-  { name: '透后小结', show: true, action: 10, child: 'AfterSummary', isDone: 'hasSummaryAfter', canDo: 'allowSummaryAfter' },
+  { name: '透后小结', show: true, action: 10, child: 'AfterSummary', isDone: 'hasSummaryAfter', canDo: 'allowSummaryAfter', comp: markRaw(defineAsyncComponent(() => import('./AfterSummary.vue'))) },
 ])
 
 const componentRef = ref(null)
@@ -155,23 +156,30 @@ async function initLoad() {
   const param = getParametersValue('CUREFLOW.CHECK.PRESCRIPTION')
   stepList.find(x => x.action === 3).show = !(param === '0')
 }
-/** 查询当前流程节点信息 */
-async function getCureStatusData() {
-  const cureServiceProxy = new CureServiceProxy()
-  const { success, data } = await cureServiceProxy.cureStatus(cureData.cureRecordId || cureData.cureScheduleId)
-  if (success) {
-    newCureData.value = new CureTodayView({ ...cureData, ...data, timeOn: data.timeOn as unknown as string })
-  }
-}
 /** 所有可用节点 */
 const getActionList = computed(() => {
   return stepList.filter(x => x.show)
 })
 /** 当前流程节点 */
-const selectStep = ref<DialysisStepType>('Signin')
+const selectStep = ref<DialysisStepType>(null)
+/** 查询当前流程节点信息 */
+async function getCureStatusData() {
+  const cureServiceProxy = new CureServiceProxy()
+  const { success, data } = await cureServiceProxy.cureStatus(cureData.cureRecordId || cureData.cureScheduleId)
+  if (success) {
+    cureStatusData.value = new CureStatusView({ ...cureData, ...data, timeOn: data.timeOn })
+    for (let index = 0; index < getActionList.value.length; index++) {
+      const ele = stepList[index]
+      if (cureStatusData.value[ele.canDo] && !cureStatusData.value[ele.isDone]) {
+        selectStep.value = ele.child
+        break
+      }
+    }
+  }
+}
 /** 切换流程节点 */
 function handleStepClick(val: Step) {
-  if (cureData[val.isDone] || cureData[val.canDo]) {
+  if (cureStatusData.value[val.isDone] || cureStatusData.value[val.canDo]) {
     selectStep.value = val.child
   }
   else {

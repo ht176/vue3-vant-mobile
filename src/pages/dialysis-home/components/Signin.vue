@@ -40,7 +40,7 @@ const lastDeductionWeight = ref(null)
 const paramDefaultBeforeWeightModeData = getParameterData('CUREFLOW.DEFAULT.WEIGHT.MODE.BEFORE')
 /** 透前血压默认测量位置 */
 const paramDefaultBeforeBpPositionData = getParameterData('CUREFLOW.DEFAULT.BP.POSITION.BEFORE')
-/** 预脱单位 */
+/** 超滤单位 */
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')

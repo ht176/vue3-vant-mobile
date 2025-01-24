@@ -21,7 +21,9 @@
           <Anticoagulant v-model="formData" />
         </el-row>
       </div>
+      <!-- 透析液 -->
       <PrescriptionDialysate v-model="formData" :step-type="stepType" />
+      <!-- 项目 -->
       <PrescriptionProjectItem v-model="formData" :cure-data="cureData" :step-type="stepType" />
     </div>
   </el-form>
@@ -33,6 +35,7 @@ import { CureServiceProxy, PrescriptionCureBeforeView } from '@/services/CureSer
 import { useAppStore } from '@/stores'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
+import { showNotify } from 'vant'
 
 const { cureData, stepType } = defineProps({
   cureData: {
@@ -106,7 +109,7 @@ function getSysFieldProperty(key: string, typeCode: string) {
   const val = getSysFieldList.value.find(x => x.value === key && x.sysFieldTypeCode === typeCode)
   return val
 }
-/** 预脱单位 */
+/** 超滤单位 */
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
@@ -119,6 +122,8 @@ async function getPrescriptionCureBeforeData() {
     data.ufg = convertDialysisUnit(data.ufg, paramUfgUnit)
     // 偏移调整根据单位转换
     data.deductionWeight = convertDialysisUnit(data.deductionWeight, paramDeductionUnit)
+    // 血管通路Id转数组
+    data.patientVascularAccessId = (typeof data.patientVascularAccessId === 'string' ? (data.patientVascularAccessId ? data.patientVascularAccessId.split(',') : null) : null) as unknown as string
     formData.value = data
   }
   else {

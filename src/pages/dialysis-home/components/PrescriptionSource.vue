@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2">
+  <div>
     <div>患者来源</div>
     <el-row :gutter="16">
       <!-- 来源 -->

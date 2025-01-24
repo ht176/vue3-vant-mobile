@@ -1,5 +1,5 @@
 <template>
-  <div class="py-2">
+  <div>
     <div class="flex justify-between">
       项目
       <el-button @click="handleEditClick">
@@ -52,7 +52,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 /** 是否核对-待完善 */
 const isCheck = false
-const formData = computed<PrescriptionCureBeforeView>({
+const formData = computed<PrescriptionCureBeforeView | OnCureMiddleView>({
   get: () => {
     return props.modelValue
   },

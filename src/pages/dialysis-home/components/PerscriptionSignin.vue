@@ -1,5 +1,5 @@
 <template>
-  <div class="px-2">
+  <div>
     <div>
       <slot name="header">
         透前测量
@@ -135,8 +135,6 @@ const emit = defineEmits(['update:modelValue'])
 const formData = computed<MeasureCureBeforeView | PrescriptionCureBeforeView | OnCureMiddleView>({
   get: () => modelValue,
   set: (value) => {
-    console.log('value.beforeBpPosition', value.beforeBpPosition)
-
     emit('update:modelValue', value)
   },
 })
@@ -145,7 +143,7 @@ const { getParametersValue, getDicDataByCode } = useAppStore()
 const abnormalInfoRef = ref(null)
 
 const lastDeductionWeight = ref(null)
-/** 预脱单位 */
+/** 超滤单位 */
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
