@@ -20,14 +20,15 @@
 </template>
 
 <script setup lang="ts">
-import { CureShiftServiceProxy, DeptDialysisAreaServiceProxy, LoginViewModel } from '@/services/WebApiServiceProxies'
+import type { TokenViewExt } from '@/services/WebApiServiceProxies'
+import { CureShiftServiceProxy, DeptDialysisAreaServiceProxy, DevDisinfectSettingServiceProxy, LoginViewModel } from '@/services/WebApiServiceProxies'
 import { HashCodeBase64, HmacSHA256encrypt } from '@/utils/crypto'
 // import { clearRememberUid, getRememberUid, setRememberUid } from '@/utils/storage'
 import { type RouteMap, useRouter } from 'vue-router'
 import { useAppStore, useDialysisStore, useUserStore } from '@/stores'
 import jlLogo from '~/images/login_jl.png'
 import { showNotify } from 'vant'
-import { clearToken, getToken } from '@/utils/auth'
+import { clearToken } from '@/utils/auth'
 import { SysDicItemServiceProxy, SysFieldItemServiceProxy, SysSettingServiceProxy, SysUserServiceProxy } from '@/services/SysServiceProxies'
 import { PatientThresholdSettingServiceProxy } from '@/services/PatientServiceProxies'
 import { RoomItemListServiceProxy } from '@/services/RoomItemListServiceProxies'
@@ -36,7 +37,6 @@ const router = useRouter()
 const appStore = useAppStore()
 const userStore = useUserStore()
 const dialysisStore = useDialysisStore()
-const token = getToken()
 
 const viewData = reactive({
   loading: false,
@@ -57,6 +57,7 @@ const rules = reactive({
 })
 onMounted(() => {
   clearToken()
+  clearInitData()
 })
 async function handleLoginClick() {
   viewData.loading = true
@@ -80,7 +81,7 @@ async function handleLoginClick() {
     //   // clearCureFilter()
     // }
     appStore.setMenuList(res.data.menus)
-    await loadOtherInfo()
+    await loadOtherInfo(res.data)
     router.push({
       name: (redirect as keyof RouteMap) || 'dialysis-home',
       query: {
@@ -96,19 +97,38 @@ async function handleLoginClick() {
   }
   viewData.loading = false
 }
+/** 清除系统共享数据 */
+function clearInitData() {
+  appStore.setDialysisShifts([])
+  appStore.setDialysisAreas([])
+  appStore.setSettingList([])
+  appStore.setSysFiledList([])
+  appStore.setDicDataList([])
+  appStore.setPatientThresholdSettingList([])
+  appStore.setDrugList([])
+  appStore.setConsumableList([])
+  appStore.setProjectList([])
+  appStore.setUserInfoList([])
+  dialysisStore.setAdviceTempList([])
+  dialysisStore.setAnticoagulantList([])
+  dialysisStore.setDialysateList([])
+  dialysisStore.setSelectDialysisPatientVascularAccessList([])
+  dialysisStore.setDevDisinfectSettingList([])
+  dialysisStore.setTmplDisinfectInstructionList([])
+}
 /** 加载相关数据 */
-async function loadOtherInfo() {
+async function loadOtherInfo(val: TokenViewExt) {
   viewData.loadingText = '正在加载配置信息...'
   await Promise.all([
     getShiftList(),
-    getDialysisAreaList(),
+    getDialysisAreaList(val.hid),
     getSysSettingList(),
     getSysFiledList(),
     getDicDataList(),
     getPatientThresholdSettingList(),
     getRoomItemList(),
-    dialysisStore.setAdviceTempList([]),
-    getUserInfoList(),
+    getUserInfoList(val.hid),
+    getDevDisinfectSettingList(),
   ])
 }
 /** 获取班次信息 */
@@ -128,10 +148,8 @@ async function getShiftList() {
     showNotify({ type: 'danger', message: res.message })
   }
 }
-/**
- * 获取透析区域列表
- */
-async function getDialysisAreaList() {
+/** 获取透析区域列表 */
+async function getDialysisAreaList(hid: string) {
   const deptDialysisAreaServiceProxy = new DeptDialysisAreaServiceProxy()
   const data = {
     filter: {
@@ -140,7 +158,7 @@ async function getDialysisAreaList() {
       order: 'Sequence ASC',
     },
   }
-  const res = await deptDialysisAreaServiceProxy.tree(token.hid, 0, data as typeof undefined)
+  const res = await deptDialysisAreaServiceProxy.tree(hid, 0, data as typeof undefined)
   if (res.success) {
     appStore.setDialysisAreas(res.data)
   }
@@ -148,9 +166,7 @@ async function getDialysisAreaList() {
     showNotify({ type: 'danger', message: res.message })
   }
 }
-/**
- * 获取系统参数信息
- */
+/** 获取系统参数信息 */
 async function getSysSettingList() {
   const sysSettingServiceProxy = new SysSettingServiceProxy()
   const filter = {
@@ -234,13 +250,26 @@ async function getProjectList(roomItemListServiceProxy: RoomItemListServiceProxy
     appStore.setProjectList(data)
   }
 }
-async function getUserInfoList() {
+/** 获取所有用户信息 */
+async function getUserInfoList(hid: string) {
   const sysUserServiceProxy = new SysUserServiceProxy()
   const filter = { pageIndex: 1, pageSize: 10000, order: 'SysUserJobNumber ASC' }
 
-  const { success, data } = await sysUserServiceProxy.getSysUserBySysHospitalAreaId(token.hid, undefined, JSON.stringify(filter), undefined)
+  const { success, data } = await sysUserServiceProxy.getSysUserBySysHospitalAreaId(hid, undefined, JSON.stringify(filter), undefined, true)
   if (success) {
     appStore.setUserInfoList(data)
+  }
+}
+/** 获取消毒配置列表 */
+async function getDevDisinfectSettingList() {
+  const devDisinfectSettingServiceProxy = new DevDisinfectSettingServiceProxy()
+  const filter = {
+    pageIndex: 1,
+    pageSize: 1000,
+  }
+  const { success, data } = await devDisinfectSettingServiceProxy.filter64(JSON.stringify(filter))
+  if (success) {
+    dialysisStore.setDevDisinfectSettingList(data)
   }
 }
 </script>

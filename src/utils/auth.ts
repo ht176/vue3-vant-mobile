@@ -22,7 +22,7 @@ function getToken(): Token {
 function setToken(newToken: Token) {
   token.value = JSON.stringify(newToken)
 }
-
+/** 删除Token */
 function clearToken() {
   token.value = null
 }

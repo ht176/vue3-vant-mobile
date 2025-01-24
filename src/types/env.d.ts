@@ -17,9 +17,13 @@ declare global {
   }
   /** Token */
   interface Token {
+    /** 主键id */
     id: string | undefined
+    /** 院区id */
     hid: string | undefined
+    /** 用户id */
     uid: string | undefined
+    /** 用户名称 */
     name: string | undefined
     sysUserAreas: SysHospitalAreaView[] | undefined
     insertTime: Date

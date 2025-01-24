@@ -2,6 +2,7 @@ import httpSign from '@/utils/http.sign'
 import queryFilter from '@/utils/formatFilter'
 import type { AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios'
 import { showNotify } from 'vant'
+import router from '@/router'
 // import { checkUserLoginExpire } from '../utils/user'
 // import { WeChatAuthServiceProxy } from './ServiceProxies'
 interface AnyObject { [key: string]: any }
@@ -12,8 +13,6 @@ interface CustomCancelToken extends CancelToken {
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   cancelToken?: CustomCancelToken
 }
-
-const router = useRouter()
 
 // 接口白名单
 const urlGuardList = [
@@ -87,7 +86,6 @@ export class ServiceProxyBase {
 
     const { code, message, data } = response.data
     if (code) {
-      console.log(message)
       switch (code) {
         case '10011':
           showNotify({ type: 'danger', message })

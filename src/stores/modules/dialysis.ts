@@ -1,5 +1,6 @@
 import type { PatientVascularAccessView } from '@/services/PatientServiceProxies'
-import type { TmplAnticoagulantView, TmplDaGroupView, TmplDialysate } from '@/services/TmplServiceProxies'
+import type { TmplAnticoagulantView, TmplDaGroupView, TmplDialysate, TmplDisinfectInstructionsView } from '@/services/TmplServiceProxies'
+import type { DevDisinfectSettingView } from '@/services/WebApiServiceProxies'
 import { defineStore } from 'pinia'
 
 const useDialysisStore = defineStore('dialysis', () => {
@@ -26,6 +27,28 @@ const useDialysisStore = defineStore('dialysis', () => {
   function setSelectDialysisPatientVascularAccessList(val: PatientVascularAccessView[]) {
     selectDialysisPatientVascularAccessList.value = val
   }
+  /** 消毒配置 */
+  const devDisinfectSettingList = ref<DevDisinfectSettingView[]>([])
+  /** 消毒配置赋值 */
+  function setDevDisinfectSettingList(val: DevDisinfectSettingView[]) {
+    devDisinfectSettingList.value = val
+  }
+  /**
+   * 根据设备类型、型号、班次查询消毒配置
+   * @param devType - 设备类型
+   * @param devModel - 设备型号
+   * @param cureShiftId - 班次Id
+   * @returns {DevDisinfectSettingView | null} 消毒配置数据
+   */
+  function getDevDisinfectSettingData(devType, devModel, cureShiftId) {
+    return devDisinfectSettingList.value.find(x => x.devType === devType && x.devModel === devModel && x.cureShiftId === cureShiftId)
+  }
+  /** 消毒说明模板 */
+  const tmplDisinfectInstructionList = ref<TmplDisinfectInstructionsView[]>([])
+  /** 消毒说明模板赋值 */
+  function setTmplDisinfectInstructionList(val: TmplDisinfectInstructionsView[]) {
+    tmplDisinfectInstructionList.value = val
+  }
   return {
     adviceTempList,
     setAdviceTempList,
@@ -35,6 +58,11 @@ const useDialysisStore = defineStore('dialysis', () => {
     setDialysateList,
     selectDialysisPatientVascularAccessList,
     setSelectDialysisPatientVascularAccessList,
+    tmplDisinfectInstructionList,
+    setTmplDisinfectInstructionList,
+    devDisinfectSettingList,
+    setDevDisinfectSettingList,
+    getDevDisinfectSettingData,
   }
 }, {
   persist: true,

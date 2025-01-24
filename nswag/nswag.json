@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "./swagger-json/WebApi.json",
+      "url": "./swagger-json/Sys.json",
       "output": null,
       "newLineBehavior": "Auto"
     }
@@ -69,7 +69,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "../src/services/WebApiServiceProxies.ts",
+      "output": "../src/services/SysServiceProxies.ts",
       "newLineBehavior": "Auto"
     }
   }

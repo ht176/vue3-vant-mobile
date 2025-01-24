@@ -12691,6 +12691,15 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "isAll",
+            "in": "query",
+            "description": "查询全部包括管理员",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
           }
         ],
         "responses": {

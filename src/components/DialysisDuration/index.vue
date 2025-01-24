@@ -1,11 +1,11 @@
 <template>
   <div class="dialysis-duration">
-    <el-input v-model.number="hours" type="number" :placeholder="hourPlaceholder" :min="0" :max="23" @blur="handleChange">
+    <el-input v-model.number="hours" type="number" :placeholder="hourPlaceholder" :min="0" :max="23" :disabled="disabled" @blur="handleChange">
       <template #append>
         h
       </template>
     </el-input>
-    <el-input v-model.number="minutes" type="number" :placeholder="minutePlaceholder" :min="0" :max="59" @blur="handleChange">
+    <el-input v-model.number="minutes" type="number" :placeholder="minutePlaceholder" :min="0" :max="59" :disabled="disabled" @blur="handleChange">
       <template #append>
         min
       </template>
@@ -14,8 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, defineProps, ref } from 'vue'
-
 // 定义 props
 const props = defineProps({
   modelValue: {
@@ -30,6 +28,7 @@ const props = defineProps({
     type: String,
     default: '分钟',
   },
+  disabled: { type: Boolean, defalut: false },
 })
 
 // 定义 emit
@@ -40,7 +39,11 @@ const emit = defineEmits<{
 // 使用 ref 来管理小时和分钟
 const hours = ref(Math.floor(props.modelValue / 60))
 const minutes = ref(props.modelValue % 60)
-
+// 监听 modelValue 的变化
+watch(() => props.modelValue, (newValue) => {
+  hours.value = Math.floor(newValue / 60)
+  minutes.value = newValue % 60
+})
 // 校验小时和分钟，确保其值在合理范围内
 function validateInput() {
   // 校验小时

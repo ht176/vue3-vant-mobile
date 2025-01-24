@@ -82,6 +82,20 @@ export function calcUfgValue(val: CalcUfgModel) {
   return ufg
 }
 /**
+ * 根据提供的参数计算实际脱水量（Ufv）
+ * @param beforeWeight 透前体重
+ * @param afterWeight 透后体重
+ * @param unit 单位（kg或g）
+ * @returns {number | null} 计算出的实际脱水量，如果输入无效则返回null
+ */
+export function calcUfvValue(beforeWeight: string | number, afterWeight: string | number, unit: string): number | null {
+  if ((beforeWeight || beforeWeight === 0) && (afterWeight || afterWeight === 0)) {
+    const val = minus(beforeWeight, afterWeight)
+    return unit === 'kg' ? val : val * 1000
+  }
+  return null
+}
+/**
  * 验证权限方法
  * @param {string} key 权限配置代码
  * @returns {boolean} 是否有权限

@@ -1,7 +1,7 @@
 <template>
   <div :class="{ 'is-error': isError }" class="custom-blood-pressure-div">
-    <el-input v-model="localSbpValue" class="custom-blood-pressure-input" placeholder="收缩压" type="number" @blur="updateValue" />
-    <el-input v-model="localDbpValue" class="custom-blood-pressure-input" placeholder="舒张压" type="number" @blur="updateValue" />
+    <el-input v-model="localSbpValue" class="custom-blood-pressure-input" placeholder="收缩压" type="number" :disabled="disabled" @blur="updateValue" />
+    <el-input v-model="localDbpValue" class="custom-blood-pressure-input" placeholder="舒张压" type="number" :disabled="disabled" @blur="updateValue" />
     <div class="custom-blood-pressure-unit-div">
       {{ unit }}
     </div>
@@ -15,14 +15,20 @@ const props = defineProps({
   sbpField: { type: String, default: 'sbp' },
   dbpField: { type: String, default: 'dbp' },
   isError: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: undefined },
 })
 
 const emit = defineEmits(['update:modelValue'])
 
 // 本地状态
-const localSbpValue = ref(props.modelValue[props.sbpField])
-const localDbpValue = ref(props.modelValue[props.dbpField])
-
+const localSbpValue = ref(null)
+const localDbpValue = ref(null)
+watch(() => props.modelValue[props.sbpField], (newVal) => {
+  localSbpValue.value = newVal
+})
+watch(() => props.modelValue[props.dbpField], (newVal) => {
+  localDbpValue.value = newVal
+})
 // 血压值更新
 function updateValue() {
   const updatedValue = {

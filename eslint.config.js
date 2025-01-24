@@ -28,6 +28,8 @@ export default antfu(
     ignores: [
       '.github/**',
       'scripts/**',
+      '**/node_modules/**',
+      'src/services/**',
     ],
   },
 )

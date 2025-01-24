@@ -41,7 +41,7 @@ const paramMaxDbpValue = patientThreshold.value ? patientThreshold.value.dbpHigh
 const paramMinDbpValue = patientThreshold.value ? patientThreshold.value.dbpLower : getParametersValue('VITALSIGNS.DBP.LOWER')
 /** 预脱百分比 */
 const paramUfgPercentage = patientThreshold.value ? patientThreshold.value.ufgPercentage : getParametersValue('VITALSIGNS.UFG.PERCENTAGE')
-/** 预脱单位 */
+/** 超滤单位 */
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 脉博最高值 */
 const paramMaxPulseValue = patientThreshold.value ? patientThreshold.value.pulseHigh : getParametersValue('VITALSIGNS.PULSE.HIGH')
@@ -81,7 +81,7 @@ const getAbnormal = computed(() => {
   if (props.tempShow && props.temp && (Number(paramMaxTempValue) < Number(props.temp) || (Number(paramMinTempValue) > Number(props.temp)))) {
     array.push({
       type: 'temp',
-      message: `脉搏不在范围内（ 参考范围：${paramMinTempValue}次/分~${paramMaxTempValue}次/分）`,
+      message: `体温不在范围内（ 参考范围：${paramMinTempValue}℃~${paramMaxTempValue}℃）`,
     })
   }
   return array

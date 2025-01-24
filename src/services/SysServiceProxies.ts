@@ -15996,9 +15996,10 @@ export class SysUserServiceProxy extends ServiceProxyBase {
      * @param sysRoleIds (optional) 角色集合
      * @param filter (optional) 查询条件
      * @param key (optional) 工号/登录名/姓名/拼音首字母/五笔码/拼音 *选填
+     * @param isAll (optional) 查询全部包括管理员
      * @return Success
      */
-    getSysUserBySysHospitalAreaId(sysHospitalAreaId: string, sysRoleIds: string | undefined, filter: string | undefined, key: string | undefined , cancelToken?: CancelToken | undefined): Promise<SysUserViewResult> {
+    getSysUserBySysHospitalAreaId(sysHospitalAreaId: string, sysRoleIds: string | undefined, filter: string | undefined, key: string | undefined, isAll: boolean | undefined , cancelToken?: CancelToken | undefined): Promise<SysUserViewResult> {
         let url_ = this.baseUrl + "/api/SysUser/BySysHospitalAreaId/{sysHospitalAreaId}?";
         if (sysHospitalAreaId === undefined || sysHospitalAreaId === null)
             throw new Error("The parameter 'sysHospitalAreaId' must be defined.");
@@ -16011,6 +16012,10 @@ export class SysUserServiceProxy extends ServiceProxyBase {
             throw new Error("The parameter 'key' cannot be null.");
         else if (key !== undefined)
             url_ += "key=" + encodeURIComponent("" + key) + "&";
+        if (isAll === null)
+            throw new Error("The parameter 'isAll' cannot be null.");
+        else if (isAll !== undefined)
+            url_ += "isAll=" + encodeURIComponent("" + isAll) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <AxiosRequestConfig>{

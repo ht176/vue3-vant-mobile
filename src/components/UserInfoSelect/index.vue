@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '@/stores'
+import { useAppStore, useUserStore } from '@/stores'
 
 const props = defineProps({
   modelValue: {
@@ -23,7 +23,11 @@ const props = defineProps({
     required: true,
   },
 })
+
 const emit = defineEmits(['update:modelValue'])
+
+const { userInfo } = useUserStore()
+
 const { nurseInfoList, doctorInfoList, userInfoList } = useAppStore()
 const value = computed({
   get: () => props.modelValue,
@@ -41,6 +45,18 @@ const userOptionList = computed(() => {
       return userInfoList
   }
 })
+onMounted(() => {
+  setDefaultUser(props.modelValue)
+})
+watch(() => props.modelValue, (newVal) => {
+  setDefaultUser(newVal)
+})
+/** 空值默认赋值当前登录用户 */
+function setDefaultUser(val) {
+  if (val === null || val === '') {
+    emit('update:modelValue', userInfo.uid)
+  }
+}
 </script>
 
 <style scoped>

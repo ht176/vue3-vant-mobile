@@ -101,12 +101,12 @@
       </el-input>
     </el-form-item>
   </el-col>
-  <el-col v-else-if="formData?.antiTmplType === '无抗凝剂'" :span="24">
+  <el-col v-else-if="formData?.antiTmplType === '无抗凝剂'" :span="24" :style="{ order: sequence }">
     <el-form-item label="原因：">
       <el-input v-model="formData.nonReason" type="textarea" :autosize="{ minRows: 2, maxRows: 4 }" />
     </el-form-item>
   </el-col>
-  <el-col v-else-if="formData?.antiTmplType === '其它'" :span="24">
+  <el-col v-else-if="formData?.antiTmplType === '其它'" :span="24" :style="{ order: sequence }">
     <el-form-item label="其它：">
       <el-input v-model="formData.anticoagulantOther" type="textarea" autosize />
     </el-form-item>

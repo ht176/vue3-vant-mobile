@@ -67,6 +67,10 @@ const props = defineProps({
     type: Array<CustomSysDicItemChildView>,
     default: () => [],
   },
+  splitValue: {
+    type: String as PropType<',' | ';'>,
+    default: ',',
+  },
 })
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string | number | Array<string | number>): void
@@ -101,10 +105,10 @@ const selectedValue = computed({
 // 多选
 const selectedCheckboxValue = computed({
   get: () => {
-    return props.modelValue.split(',')
+    return props.modelValue?.split(props.splitValue)
   },
   set: (value) => {
-    emit('update:modelValue', value)
+    emit('update:modelValue', value?.join(props.splitValue))
     emit('change', value)
   },
 })
