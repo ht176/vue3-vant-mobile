@@ -1,6 +1,10 @@
 <template>
   <div>
-    医嘱 - {{ adviceCount }}条临时医嘱
+    医嘱 -
+    <template v-if="stepType === 'MakePrescription'">
+      {{ longAdviceCount }}条长期医嘱 -
+    </template>
+    {{ adviceCount }}条临时医嘱
   </div>
   <el-tabs v-model="activeName" :before-leave="tabBeforeChange">
     <el-tab-pane label="His" name="hisAdvice">
@@ -20,7 +24,7 @@
         <el-table-column prop="StatusLabel" label="状态" width="80" />
       </el-table>
     </el-tab-pane>
-    <el-tab-pane label="长期医嘱" name="longAdvice">
+    <el-tab-pane v-if="stepType !== 'ConfirmPrescription'" label="长期医嘱" name="longAdvice">
       <div class="flex justify-between">
         <AdviceTemp @handlde-advice-tmpl-click="handldeAdviceTmplClick" />
         <div class="flex-none">
@@ -46,7 +50,7 @@
     </el-tab-pane>
     <el-tab-pane label="临时医嘱" name="temporaryAdvice">
       <div class="flex justify-between">
-        <AdviceTemp @handlde-advice-tmpl-click="handldeAdviceTmplClick" />
+        <AdviceTemp v-if="stepType !== 'ConfirmPrescription'" @handlde-advice-tmpl-click="handldeAdviceTmplClick" />
         <div class="flex-none">
           <el-button>作废记录</el-button>
           <el-button v-if="adviceTableRef?.isEdit" type="primary" @click="handleSaveAllAdviceClick">
@@ -122,6 +126,10 @@ function handldeAdviceTmplClick(val: TmplDaDetailView[]) {
     }
   }
 }
+/** 长期医嘱条数 */
+const longAdviceCount = computed(() => {
+  return new Set(modelValue.daLongterm.map(x => x.groupId)).size
+})
 /** 临时医嘱条数 */
 const adviceCount = computed(() => {
   return new Set(modelValue.cureDa.map(x => x.groupId)).size

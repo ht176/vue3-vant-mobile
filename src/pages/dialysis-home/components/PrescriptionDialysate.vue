@@ -6,7 +6,7 @@
       <el-col v-if="getFieldDialysateName" :span="8" :style="{ order: getFieldDialysateName.sequence }">
         <el-form-item :label="getFieldDialysateName.label" prop="dialysateName">
           <el-select v-model="formData.dialysateName" :placeholder="getFieldDialysateName.placeholder" @change="handleDialysateChange">
-            <el-option v-for="item in dialysisStore.anticoagulantList" :key="item.id" :label="item.name" :value="item.name" />
+            <el-option v-for="item in dialysisStore.dialysateList" :key="item.id" :label="item.name" :value="item.name" />
           </el-select>
         </el-form-item>
       </el-col>

@@ -22,7 +22,7 @@
     <!-- 底部保存操作按钮 -->
     <div class="flex justify-end">
       <!-- 签到 -->
-      <template v-if="selectStep === 'Signin' && (cureData.allowSignedBefore || cureData.allowMeasureBefore)">
+      <template v-if="selectStep === 'Signin' && (cureStatusData.allowSignedBefore || cureStatusData.allowMeasureBefore)">
         <el-button type="primary" size="large" @click="handleSaveClick">
           确定
         </el-button>
@@ -34,7 +34,7 @@
         </el-button>
       </template>
       <!-- 制定处方 -->
-      <template v-else-if="selectStep === 'MakePrescription' && cureData.allowEnactBefore">
+      <template v-else-if="selectStep === 'MakePrescription' && cureStatusData.allowEnactBefore">
         <el-button size="large" @click="handleSaveTempPerscriptionClick">
           另存为处方
         </el-button>
@@ -43,7 +43,7 @@
         </el-button>
       </template>
       <!-- 确认处方 -->
-      <template v-else-if="selectStep === 'ConfirmPrescription' && cureData.allowCheckBefore">
+      <template v-else-if="selectStep === 'ConfirmPrescription' && cureStatusData.allowCheckBefore">
         <el-button size="large" @click="handleRejectPerscriptionClick">
           拒绝
         </el-button>
@@ -58,13 +58,13 @@
         </el-button>
       </template>
       <!-- 透析上机 -->
-      <template v-else-if="selectStep === 'OperateComputer' && cureData.allowOnMiddle">
+      <template v-else-if="selectStep === 'OperateComputer' && cureStatusData.allowOnMiddle">
         <el-button type="primary" size="large" @click="handleSaveClick">
           确定
         </el-button>
       </template>
       <!-- 交叉核对 -->
-      <template v-else-if="selectStep === 'CrossCheck' && cureData.allowVerifyMiddle">
+      <template v-else-if="selectStep === 'CrossCheck' && cureStatusData.allowVerifyMiddle">
         <el-button type="primary" size="large" @click="handleSaveClick">
           确定
         </el-button>
@@ -76,13 +76,13 @@
         </el-button>
       </template>
       <!-- 下机 -->
-      <template v-else-if="selectStep === 'OffAfter' && cureData.allowOffAfter">
+      <template v-else-if="selectStep === 'OffAfter' && cureStatusData.allowOffAfter">
         <el-button type="primary" size="large" @click="handleSaveClick">
           确定
         </el-button>
       </template>
       <!-- 消毒 -->
-      <template v-else-if="selectStep === 'Disinfect' && cureData.allowDisinfectAfter">
+      <template v-else-if="selectStep === 'Disinfect' && cureStatusData.allowDisinfectAfter">
         <el-button type="primary" size="large" @click="handleSaveClick">
           确定
         </el-button>
@@ -105,7 +105,17 @@
 
 <script setup lang="ts">
 import type { CureTodayView, MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
-import { CureServiceProxy, CureStatusView } from '@/services/CureServiceProxies'
+import {
+  CureRecordCheckEditModel,
+  CureRecordVerifyEditModel,
+  CureServiceProxy,
+  CureStatusView,
+  DisinfectCureAfterEditModel,
+  OffCureAfterEditModel,
+  OnCureMiddleEditModel,
+  PrescriptionCureBeforeEditModel,
+  SummaryCureAfterEditModel,
+} from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import { showNotify } from 'vant'
@@ -115,6 +125,12 @@ const { cureData } = defineProps({
     type: Object as PropType<CureTodayView>,
   },
 })
+/** 选中长期医嘱 */
+const longAdviceSelectionRows = ref<CustomPatientDaLongtermView[]>([])
+provide('setLongSelectionRows', setLongSelectionRows)
+function setLongSelectionRows(val) {
+  longAdviceSelectionRows.value = val
+}
 /** 流程状态 */
 const cureStatusData = ref<CureStatusView>(new CureStatusView())
 
@@ -147,10 +163,11 @@ const stepList = reactive<Step[]>([
 
 const componentRef = ref(null)
 const loading = ref(false)
+const cureServiceProxy = new CureServiceProxy()
+
 onMounted(() => {
   initLoad()
 })
-
 async function initLoad() {
   await getCureStatusData()
   const param = getParametersValue('CUREFLOW.CHECK.PRESCRIPTION')
@@ -164,7 +181,6 @@ const getActionList = computed(() => {
 const selectStep = ref<DialysisStepType>(null)
 /** 查询当前流程节点信息 */
 async function getCureStatusData() {
-  const cureServiceProxy = new CureServiceProxy()
   const { success, data } = await cureServiceProxy.cureStatus(cureData.cureRecordId || cureData.cureScheduleId)
   if (success) {
     cureStatusData.value = new CureStatusView({ ...cureData, ...data, timeOn: data.timeOn })
@@ -189,6 +205,10 @@ function handleStepClick(val: Step) {
 const selectComponent = computed(() => {
   return stepList.find(x => x.child === selectStep.value)?.comp
 })
+/** 修改流程loading状态 */
+function hanldeChangeLoading(val) {
+  loading.value = val
+}
 /** 流程保存 */
 async function handleSaveClick() {
   if (componentRef.value) {
@@ -199,7 +219,34 @@ async function handleSaveClick() {
         case 'Signin':
           res = await saveSignData(resForm)
           break
-
+        case 'MakePrescription': {
+          const formData = new PrescriptionCureBeforeEditModel(resForm)
+          res = await saveMakePrescriptionData(formData)
+        } break
+        case 'ConfirmPrescription': {
+          const formData = new CureRecordCheckEditModel()
+          res = await saveConfirmPrescriptionData(formData)
+        } break
+        case 'OperateComputer': {
+          const formData = new OnCureMiddleEditModel(resForm)
+          res = await saveOperateComputerData(formData)
+        } break
+        case 'CrossCheck': {
+          const formData = new CureRecordVerifyEditModel(resForm)
+          res = await saveCrossCheckData(formData)
+        } break
+        case 'OffAfter': {
+          const formData = new OffCureAfterEditModel(resForm)
+          res = await saveOffAfterData(formData)
+        } break
+        case 'Disinfect': {
+          const formData = new DisinfectCureAfterEditModel(resForm)
+          res = await saveDisinfectData(formData)
+        } break
+        case 'AfterSummary': {
+          const formData = new SummaryCureAfterEditModel(resForm)
+          res = await saveAfterSummaryData(formData)
+        } break
         default:
           break
       }
@@ -232,16 +279,110 @@ async function saveSignData(val: MeasureCureBeforeEditModel) {
     }
   }
 }
+/** 制定处方保存 */
+async function saveMakePrescriptionData(val: PrescriptionCureBeforeEditModel) {
+  loading.value = true
+  val.daIds = longAdviceSelectionRows.value.map(x => x.id)
+  const { success, message } = await cureServiceProxy.prescriptionCureBeforePOST(cureData.cureRecordId || cureData.cureScheduleId, false, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `制定成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
 /** 另存为处方 */
 function handleSaveTempPerscriptionClick() {
 }
+/** 确认处方 */
+async function saveConfirmPrescriptionData(val: CureRecordCheckEditModel) {
+  loading.value = true
+  const { success, message } = await cureServiceProxy.confirmPrescriptionCureBefore(cureData.cureRecordId || cureData.cureScheduleId, 1, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `确认成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
 /** 拒绝处方 */
 function handleRejectPerscriptionClick() {
-
 }
-/** 修改流程loading状态 */
-function hanldeChangeLoading(val) {
-  loading.value = val
+/** 透析上机 */
+async function saveOperateComputerData(val: OnCureMiddleEditModel) {
+  loading.value = true
+  const { success, message } = await cureServiceProxy.onCureMiddlePOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `上机成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
+/** 交叉核对 */
+async function saveCrossCheckData(val: CureRecordVerifyEditModel) {
+  loading.value = true
+  const { success, message } = await cureServiceProxy.verifyCureMiddlePOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `核对成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
+/** 下机 */
+async function saveOffAfterData(val: OffCureAfterEditModel) {
+  loading.value = true
+  const { success, message } = await cureServiceProxy.offCureAfterPOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `下机成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
+/** 消毒 */
+async function saveDisinfectData(val: DisinfectCureAfterEditModel) {
+  loading.value = true
+  const { success, message } = await cureServiceProxy.disinfectCureAfterPOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `消毒成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
+/** 透后小结 */
+async function saveAfterSummaryData(val: SummaryCureAfterEditModel) {
+  loading.value = true
+  const { success, message } = await cureServiceProxy.summaryCureAfterPOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `保存成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
 }
 </script>
 

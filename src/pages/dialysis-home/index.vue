@@ -39,6 +39,9 @@
         </div>
         <div class="cursor-pointer" @click="() => { filterType = 'more' }">
           更多筛选<van-icon name="filter-o" />
+          <el-drawer v-model="moreFilterDrawer" :with-header="false">
+            <MoreFilters />
+          </el-drawer>
         </div>
         <div class="h-5 w-5 flex items-center justify-center rounded-6 bg-gray-200">
           <el-icon class="!text-xs" color="#909399">
@@ -48,11 +51,12 @@
       </div>
     </div>
     <div class="flex-1 overflow-auto p-2">
-      <el-row v-infinite-scroll="loadMoreData" :gutter="16" :disabled="loading" :infinite-scroll-distance="200">
+      <el-row v-infinite-scroll="loadMoreData" :gutter="16" :disabled="loading" :infinite-scroll-distance="400">
         <el-col v-for="item in visibleDataList" :key="item.cureRecordId" class="pb-2" :span="12">
           <DialysisCard :cure-data="item" :comands="comands.Comands" :color-object="getCardColorState(item.statusLabel)" @handle-command-click="handleCommandClick" @handle-card-click="handleCardClick" />
         </el-col>
       </el-row>
+      <el-empty v-if="visibleDataList.length === 0" description="暂无数据" />
     </div>
   </div>
   <TodayAttendance v-if="selectDialysisPatient" :cure-data="selectDialysisPatient" @handle-back-click="handleBackClick" />
@@ -77,13 +81,21 @@ const { setSelectDialysisPatientVascularAccessList } = useDialysisStore()
 const filterType = ref('')
 const filterKey = ref('')
 const loading = ref(false)
+const moreFilterDrawer = computed({
+  get() {
+    return filterType.value === 'more'
+  },
+  set() {
+    filterType.value = ''
+  },
+})
 
 onMounted(() => {
   getSysTodayCard()
   getCureList()
 })
 
-const pageSize = ref(10) // 每次加载的数量
+const pageSize = ref(20) // 每次加载的数量
 const currentIndex = ref(pageSize.value) // 当前显示到哪个数据位置
 
 const cureDataList = ref<CureTodayView[]>([]) // 存储所有数据

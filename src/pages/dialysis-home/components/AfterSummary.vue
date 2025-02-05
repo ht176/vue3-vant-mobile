@@ -64,6 +64,9 @@ async function getSummaryCureAfterData() {
   const { success, data, message } = await cureServiceProxy.summaryCureAfterGET(cureData.cureRecordId)
   if (success) {
     formData.value = data
+    if (tmpOptions.value.length > 0 && !formData.value.content) {
+      formData.value.content = tmpOptions.value[0].content
+    }
   }
   else {
     showNotify({ type: 'danger', message })

@@ -15,31 +15,31 @@
       <!-- 开始日期 -->
       <el-col v-if="getFieldBeginDate" :span="8" :style="{ order: getFieldBeginDate.sequence }">
         <el-form-item :label="getFieldBeginDate.label" prop="beginDate">
-          <el-date-picker v-model="formData.beginDate as unknown as Date" type="datetime" :clearable="false" :placeholder="getFieldBeginDate.placeholder" format="YYYY-MM-DD" />
+          <el-date-picker v-model="formData.beginDate as unknown as Date" type="datetime" :clearable="false" :placeholder="getFieldBeginDate.placeholder" format="YYYY-MM-DD" value-format="YYYY-MM-DD HH:mm:ss" @change="handleTimeChange" />
         </el-form-item>
       </el-col>
       <!-- 开始时间 -->
       <el-col v-if="getFieldBeginTime" :span="8" :style="{ order: getFieldBeginTime.sequence }">
         <el-form-item :label="getFieldBeginTime.label" prop="beginTime">
-          <el-time-picker v-model="formData.beginDate as unknown as Date" :clearable="false" :placeholder="getFieldBeginTime.placeholder" />
+          <el-time-picker v-model="formData.beginDate as unknown as Date" :clearable="false" :placeholder="getFieldBeginTime.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" @change="handleTimeChange" />
         </el-form-item>
       </el-col>
       <!-- 结束日期 -->
       <el-col v-if="getFieldEndDate" :span="8" :style="{ order: getFieldEndDate.sequence }">
         <el-form-item :label="getFieldEndDate.label" prop="endDate">
-          <el-date-picker v-model="formData.endDate as unknown as Date" type="datetime" :clearable="false" :placeholder="getFieldEndDate.placeholder" format="YYYY-MM-DD" />
+          <el-date-picker v-model="formData.endDate as unknown as Date" type="datetime" :clearable="false" :placeholder="getFieldEndDate.placeholder" format="YYYY-MM-DD" value-format="YYYY-MM-DD HH:mm:ss" @change="handleTimeChange" />
         </el-form-item>
       </el-col>
       <!-- 结束时间 -->
       <el-col v-if="getFieldEndTime" :span="8" :style="{ order: getFieldEndTime.sequence }">
         <el-form-item :label="getFieldEndTime.label" prop="endTime">
-          <el-time-picker v-model="formData.endDate as unknown as Date" :clearable="false" :placeholder="getFieldEndTime.placeholder" />
+          <el-time-picker v-model="formData.endDate as unknown as Date" :clearable="false" :placeholder="getFieldEndTime.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" @change="handleTimeChange" />
         </el-form-item>
       </el-col>
       <!-- 消毒时长 -->
       <el-col v-if="getFieldDisinfectTime" :span="8" :style="{ order: getFieldDisinfectTime.sequence }">
         <el-form-item :label="getFieldDisinfectTime.label" prop="disinfectTime">
-          <el-input v-model="formData.disinfectTime" type="number" :placeholder="getFieldDisinfectTime.placeholder">
+          <el-input v-model="formData.disinfectTime" type="number" :placeholder="getFieldDisinfectTime.placeholder" @change="handleDisinfectTimeChange">
             <template #append>
               min
             </template>
@@ -127,7 +127,7 @@
               v-for="item in dialysisStore.tmplDisinfectInstructionList"
               :key="item.id"
               :label="item.name"
-              :value="item.name"
+              :value="item.content"
             />
           </el-select>
         </el-form-item>
@@ -157,7 +157,7 @@ import type { CureTodayView } from '@/services/CureServiceProxies'
 import { CureServiceProxy, DisinfectCureAfterView } from '@/services/CureServiceProxies'
 import { TmplDisinfectInstructionsServiceProxy } from '@/services/TmplServiceProxies'
 import { useAppStore, useDialysisStore } from '@/stores'
-import { formatToDate, formatToTimeHM } from '@/utils/date'
+import { formatToDate, formatToDateTime, formatToTimeHM } from '@/utils/date'
 import type { FormInstance, FormRules } from 'element-plus'
 import { showNotify } from 'vant'
 import {
@@ -167,7 +167,7 @@ import {
   DIC_DEV_DIS_PROGRAM_SPHYGMOMANOMETERCUFF,
   EQUIPMENTSTATUS,
 } from '@/utils/constant'
-import type dayjs from 'dayjs'
+import dayjs, { type Dayjs } from 'dayjs'
 
 interface CustomDisinfectCureAfterView extends DisinfectCureAfterView {
   beginTime?: dayjs.Dayjs | undefined
@@ -264,15 +264,16 @@ async function initLoad() {
   }
   await getOffCureAfterData()
   if (!cureData.hasDisinfectAfter) {
-    const { dialysisMachineType, dialysisMachineModel, shiftId } = formData.value
+    const { dialysisMachineType, dialysisMachineModel, shiftId, filterScreenChanging } = formData.value
     const obj = dialysisStore.getDevDisinfectSettingData(dialysisMachineType, dialysisMachineModel, shiftId)
     const beginDate = formData.value.timeOff.add(Number(paramAutoDisinfectTime), 'm')
     const endDate = beginDate.add(Number(obj?.disinfectTime || 0), 'm')
     if (obj) {
       Object.assign(formData.value, {
         ...obj,
-        beginDate,
-        endDate,
+        beginDate: formatToDateTime(beginDate),
+        endDate: formatToDateTime(endDate),
+        filterScreenChanging: filterScreenChanging ?? false,
       })
     }
   }
@@ -402,6 +403,18 @@ const getFieldDisinfectInstructions = computed(() => {
 })
 function handleTmplDisinfectInstructionChange() {
   formData.value.disinfectInstructions = tmplDisinfectInstructions.value
+}
+// 开始、结束事件变更
+function handleTimeChange() {
+  if (formData.value.beginDate && formData.value.endDate) {
+    formData.value.disinfectTime = dayjs(formData.value.endDate).diff(dayjs(formData.value.beginDate), 'minute')
+  }
+}
+
+function handleDisinfectTimeChange() {
+  if (formData.value.beginDate && (formData.value.disinfectTime || formData.value.disinfectTime === 0)) {
+    formData.value.endDate = formatToDateTime(dayjs(formData.value.beginDate).add(formData.value.disinfectTime, 'minute')) as unknown as Dayjs
+  }
 }
 /** 保存 */
 async function handleSaveForm() {

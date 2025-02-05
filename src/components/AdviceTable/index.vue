@@ -1,11 +1,11 @@
 <template>
   <div class="advice-div my-2">
-    <el-table :key="tableData.length" ref="adviceTableRef" row-key="id" :data="tableData" border style="width: 100%" :span-method="objectSpanMethod">
+    <el-table :key="tableData.length" ref="adviceTableRef" row-key="id" :data="tableData" border style="width: 100%" :span-method="objectSpanMethod" @selection-change="handleAdviceSelectionChange">
       <el-table-column v-if="isLongAdviceType" type="selection" width="40" :selectable="selectable" />
       <el-table-column prop="group" label="组合" width="60" align="center" />
       <el-table-column v-if="isLongAdviceType" prop="doctorCreateTime" label="开立日期" :width="isEdit ? 160 : 100">
         <template #default="scope">
-          <el-date-picker v-if="scope.row.edit" v-model="scope.row.doctorCreateTime" class="!w-full" type="date" placeholder="请选择开立日期" format="YYYY-MM-DD" />
+          <el-date-picker v-if="scope.row.edit" v-model="scope.row.doctorCreateTime" class="!w-full" type="date" placeholder="请选择开立日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD HH:mm:ss" />
           <template v-else>
             {{ formatToDate(scope.row.doctorCreateTime) }}
           </template>
@@ -13,7 +13,7 @@
       </el-table-column>
       <el-table-column v-if="!isLongAdviceType" prop="doctorCreateTime" label="开立时间" :width="isEdit ? 140 : 90">
         <template #default="scope">
-          <el-date-picker v-if="scope.row.edit" v-model="scope.row.doctorCreateTime" class="!w-full" type="datetime" placeholder="请选择开立时间" format="HH:mm" />
+          <el-date-picker v-if="scope.row.edit" v-model="scope.row.doctorCreateTime" class="!w-full" type="datetime" placeholder="请选择开立时间" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" />
           <template v-else>
             {{ formatToTimeHM(scope.row.doctorCreateTime) }}
           </template>
@@ -163,7 +163,7 @@ const { getDicDataByCode } = useAppStore()
 const cureServiceProxy = new CureServiceProxy()
 const { userInfo } = useUserStore()
 
-const adviceTableRef = ref()
+const adviceTableRef = ref(null)
 const tableData = ref<CustomPatientDaLongtermView[] | CustomCureDaView[]>([])
 const getAdviceOrder = computed(() => {
   return tableData.value.length ? tableData.value[0].order + 100 : 100
@@ -598,6 +598,11 @@ function handleChangeSingleDosage(row: CustomPatientDaLongtermView | CustomCureD
       row.dosage = Math.ceil(row.singleDosage / Number(spec))
     }
   }
+}
+const setLongSelectionRows = inject<(val: string[]) => void>('setLongSelectionRows')
+/** 变更医嘱表格选中的ids */
+function handleAdviceSelectionChange(val) {
+  setLongSelectionRows(val)
 }
 defineExpose({
   isEdit,

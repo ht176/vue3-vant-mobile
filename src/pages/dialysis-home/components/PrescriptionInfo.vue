@@ -9,19 +9,21 @@
       <!-- 上机时间 -->
       <el-col v-if="getFieldTimeOn" :span="8" :style="{ order: getFieldTimeOn.sequence }">
         <el-form-item :label="getFieldTimeOn.label" prop="timeOn">
-          <el-date-picker v-model="((formData as OnCureMiddleView).timeOn) as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeOn.placeholder" format="HH:mm" :disabled="disabled" />
+          <el-time-picker v-model="((formData as OnCureMiddleView).timeOn) as unknown as Date" :clearable="false" :placeholder="getFieldTimeOn.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" :disabled="disabled" />
+          <!-- <el-date-picker v-model="((formData as OnCureMiddleView).timeOn) as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeOn.placeholder" format="HH:mm" :disabled="disabled" /> -->
         </el-form-item>
       </el-col>
       <!-- 开立日期 -->
       <el-col v-if="getFieldTimeEnactDoctorDate" :span="8" :style="{ order: getFieldTimeEnactDoctorDate.sequence }">
         <el-form-item :label="getFieldTimeEnactDoctorDate.label" prop="timeEnactDoctor">
-          <el-date-picker v-model="formData.timeEnactDoctor as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeEnactDoctorDate.placeholder" format="YYYY-MM-DD" :disabled="disabled" />
+          <el-date-picker v-model="formData.timeEnactDoctor as unknown as Date" class="!w-full" type="date" :clearable="false" :placeholder="getFieldTimeEnactDoctorDate.placeholder" format="YYYY-MM-DD" value-format="YYYY-MM-DD HH:mm:ss" :disabled="disabled" />
         </el-form-item>
       </el-col>
       <!-- 开立时间 -->
       <el-col v-if="getFieldTimeEnactDoctorTime" :span="8" :style="{ order: getFieldTimeEnactDoctorTime.sequence }">
         <el-form-item :label="getFieldTimeEnactDoctorTime.label" prop="timeEnactDoctor">
-          <el-date-picker v-model="formData.timeEnactDoctor as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeEnactDoctorTime.placeholder" format="HH:mm" :disabled="disabled" />
+          <el-time-picker v-model="formData.timeEnactDoctor as unknown as Date" :clearable="false" :placeholder="getFieldTimeEnactDoctorTime.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" :disabled="disabled" />
+          <!-- <el-date-picker v-model="formData.timeEnactDoctor as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeEnactDoctorTime.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" :disabled="disabled" /> -->
         </el-form-item>
       </el-col>
       <!-- 透析处方 -->
@@ -36,7 +38,7 @@
       <el-col v-if="getFieldDialysisMode" :span="8" :style="{ order: getFieldDialysisMode.sequence }">
         <el-form-item :label="getFieldDialysisMode.label" prop="dialysisMode">
           <div class="w-full flex items-center gap-1">
-            <Dictionary v-model="formData.dialysisMode" class="flex-1" :dic-code="DIC_DIALYSIS_MODE" type="select" :placeholder="getFieldDialysisMode.placeholder" :disabled="disabled" />
+            <Dictionary v-model="formData.dialysisMode" class="flex-1" :dic-code="DIC_DIALYSIS_MODE" type="select" :placeholder="getFieldDialysisMode.placeholder" :disabled="disabled || stepType === 'OperateComputer'" />
             <el-popover placement="right" :width="400" trigger="click">
               <template #reference>
                 <el-icon v-if="['OperateComputer', 'CrossCheck'].includes(stepType)" color="red" size="24" @click="getPatientSummary">
@@ -86,7 +88,7 @@
       <!-- 通路位置 -->
       <el-col v-if="getFieldVascularAccessPosition" :span="8" :style="{ order: getFieldVascularAccessPosition.sequence }">
         <el-form-item :label="getFieldVascularAccessPosition.label">
-          {{ selectVascularAccessList.map(x => `${x.location}-${x.position} `).join('；') }}
+          {{ selectVascularAccessList.map(x => `${x.location ?? ''}-${x.position ?? ''} `).join('；') }}
         </el-form-item>
       </el-col>
       <template v-if="showPunctureMethod">
@@ -137,7 +139,8 @@
           </el-col>
           <el-col :span="8" :style="{ order: getFieldIuf.sequence }">
             <el-form-item label="单超开始时间：">
-              <el-date-picker v-model="((formData as PrescriptionCureBeforeView).iufStartTime) as unknown as Date" class="!w-full" type="datetime" :clearable="false" placeholder="请选择单超开始时间" format="HH:mm" :disabled="disabled" />
+              <el-time-picker v-model="((formData as PrescriptionCureBeforeView).iufStartTime) as unknown as Date" :clearable="false" placeholder="请选择单超开始时间" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" :disabled="disabled" />
+              <!-- <el-date-picker v-model="((formData as PrescriptionCureBeforeView).iufStartTime) as unknown as Date" class="!w-full" type="datetime" :clearable="false" placeholder="请选择单超开始时间" format="HH:mm" :disabled="disabled" /> -->
             </el-form-item>
           </el-col>
           <el-col :span="8" :style="{ order: getFieldIuf.sequence }">
@@ -260,7 +263,7 @@ const prescriptionList = ref([])
 const { selectDialysisPatientVascularAccessList: patientVascularAccessList } = useDialysisStore()
 /** 患者透析中使用的血管通路 */
 const selectVascularAccessList = computed(() => {
-  return patientVascularAccessList.filter(x => formData.value.patientVascularAccessId.includes(x.id))
+  return patientVascularAccessList.filter(x => formData.value.patientVascularAccessId?.includes(x.id))
 })
 /** 患者透析中使用的血管图片 */
 const selectVascularAccessImgList = computed(() => {
@@ -347,7 +350,31 @@ async function getPatientSummary() {
   }
 }
 function handlePatientVascularAccessChange(val) {
-  emit('update:modelValue', { ...formData.value, patientVascularAccessId: val.toString() })
+  let patientVascularAccessName = null
+  let patientVascularAccessType = null
+  let patientOtherVascularAccessId = null
+  let patientOtherVascularAccessName = null
+  let patientOtherVascularAccessType = null
+  if (val.length > 0) {
+    const vas = patientVascularAccessList.find(x => x.id === val[0])
+    patientVascularAccessName = vas.typeName
+    patientVascularAccessType = vas.type
+    if (val.length === 2) {
+      const otherVas = patientVascularAccessList.find(x => x.id === val[1])
+      patientOtherVascularAccessId = otherVas.id
+      patientOtherVascularAccessName = otherVas.typeName
+      patientOtherVascularAccessType = otherVas.type
+    }
+  }
+  emit('update:modelValue', {
+    ...formData.value,
+    patientVascularAccessId: val,
+    patientVascularAccessName,
+    patientVascularAccessType,
+    patientOtherVascularAccessId,
+    patientOtherVascularAccessName,
+    patientOtherVascularAccessType,
+  })
 }
 </script>
 

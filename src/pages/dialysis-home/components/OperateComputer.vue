@@ -38,9 +38,10 @@
 </template>
 
 <script setup lang="ts">
-import type { CureTodayView } from '@/services/CureServiceProxies'
+import type { CureTodayView, OnCureMiddleView } from '@/services/CureServiceProxies'
 import { CureServiceProxy, VerifyCureMiddleView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
+import { dateUtil } from '@/utils/date'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
 import { showNotify } from 'vant'
@@ -64,7 +65,7 @@ const ruleFormRef = ref<FormInstance>()
 const sourceFormRef = ref<FormInstance>()
 const infoFormRef = ref<FormInstance>()
 
-const formData = ref<VerifyCureMiddleView>(new VerifyCureMiddleView()) // 上机数据
+const formData = ref<VerifyCureMiddleView | OnCureMiddleView>(new VerifyCureMiddleView()) // 上机数据
 // 表单校验规则
 const formRules = reactive<FormRules<VerifyCureMiddleView>>({
   punctureMethod: [{ required: true, message: '请选择穿刺方法', trigger: 'change' }],
@@ -73,7 +74,12 @@ const formRules = reactive<FormRules<VerifyCureMiddleView>>({
 
 async function initLoad() {
   emit('hanldeChangeLoading', true)
-  await getOnCureMiddleData()
+  if (stepType === 'OperateComputer') {
+    await getOnCureMiddleData()
+  }
+  else if (stepType === 'CrossCheck') {
+    await getVerifyCureMiddleData()
+  }
   emit('hanldeChangeLoading', false)
 }
 const allFiledList = ref<CustomSysFieldItemView[]>([]) // 模块自定义字段
@@ -128,29 +134,73 @@ function getSysFieldProperty(key: string, typeCode: string) {
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
-/** 查询患者交叉核对数据 */
+/** 查询患者上机数据 */
 async function getOnCureMiddleData() {
   const cureServiceProxy = new CureServiceProxy()
-  const { success, data, message } = await cureServiceProxy.verifyCureMiddleGET(cureData.cureRecordId, false)
+  const { success, data, message } = await cureServiceProxy.onCureMiddleGET(cureData.cureRecordId)
   if (success) {
-    // 预脱根据单位转换
-    data.ufg = convertDialysisUnit(data.ufg, paramUfgUnit)
-    // 偏移调整根据单位转换
-    data.deductionWeight = convertDialysisUnit(data.deductionWeight, paramDeductionUnit)
-    // 血管通路Id转数组
-    data.patientVascularAccessId = (typeof data.patientVascularAccessId === 'string' ? (data.patientVascularAccessId ? data.patientVascularAccessId.split(',') : null) : null) as unknown as string
+    // 上机时间默认
+    (data as OnCureMiddleView).timeOn = (data as OnCureMiddleView).timeOn || dateUtil()
+    transFormData(data)
     formData.value = data
   }
   else {
     showNotify({ type: 'danger', message })
   }
 }
+/** 查询患者交叉核对数据 */
+async function getVerifyCureMiddleData() {
+  const cureServiceProxy = new CureServiceProxy()
+  const { success, data, message } = await cureServiceProxy.verifyCureMiddleGET(cureData.cureRecordId, false)
+  if (success) {
+    data.timeVerify = data.timeVerify || dateUtil()
+    // 保存接口中拒绝状态与查询返回的治疗状态字段重复，将值清除防止保存报错
+    data.status = undefined
+    transFormData(data)
+    formData.value = data
+  }
+  else {
+    showNotify({ type: 'danger', message })
+  }
+}
+/** 预脱、偏移调整、通路数据转换 */
+function transFormData(data: OnCureMiddleView | VerifyCureMiddleView) {
+  // 预脱根据单位转换
+  data.ufg = convertDialysisUnit(data.ufg, paramUfgUnit)
+  // 偏移调整根据单位转换
+  data.deductionWeight = convertDialysisUnit(data.deductionWeight, paramDeductionUnit)
+  // 血管通路Id转数组(如果多个血管通路，将其它血管通路也加到数组中)
+  data.patientVascularAccessId = (typeof data.patientVascularAccessId === 'string' ? (data.patientVascularAccessId ? data.patientVascularAccessId.split(',') : null) : null) as unknown as string
+  if (data.patientOtherVascularAccessId) {
+    (data.patientVascularAccessId as unknown as Array<string>).push(data.patientOtherVascularAccessId)
+  }
+}
 /** 保存 */
 async function handleSaveForm() {
   let formSaveData = null
-  await ruleFormRef.value?.validate((valid) => {
+  // el-form中disabled优先级高于表单内组件，故el-form中嵌套el-form解决大部分内容需要禁用但某些字段不禁用，待后期组件库修复该问题可改用一个el-form
+  await sourceFormRef.value?.validate(async (valid) => {
     if (valid) {
-      formSaveData = toRaw(formData.value)
+      await infoFormRef.value?.validate(async (valid) => {
+        if (valid) {
+          await ruleFormRef.value?.validate((valid) => {
+            if (valid) {
+              const { patientVascularAccessId, iuf, ufg } = formData.value
+              let newUfg = null
+              if ((ufg || ufg === 0) && paramUfgUnit === 'kg') {
+                newUfg = Number(ufg) * 1000
+              }
+              formSaveData = {
+                ...toRaw(formData.value),
+                check: 1,
+                iuf: iuf ? 1 : 0,
+                patientVascularAccessId: patientVascularAccessId ? patientVascularAccessId[0] : null,
+                ufg: newUfg,
+              }
+            }
+          })
+        }
+      })
     }
   })
   return formSaveData

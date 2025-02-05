@@ -53,7 +53,7 @@ watch(() => props.modelValue, (newVal) => {
 })
 /** 空值默认赋值当前登录用户 */
 function setDefaultUser(val) {
-  if (val === null || val === '') {
+  if (!val) {
     emit('update:modelValue', userInfo.uid)
   }
 }

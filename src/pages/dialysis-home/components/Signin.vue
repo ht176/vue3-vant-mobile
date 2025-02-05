@@ -11,6 +11,7 @@ import { useAppStore } from '@/stores'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
 import { showNotify } from 'vant'
+import { dateUtil } from '@/utils/date'
 
 const { cureData, stepType, formDisabled } = defineProps({
   cureData: {
@@ -58,6 +59,10 @@ async function initLoad() {
   if (!formData.value.beforeBpPosition) {
     (formData.value as MeasureCureBeforeView).beforeBpPositionLable = paramDefaultBeforeBpPositionData?.valueLabel || null
     formData.value.beforeBpPosition = paramDefaultBeforeBpPositionData?.value || null
+  }
+  // 签到时间默认值
+  if (!formData.value.timeSignin) {
+    formData.value.timeSignin = dateUtil()
   }
   if (ruleFormRef.value) {
     ruleFormRef.value.clearValidate()

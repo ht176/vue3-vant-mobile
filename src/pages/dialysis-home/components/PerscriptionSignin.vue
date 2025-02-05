@@ -15,7 +15,8 @@
       <!-- 签到时间 -->
       <el-col v-if="getFieldTimeSignin" :span="8" :style="{ order: getFieldTimeSignin.sequence }">
         <el-form-item :label="getFieldTimeSignin.label" prop="timeSignin">
-          <el-date-picker v-model="formData.timeSignin as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeSignin.placeholder" format="HH:mm" />
+          <el-time-picker v-model="formData.timeSignin as unknown as Date" :clearable="false" :placeholder="getFieldTimeSignin.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" />
+          <!-- <el-date-picker v-model="formData.timeSignin as unknown as Date" class="!w-full" type="datetime" :clearable="false" :placeholder="getFieldTimeSignin.placeholder" format="HH:mm" /> -->
         </el-form-item>
       </el-col>
       <!-- 测量方式 -->

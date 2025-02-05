@@ -25,10 +25,10 @@ const localSbpValue = ref(null)
 const localDbpValue = ref(null)
 watch(() => props.modelValue[props.sbpField], (newVal) => {
   localSbpValue.value = newVal
-})
+}, { immediate: true })
 watch(() => props.modelValue[props.dbpField], (newVal) => {
   localDbpValue.value = newVal
-})
+}, { immediate: true })
 // 血压值更新
 function updateValue() {
   const updatedValue = {

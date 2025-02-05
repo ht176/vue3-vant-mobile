@@ -33,6 +33,7 @@
 import type { CureTodayView } from '@/services/CureServiceProxies'
 import { CureServiceProxy, PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
+import { dateUtil } from '@/utils/date'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
 import { showNotify } from 'vant'
@@ -122,8 +123,13 @@ async function getPrescriptionCureBeforeData() {
     data.ufg = convertDialysisUnit(data.ufg, paramUfgUnit)
     // 偏移调整根据单位转换
     data.deductionWeight = convertDialysisUnit(data.deductionWeight, paramDeductionUnit)
-    // 血管通路Id转数组
+    // 血管通路Id转数组(如果多个血管通路，将其它血管通路也加到数组中)
     data.patientVascularAccessId = (typeof data.patientVascularAccessId === 'string' ? (data.patientVascularAccessId ? data.patientVascularAccessId.split(',') : null) : null) as unknown as string
+    if (data.patientOtherVascularAccessId) {
+      (data.patientVascularAccessId as unknown as Array<string>).push(data.patientOtherVascularAccessId)
+    }
+    // 处方开立时间默认
+    data.timeEnactDoctor = data.timeEnactDoctor || dateUtil()
     formData.value = data
   }
   else {
@@ -135,7 +141,18 @@ async function handleSaveForm() {
   let formSaveData = null
   await ruleFormRef.value?.validate((valid) => {
     if (valid) {
-      formSaveData = toRaw(formData.value)
+      const { patientVascularAccessId, iuf, ufg } = formData.value
+      let newUfg = null
+      if ((ufg || ufg === 0) && paramUfgUnit === 'kg') {
+        newUfg = Number(ufg) * 1000
+      }
+      formSaveData = {
+        ...toRaw(formData.value),
+        check: 1,
+        iuf: iuf ? 1 : 0,
+        patientVascularAccessId: patientVascularAccessId ? patientVascularAccessId[0] : null,
+        ufg: newUfg,
+      }
     }
   })
   return formSaveData

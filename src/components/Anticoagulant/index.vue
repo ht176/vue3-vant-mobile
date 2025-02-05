@@ -1,7 +1,7 @@
 <template>
   <el-col :span="8" :style="{ order: sequence }">
     <el-form-item :label="label" :prop="propName">
-      <el-select v-model="formData.anticoagulantName" :placeholder="`请选择${label}`" @change="handleAnticoagulantChange">
+      <el-select v-model="formData.anticoagulantName" :placeholder="placeholder" @change="handleAnticoagulantChange">
         <el-option v-for="item in dialysisStore.anticoagulantList" :key="item.id" :label="item.name" :value="item.name" />
       </el-select>
     </el-form-item>

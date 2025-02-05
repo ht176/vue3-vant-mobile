@@ -60,6 +60,7 @@
         </div>
         <div>{{ item.bedName || '-' }}</div>
       </div>
+      <!-- 透析状态 -->
       <div class="flex items-center gap-1">
         <div class="font-bold" :style="{ color: colorObject.fontColor }">
           {{ item.statusLabel }} {{ statusExtrasLabel(item) }}

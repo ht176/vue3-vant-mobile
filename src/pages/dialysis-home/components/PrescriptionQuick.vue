@@ -17,7 +17,7 @@
       <!-- 干体重 -->
       <el-col v-if="getFieldBestWeight" :span="8" :style="{ order: getFieldBestWeight.sequence }">
         <el-form-item :label="getFieldBestWeight.label" prop="bestWeight">
-          <el-input v-model.number="formData.bestWeight" type="number" :placeholder="getFieldBestWeight.placeholder">
+          <el-input v-model.number="formData.bestWeight" type="number" :placeholder="getFieldBestWeight.placeholder" @change="calcUfg">
             <template #append>
               kg
             </template>
@@ -50,6 +50,7 @@
 import { DIC_DIALYSIS_MODE } from '@/utils/constant'
 import type { PrescriptionCureBeforeView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
+import { calcUfgValue } from '@/utils/dialysis'
 
 const props = defineProps({
   modelValue: {
@@ -57,8 +58,8 @@ const props = defineProps({
     required: true,
   },
 })
-
 const emit = defineEmits(['update:modelValue'])
+const lastDeductionWeight = ref(null)
 const { getParametersValue } = useAppStore()
 const formData = computed({
   get: () => props.modelValue,
@@ -76,4 +77,20 @@ const getFieldAnticoagulantName = computed(() => getSysFieldProperty('anticoagul
 
 /** 超滤单位 */
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
+/** 偏移量单位 */
+const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
+/** 计算预脱值 */
+function calcUfg() {
+  const { beforeWeight, bestWeight, deductionWeight, lastAfterWeight } = formData.value
+  const data: CalcUfgModel = {
+    beforeWeight,
+    bestWeight,
+    deductionWeight,
+    deductionWeightUnit: paramDeductionUnit,
+    ufgUnit: paramUfgUnit,
+    lastAfterWeight: lastAfterWeight ? Number(lastAfterWeight) : 0,
+    lastDeductionWeight: lastDeductionWeight.value,
+  }
+  formData.value.ufg = calcUfgValue(data)
+}
 </script>

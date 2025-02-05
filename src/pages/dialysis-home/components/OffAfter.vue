@@ -15,13 +15,13 @@
       <!-- 下机日期 -->
       <el-col v-if="getFieldTimeOffDate && showTimeOffDate" :span="8" :style="{ order: getFieldTimeOffDate.sequence }">
         <el-form-item :label="getFieldTimeOffDate.label" prop="timeOffDate">
-          <el-date-picker v-model="formData.timeOff as unknown as Date" type="datetime" :clearable="false" :placeholder="getFieldTimeOffDate.placeholder" format="YYYY-MM-DD" />
+          <el-date-picker v-model="formData.timeOff as unknown as Date" type="datetime" :clearable="false" :placeholder="getFieldTimeOffDate.placeholder" format="YYYY-MM-DD" value-format="YYYY-MM-DD HH:mm:ss" />
         </el-form-item>
       </el-col>
       <!-- 下机时间 -->
       <el-col v-if="getFieldTimeOffTime" :span="8" :style="{ order: getFieldTimeOffTime.sequence }">
         <el-form-item :label="getFieldTimeOffTime.label" prop="timeOffTime">
-          <el-time-picker v-model="formData.timeOff as unknown as Date" :clearable="false" :placeholder="getFieldTimeOffTime.placeholder" />
+          <el-time-picker v-model="formData.timeOff as unknown as Date" :clearable="false" :placeholder="getFieldTimeOffTime.placeholder" format="HH:mm" value-format="YYYY-MM-DD HH:mm:ss" />
         </el-form-item>
       </el-col>
       <!-- 实际透析时长 -->
@@ -223,6 +223,8 @@ const paramDefaultWeightModeAfter = getParametersValue('CUREFLOW.DEFAULT.WEIGHT.
 const paramUfUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 显示净脱水量 */
 const paramShowUfc = getParametersValue('CUREFLOW.UFC.SHOW', true)
+/** 透后血压默认测量位置 */
+const paramDefaultBpPositionAfter = getParametersValue('CUREFLOW.DEFAULT.BP.POSITION.AFTER')
 /** 体温是否展示 */
 const paramShowTemp = getParametersValue('CUREFLOW.TEMP.SHOW', true)
 /** 下机呼吸展示 */
@@ -251,6 +253,9 @@ async function getOffCureAfterData() {
     data.timeOff = data.timeOff || dateUtil()
     if (!data.afterWeightMode) {
       data.afterWeightMode = paramDefaultWeightModeAfter
+    }
+    if (!data.afterBpPosition) {
+      data.afterBpPosition = paramDefaultBpPositionAfter
     }
     if ((data.ufv || data.ufv === 0) && paramUfUnit === 'kg') {
       data.ufv = Number(data.ufv) / 1000
@@ -392,9 +397,14 @@ function handleAfterBpPositionChange() {
 }
 /** 是否自动计算实际脱水量 */
 const paramAutoCalcUfv = getParametersValue('CUREFLOW.AUTO.CALCULATEDEHYDRATION')
+/** 体重测量方式 */
+const dicWeightMode = getDicDataByCode(DIC_PATIENT_MEASURE_WEIGHT_MODE)
 /** 变更透后体重 */
 function handleAfterWeightChange() {
-  const { beforeWeight, afterWeight } = formData.value
+  const { beforeWeight, afterWeight, afterWeightMode } = formData.value
+  if ((afterWeight || afterWeight === 0) && afterWeightMode === (dicWeightMode.find(x => x.value === 'NOMEASURE')?.value || '')) {
+    formData.value.afterWeightMode = (dicWeightMode.find(x => x.value === 'NORMAL')?.value || '')
+  }
   if (paramAutoCalcUfv) {
     formData.value.ufv = calcUfvValue(beforeWeight, afterWeight, paramUfUnit) || formData.value.ufv
   }
@@ -417,9 +427,25 @@ function handleTempOffEarlyChange(val) {
 /** 保存 */
 async function handleSaveForm() {
   let formSaveData = null
+  const { offEarly, ufc, ufv } = formData.value
+  let newUfc = null
+  let newUfv = null
+  if (paramUfUnit === 'kg') {
+    if ((ufc || ufc === 0)) {
+      newUfc = Number(ufc) * 1000
+    }
+    if ((ufv || ufv === 0)) {
+      newUfv = Number(ufv) * 1000
+    }
+  }
   await ruleFormRef.value?.validate((valid) => {
     if (valid) {
-      formSaveData = toRaw(formData.value)
+      formSaveData = {
+        ...toRaw(formData.value),
+        offEarly: offEarly ? 1 : 0,
+        ufc: newUfc,
+        ufv: newUfv,
+      }
     }
   })
   return formSaveData
