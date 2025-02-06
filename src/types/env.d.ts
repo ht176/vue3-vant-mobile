@@ -35,6 +35,7 @@ declare global {
   interface CustomSysFieldItemView extends SysFieldItemView {
     label?: string
     placeholder?: string
+    columnLabel?: string
   }
   /** 生命体征异常 */
   interface AbnormalInfo {

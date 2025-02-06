@@ -183,7 +183,7 @@ async function getSysSettingList() {
 }
 /** 获取流程自定义字段 */
 async function getSysFiledList() {
-  const sysFieldTypeCodes = 'MeasureCureBefore,Prescribing.PatientSource,Prescribing.QuickPrescription,Prescribing.PrescriptionInfo,Prescribing.VitalSigns,Prescribing.Dialysate,OnCureMiddle.PatientSource,OnCureMiddle.CureMode,OnCureMiddle.MeasureCureBefore,OnCureMiddle.Dialysate,VerifyCureMiddle.PatientSource,VerifyCureMiddle.CureMode,VerifyCureMiddle.MeasureCureBefore,VerifyCureMiddle.Dialysate,OffCure,Disinfect'
+  const sysFieldTypeCodes = 'MeasureCureBefore,Prescribing.PatientSource,Prescribing.QuickPrescription,Prescribing.PrescriptionInfo,Prescribing.VitalSigns,Prescribing.Dialysate,OnCureMiddle.PatientSource,OnCureMiddle.CureMode,OnCureMiddle.MeasureCureBefore,OnCureMiddle.Dialysate,VerifyCureMiddle.PatientSource,VerifyCureMiddle.CureMode,VerifyCureMiddle.MeasureCureBefore,VerifyCureMiddle.Dialysate,CureMonitor,OffCure,Disinfect'
   const sysFieldItemServiceProxy = new SysFieldItemServiceProxy()
   const { success, data } = await sysFieldItemServiceProxy.codes(sysFieldTypeCodes, '')
   if (success) {

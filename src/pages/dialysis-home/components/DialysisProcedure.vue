@@ -154,7 +154,7 @@ const stepList = reactive<Step[]>([
   { name: '透前评估', show: true, action: 4, child: 'BeforeDialysisEvaluation', isDone: 'hasAssementBefore', canDo: 'allowAssementBefore' },
   { name: '透析上机', show: true, action: 5, child: 'OperateComputer', isDone: 'hasOnMiddle', canDo: 'allowOnMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
   { name: '交叉核对', show: true, action: 6, child: 'CrossCheck', isDone: 'hasVerifyMiddle', canDo: 'allowVerifyMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
-  { name: '透中监测', show: true, action: 7, child: 'Monitoring', isDone: 'hasMonitorMiddle', canDo: 'allowMonitorMiddle' },
+  { name: '透中监测', show: true, action: 7, child: 'Monitoring', isDone: 'hasMonitorMiddle', canDo: 'allowMonitorMiddle', comp: markRaw(defineAsyncComponent(() => import('./Monitoring.vue'))) },
   { name: '下机', show: true, action: 8, child: 'OffAfter', isDone: 'hasOffAfter', canDo: 'allowOffAfter', comp: markRaw(defineAsyncComponent(() => import('./OffAfter.vue'))) },
   { name: '消毒', show: true, action: 11, child: 'Disinfect', isDone: 'hasDisinfectAfter', canDo: 'allowDisinfectAfter', comp: markRaw(defineAsyncComponent(() => import('./Disinfect.vue'))) },
   { name: '透后评估', show: true, action: 9, child: 'AfterDialysisEvaluation', isDone: 'hasAssementAfter', canDo: 'allowAssementAfter' },

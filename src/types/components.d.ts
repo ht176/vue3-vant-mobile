@@ -84,6 +84,8 @@ declare module 'vue' {
     Inxdex: typeof import('./../pages/medical-record/components/Patienttransfer/inxdex.vue')['default']
     Local: typeof import('./../pages/medical-record/components/Medical-home/components/Local.vue')['default']
     MedicalHome: typeof import('./../pages/medical-record/components/Medical-home/index.vue')['default']
+    Monitoring: typeof import('./../pages/dialysis-home/components/Monitoring.vue')['default']
+    MonitoringBackUp: typeof import('./../pages/dialysis-home/components/MonitoringBackUp.vue')['default']
     MoreFilters: typeof import('./../pages/dialysis-home/components/MoreFilters.vue')['default']
     National: typeof import('./../pages/medical-record/components/Medical-home/components/National.vue')['default']
     NavBar: typeof import('./../components/NavBar.vue')['default']
