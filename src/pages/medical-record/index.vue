@@ -67,7 +67,7 @@
                         <el-menu :default-active="activeKey" @select="handleSelect">
                           <div v-for="(item, index) in list" :key="item.name">
                             <el-menu-item :index="String(index)">
-                              <span>{{ item.name }}{{ String(index) }}{{ activeKey }}</span>
+                              <span>{{ item.name }}<!-- {{ String(index) }}{{ activeKey }} --></span>
                             </el-menu-item>
                           </div>
                         </el-menu>
@@ -76,8 +76,8 @@
                   </div>
                 </div>
                 <div class="page-component__nav el-scrollbar" style="width:87.5vw;left:12.5vw">
-                  <div class="el-scrollbar__wrap">
-                    <div class="bg-white">
+                  <div class="el-scrollbar__wrap bg-white">
+                    <div>
                       <component :is="selectComp" v-if="patient.id" :patient="patient" @refresh-data="refreshData" />
                     </div>
                   </div>
@@ -110,8 +110,8 @@ const list = ref([
   { name: '基本信息', authCode: '', comp: markRaw(defineAsyncComponent(() => import('./components/BasicInformation/index.vue'))) },
   { name: '住院信息', authCode: 'pad.CureAfter.pad.medicalrecord.dischargerecords.see' },
   { name: '转归管理', authCode: '', comp: markRaw(defineAsyncComponent(() => import('./components/Patienttransfer/index.vue'))) },
-  { name: '既往病史', authCode: '' },
-  { name: '诊断信息', authCode: '' },
+  { name: '既往病史', authCode: '', comp: markRaw(defineAsyncComponent(() => import('./components/Pastmedicalhistory/index.vue'))) },
+  { name: '诊断信息', authCode: '', comp: markRaw(defineAsyncComponent(() => import('./components/Diagnostics/index.vue'))) },
   { name: '血管通路', authCode: '' },
   { name: '透析处方', authCode: '' },
   { name: '体格检查', authCode: '' },

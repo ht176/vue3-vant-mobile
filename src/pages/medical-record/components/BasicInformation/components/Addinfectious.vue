@@ -8,9 +8,9 @@
           </el-form-item>
         </el-col>
         <el-col :span="22">
-          <el-form-item label="疾病种类：" prop="Type">
+          <!--  <el-form-item label="疾病种类：" prop="Type">
             <Dictionary v-model="typeDiagnosis" dic-code="DIC.DIAGNOSIS.ID.TYPE" type="checkbox" @change="changeInfectiousDiag" />
-          </el-form-item>
+          </el-form-item> -->
         </el-col>
         <el-col v-if="typeDiagnosis?.indexOf('HCV') !== -1" :span="22">
           <el-form-item label="丙肝：">

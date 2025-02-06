@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:0.9vw">
+  <div v-loading="loading" style="padding:0.9vw">
     <el-form ref="ruleFormRef" :model="patientModel" :rules="formRules" label-width="auto">
       <el-row>
         <el-col :span="5">
@@ -515,13 +515,14 @@ const levelOptions = [{
 }]
 
 const patientSignature = ref<PatientSignatureEditModel>(new PatientSignatureEditModel())
+const loading = ref(true)
 const showPatientSignature = ref(false)
 const showSignatureLoading = ref(false)
 const showAddinfections = ref(false)
 const hospitalization = ref(true)
 const tagVisible = ref(false)
 const signaturePad = ref()
-const complication = ref()
+const complication = ref('')
 const patientSignatureIdId = ref()
 const infectious = ref<IPatientDiagnosisInfectiousDiseasesView>({
   items: [], // 诊断详情
@@ -733,6 +734,11 @@ const formRules = reactive<FormRules<PatientView>>({
     { required: true, message: '请选择首次透析时采取的方式', trigger: 'blur' },
   ],
 })
+onMounted(() => {
+  setTimeout(() => {
+    loading.value = false
+  }, 500)
+})
 /* 监听患者数据变化 */
 watch(
   () => patient,
@@ -743,7 +749,7 @@ watch(
       patientModel.value.city,
       patientModel.value.area,
     ]
-    complication.value = patientModel.value.complication?.length ? patientModel.value.complication?.split(';') : []
+    complication.value = patientModel.value.complication
     infectious.value = { ...patientModel.value.infectious }
     if (patientModel.value.infectious.items.length > 0) {
       infectionTypes.value = patientModel.value.infectious.items[0].typeLabel.split(';') // 传染病种类 //
@@ -875,13 +881,13 @@ async function fetchPatientSignature() {
     pageSize: 10,
     PatientId: { value: patient.id, type: '=' },
   }
-  const { success, data, message } = await patientSignatureServiceProxy.filterGET42(JSON.stringify(filters), undefined)
+  const { success, data } = await patientSignatureServiceProxy.filterGET42(JSON.stringify(filters), undefined)
   if (success && data.length) {
     patientSignature.value = Object.assign(patientSignature.value, data?.[0])
     patientSignatureIdId.value = data?.[0].id
   }
   else {
-    showNotify({ type: 'danger', message })
+    // showNotify({ type: 'danger', message })
   }
 }
 async function handleSaveSignature() {
@@ -971,7 +977,7 @@ async function submitForm(ruleFormRef: FormInstance | undefined) {
         patientModel.value.city = mailingAddress.value[1]
         patientModel.value.area = mailingAddress.value[2]
       }
-      patientModel.value.complication = complication.value.join(';')
+      patientModel.value.complication = complication.value
       patientModel.value.infectious.diagnosis = infectious.value.diagnosis
       patientModel.value.infectious.items = infectious.value.items
       patientModel.value.tags = dynamicTags

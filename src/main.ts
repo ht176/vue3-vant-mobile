@@ -3,6 +3,7 @@ import { createHead } from '@unhead/vue'
 import App from '@/App.vue'
 import router from '@/router'
 import pinia from '@/stores'
+import { VueSignaturePad } from 'vue-signature-pad'
 import 'virtual:uno.css'
 import '@/styles/app.less'
 import '@/styles/var.less'
@@ -32,5 +33,6 @@ app.use(head)
 app.use(router)
 app.use(pinia)
 app.use(i18n)
+app.component('VueSignaturePad', VueSignaturePad)
 
 app.mount('#app')
