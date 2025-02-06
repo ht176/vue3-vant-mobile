@@ -290,6 +290,13 @@ async function getPatientVascularAccess() {
   background: #f8f9fb;
   color: #7a7b81;
 }
+.dialysis-procedure-title-div {
+  background: #fafafa;
+  margin: 0 -8px 8px;
+  padding: 8px;
+  display: flex;
+  justify-content: space-between;
+}
 </style>
 
 <route lang="json">

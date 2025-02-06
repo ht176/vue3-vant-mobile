@@ -90,7 +90,7 @@
       </el-col>
       <!-- 脉搏 -->
       <el-col v-if="getFieldAfterPulse" :span="8" :style="{ order: getFieldAfterPulse.sequence }">
-        <el-form-item prop="afterPulse" :label="getFieldAfterPulse.label" :rules="getBeforePulseRule">
+        <el-form-item prop="afterPulse" :label="getFieldAfterPulse.label" :rules="getAfterPulseRule">
           <el-input v-model="formData.afterPulse" type="number" :placeholder="getFieldAfterPulse.placeholder" :disabled="disabledSbp(formData.afterBpPosition)">
             <template #append>
               bpm
@@ -371,7 +371,7 @@ function validateBloodRule(_rule, _value, callback) {
 const getFieldAfterPulse = computed(() => {
   return getSysFieldProperty('afterPulse', getFieldType)
 })
-const getBeforePulseRule = computed(() => [{ required: getFieldAfterPulse.value.required || (formData.value.afterBpPosition !== 'NOMEASURE' && !(disabledSbp(formData.value.afterBpPosition))), message: getFieldAfterPulse.value.placeholder, trigger: 'blur' }])
+const getAfterPulseRule = computed(() => [{ required: getFieldAfterPulse.value.required || (formData.value.afterBpPosition !== 'NOMEASURE' && !(disabledSbp(formData.value.afterBpPosition))), message: getFieldAfterPulse.value.placeholder, trigger: 'blur' }])
 const getFieldOffTemp = computed(() => {
   return getSysFieldProperty('offTemp', getFieldType)
 })

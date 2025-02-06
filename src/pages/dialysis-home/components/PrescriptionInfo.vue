@@ -1,9 +1,19 @@
 <template>
   <div>
-    <div>
-      <slot name="header">
-        处方信息
-      </slot>
+    <div class="dialysis-procedure-title-div">
+      <div>
+        <slot name="header">
+          处方信息
+        </slot>
+      </div>
+      <div>
+        <slot name="headerOperation">
+          {{ `开立医生：${formData.enactDoctorName} | 开立时间：${formatToDateTime(formData.timeEnactDoctor)}` }}
+          <template v-if="paramCheckPrescription && formData.checkNurseName">
+            {{ ` | 确认者：${formData.checkNurseName} | 确认时间：${formatToDateTime(formData.timeCheckNurse)}` }}
+          </template>
+        </slot>
+      </div>
     </div>
     <el-row :gutter="16">
       <!-- 上机时间 -->
@@ -234,7 +244,7 @@ import type { CostBalanceView } from '@/services/RoomItemListServiceProxies'
 import { CostBalanceServiceProxy } from '@/services/RoomItemListServiceProxies'
 import { useAppStore, useDialysisStore } from '@/stores'
 import { CUREFLOW_MODIFY_BLOODFLOWRATE, DIC_DIALYSIS_MODE, DIC_DIALYSIS_PUNCTURE_METHOD, DIC_DIALYSIS_RFM } from '@/utils/constant'
-import { dateUtil } from '@/utils/date'
+import { dateUtil, formatToDateTime } from '@/utils/date'
 import { InfoFilled } from '@element-plus/icons-vue'
 import type { FormRules } from 'element-plus'
 
@@ -376,6 +386,9 @@ function handlePatientVascularAccessChange(val) {
     patientOtherVascularAccessType,
   })
 }
+
+/** 启用确认处方流程 */
+const paramCheckPrescription = getParametersValue('CUREFLOW.CHECK.PRESCRIPTION', true)
 </script>
 
 <style lang="scss" scoped>

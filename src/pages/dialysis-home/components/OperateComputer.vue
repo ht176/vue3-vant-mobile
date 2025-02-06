@@ -17,6 +17,11 @@
           <template #header>
             治疗方式
           </template>
+          <template #headerOperation>
+            <template v-if="stepType === 'OperateComputer' && (formData as OnCureMiddleView).onNurseName">
+              {{ `上机护士：${(formData as OnCureMiddleView).onNurseName} | 上机时间：${formatToDateTime((formData as OnCureMiddleView).timeOn)}` }}
+            </template>
+          </template>
         </PrescriptionInfo>
       </el-form>
       <!-- 透前测量 -->
@@ -41,7 +46,7 @@
 import type { CureTodayView, OnCureMiddleView } from '@/services/CureServiceProxies'
 import { CureServiceProxy, VerifyCureMiddleView } from '@/services/CureServiceProxies'
 import { useAppStore } from '@/stores'
-import { dateUtil } from '@/utils/date'
+import { dateUtil, formatToDateTime } from '@/utils/date'
 import { convertDialysisUnit } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
 import { showNotify } from 'vant'

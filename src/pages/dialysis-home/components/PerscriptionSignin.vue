@@ -1,9 +1,14 @@
 <template>
   <div>
-    <div>
-      <slot name="header">
-        透前测量
-      </slot>
+    <div class="dialysis-procedure-title-div">
+      <div>
+        <slot name="header">
+          透前测量
+        </slot>
+      </div>
+      <div>
+        <slot name="headerOperation" />
+      </div>
     </div>
     <div class="my-2">
       <AbnormalInfo
@@ -157,6 +162,7 @@ const getFieldType = computed(() => {
       formType = 'MeasureCureBefore'
       break
     case 'MakePrescription':
+    case 'ConfirmPrescription':
       formType = 'Prescribing.VitalSigns'
       break
     case 'OperateComputer':

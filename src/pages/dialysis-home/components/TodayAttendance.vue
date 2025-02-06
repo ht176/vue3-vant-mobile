@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full flex flex-col overflow-hidden p-2">
+  <div class="h-full flex flex-col overflow-hidden bg-white p-2">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
         <div class="text-xl" @click="handleBackClick">

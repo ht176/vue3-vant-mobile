@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>快捷处方</div>
+    <div class="dialysis-procedure-title-div">快捷处方</div>
     <el-row :gutter="16">
       <!-- 透析方式 -->
       <el-col v-if="getFieldDialysisMode" :span="8" :style="{ order: getFieldDialysisMode.sequence }">

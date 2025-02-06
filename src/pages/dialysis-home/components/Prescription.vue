@@ -7,16 +7,22 @@
       <PrescriptionQuick v-model="formData" />
       <!-- 处方信息 -->
       <PrescriptionInfo v-model="formData" :step-type="stepType" />
-      <!-- 治疗信息 -->
+      <!-- 生命体征 -->
       <PerscriptionSignin v-model="formData" :cure-data="cureData" :step-type="stepType">
         <template #header>
-          治疗信息
+          生命体征
+        </template>
+        <template #headerOperation>
+          {{ `上次透析情况 透前体重：${formData.lastBeforeWeight ?? '-'}kg | 预脱：${convertDialysisUnit(formData.lastUfg, paramUfgUnit)}${paramUfgUnit}
+           | 透后体重：${formData.lastAfterWeight ?? '-'}kg | 实脱：${convertDialysisUnit(formData.lastUfv, paramUfgUnit)}${paramUfgUnit}` }}
         </template>
       </PerscriptionSignin>
       <!-- 医嘱 -->
       <PrescriptionAdvice v-model="formData" :step-type="stepType" />
       <div class="py-2">
-        <div>抗凝剂 - {{ formData.anticoagulantName }}</div>
+        <div class="dialysis-procedure-title-div">
+          抗凝剂 - {{ formData.anticoagulantName }}
+        </div>
         <el-row :gutter="16">
           <Anticoagulant v-model="formData" />
         </el-row>
@@ -142,10 +148,7 @@ async function handleSaveForm() {
   await ruleFormRef.value?.validate((valid) => {
     if (valid) {
       const { patientVascularAccessId, iuf, ufg } = formData.value
-      let newUfg = null
-      if ((ufg || ufg === 0) && paramUfgUnit === 'kg') {
-        newUfg = Number(ufg) * 1000
-      }
+      const newUfg = convertDialysisUnit(ufg, paramUfgUnit, 1 / 1000)
       formSaveData = {
         ...toRaw(formData.value),
         check: 1,

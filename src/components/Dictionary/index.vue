@@ -105,7 +105,7 @@ const selectedValue = computed({
 // 多选
 const selectedCheckboxValue = computed({
   get: () => {
-    return props.modelValue?.split(props.splitValue)
+    return props.modelValue ? props.modelValue?.split(props.splitValue) : []
   },
   set: (value) => {
     emit('update:modelValue', value?.join(props.splitValue))

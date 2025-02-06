@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="flex justify-between">
+    <div class="dialysis-procedure-title-div">
       项目
       <el-button @click="handleEditClick">
         编辑

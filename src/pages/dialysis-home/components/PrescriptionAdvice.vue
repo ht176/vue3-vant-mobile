@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="dialysis-procedure-title-div">
     医嘱 -
     <template v-if="stepType === 'MakePrescription'">
       {{ longAdviceCount }}条长期医嘱 -

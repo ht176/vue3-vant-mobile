@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col overflow-hidden">
     <!-- 流程步骤条 -->
-    <div class="pos-relative py-2">
+    <div class="pos-relative bg-[#fafafa] py-2">
       <ul class="step-div flex justify-around">
         <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureStatusData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
           <div class="step-div-index">
@@ -14,13 +14,11 @@
       </ul>
     </div>
     <!-- 步骤内容 -->
-    <div v-loading="loading" class="flex-1 overflow-auto">
-      <div>
-        <component :is="selectComponent" ref="componentRef" :cure-data="cureData" :step-type="selectStep" @hanlde-change-loading="hanldeChangeLoading" />
-      </div>
+    <div v-loading="loading" class="flex-1 overflow-auto px-2">
+      <component :is="selectComponent" ref="componentRef" :cure-data="cureData" :step-type="selectStep" @hanlde-change-loading="hanldeChangeLoading" />
     </div>
     <!-- 底部保存操作按钮 -->
-    <div class="flex justify-end">
+    <div class="flex justify-end pt-1">
       <!-- 签到 -->
       <template v-if="selectStep === 'Signin' && (cureStatusData.allowSignedBefore || cureStatusData.allowMeasureBefore)">
         <el-button type="primary" size="large" @click="handleSaveClick">
@@ -65,12 +63,6 @@
       </template>
       <!-- 交叉核对 -->
       <template v-else-if="selectStep === 'CrossCheck' && cureStatusData.allowVerifyMiddle">
-        <el-button type="primary" size="large" @click="handleSaveClick">
-          确定
-        </el-button>
-      </template>
-      <!-- 透中监测 -->
-      <template v-else-if="selectStep === 'Monitoring'">
         <el-button type="primary" size="large" @click="handleSaveClick">
           确定
         </el-button>

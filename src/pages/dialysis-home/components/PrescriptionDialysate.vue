@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>透析液 - {{ formData.dialysateName }}</div>
+    <div class="dialysis-procedure-title-div">
+      透析液 - {{ formData.dialysateName }}
+    </div>
     <el-row :gutter="16">
       <!-- 透析液 -->
       <el-col v-if="getFieldDialysateName" :span="8" :style="{ order: getFieldDialysateName.sequence }">

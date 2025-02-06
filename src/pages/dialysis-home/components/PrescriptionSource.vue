@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div>患者来源</div>
+    <div class="dialysis-procedure-title-div">
+      患者来源
+    </div>
     <el-row :gutter="16">
       <!-- 来源 -->
       <el-col v-if="getFieldSource" :span="8" :style="{ order: getFieldSource.sequence }">

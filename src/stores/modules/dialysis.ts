@@ -1,9 +1,15 @@
 import type { PatientVascularAccessView } from '@/services/PatientServiceProxies'
 import type { TmplAnticoagulantView, TmplDaGroupView, TmplDialysate, TmplDisinfectInstructionsView } from '@/services/TmplServiceProxies'
-import type { DevDisinfectSettingView } from '@/services/WebApiServiceProxies'
+import type { CureShift, DevDisinfectSettingView } from '@/services/WebApiServiceProxies'
 import { defineStore } from 'pinia'
 
 const useDialysisStore = defineStore('dialysis', () => {
+  /** 当前班次 */
+  const cureShift = ref<CureShift>()
+  /** 当前班次赋值 */
+  function setCureShift(val: CureShift) {
+    cureShift.value = val
+  }
   /** 医嘱模板数据 */
   const adviceTempList = ref<TmplDaGroupView[]>([])
   /** 医嘱模板赋值 */
@@ -50,6 +56,8 @@ const useDialysisStore = defineStore('dialysis', () => {
     tmplDisinfectInstructionList.value = val
   }
   return {
+    cureShift,
+    setCureShift,
     adviceTempList,
     setAdviceTempList,
     anticoagulantList,

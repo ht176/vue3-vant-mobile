@@ -1,5 +1,5 @@
 import { useAppStore } from '@/stores'
-import { minus } from 'number-precision'
+import { divide, minus } from 'number-precision'
 import { CUREFLOW_BP_POSITION_NOMEASURE, CUREFLOW_WEIGHT_MODE_NOMEASURE } from './constant'
 
 const { getParametersValue, menuList } = useAppStore()
@@ -135,7 +135,7 @@ export function directAuth(key: string, code: string): boolean {
  */
 export function convertDialysisUnit(val: number | string, unit: string, conversionFactor: number = 1000): number | null {
   if (unit === 'kg') {
-    return (val || val === 0) ? (Number(val) / conversionFactor) : null
+    return (val || val === 0) ? divide(Number(val), conversionFactor) : null
   }
   return (val || val === 0) ? Number(val) : null
 }

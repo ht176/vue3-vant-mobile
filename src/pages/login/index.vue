@@ -100,6 +100,7 @@ async function handleLoginClick() {
 /** 清除系统共享数据 */
 function clearInitData() {
   appStore.setDialysisShifts([])
+  dialysisStore.setCureShift(null)
   appStore.setDialysisAreas([])
   appStore.setSettingList([])
   appStore.setSysFiledList([])
@@ -121,6 +122,7 @@ async function loadOtherInfo(val: TokenViewExt) {
   viewData.loadingText = '正在加载配置信息...'
   await Promise.all([
     getShiftList(),
+    getCureShift(),
     getDialysisAreaList(val.hid),
     getSysSettingList(),
     getSysFiledList(),
@@ -143,6 +145,17 @@ async function getShiftList() {
 
   if (res.success) {
     appStore.setDialysisShifts(res.data)
+  }
+  else {
+    showNotify({ type: 'danger', message: res.message })
+  }
+}
+/** 获取当前班次信息 */
+async function getCureShift() {
+  const cureShiftServiceProxy = new CureShiftServiceProxy()
+  const res = await cureShiftServiceProxy.current()
+  if (res.success) {
+    dialysisStore.setCureShift(res.data)
   }
   else {
     showNotify({ type: 'danger', message: res.message })
