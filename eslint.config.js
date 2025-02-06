@@ -22,6 +22,11 @@ export default antfu(
       'perfectionist/sort-named-exports': 'off',
       'no-console': 0,
       'eslint-comments/no-unlimited-disable': 'off',
+      '@unocss/order': 'off',
+      'regexp/no-unused-capturing-group': ['error', {
+        fixable: true,
+        allowNamed: false,
+      }],
     },
   },
   {
