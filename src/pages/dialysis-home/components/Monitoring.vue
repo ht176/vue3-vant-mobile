@@ -1,5 +1,5 @@
 <template>
-  <div class="mb-2 flex justify-between">
+  <div class="dialysis-procedure-title-div">
     <div>
       <slot name="header">
         <span>

@@ -1,6 +1,6 @@
 <template>
   <el-form ref="ruleFormRef" :model="formData" :rules="formRules" label-width="auto" :disabled="formDisabled">
-    <div>
+    <div class="dialysis-procedure-title-div">
       <slot name="header">
         消毒
       </slot>

@@ -1,6 +1,6 @@
 <template>
   <el-form ref="ruleFormRef" :model="formData" :rules="formRules" label-width="auto">
-    <div>
+    <div class="dialysis-procedure-title-div">
       小结
     </div>
     <el-row>

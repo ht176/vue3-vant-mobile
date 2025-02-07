@@ -96,14 +96,17 @@
 </template>
 
 <script setup lang="ts">
-import type { MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
 import {
+  AssementCureAfterEditModel,
+  AssementCureBeforeEditModel,
+  AssementCureDialysisEditModel,
   CureRecordCheckEditModel,
   CureRecordVerifyEditModel,
   CureServiceProxy,
   CureStatusView,
   CureTodayView,
   DisinfectCureAfterEditModel,
+  MeasureCureBeforeEditModel,
   OffCureAfterEditModel,
   OnCureMiddleEditModel,
   PrescriptionCureBeforeEditModel,
@@ -146,16 +149,16 @@ interface Step {
 /** 流程列表 */
 const stepList = reactive<Step[]>([
   { name: '透前测量', show: true, action: 1, child: 'Signin', isDone: 'hasMeasureBefore', canDo: 'allowMeasureBefore', comp: markRaw(defineAsyncComponent(() => import('./Signin.vue'))) },
-  { name: '透析评估', show: true, action: 12, child: 'DialysisEvaluation', isDone: 'hasAssementDialysis', canDo: 'allowAssementDialysis' },
+  { name: '透析评估', show: true, action: 12, child: 'DialysisEvaluation', isDone: 'hasAssementDialysis', canDo: 'allowAssementDialysis', comp: markRaw(defineAsyncComponent(() => import('./DialysisEvaluation.vue'))) },
   { name: '制定处方', show: true, action: 2, child: 'MakePrescription', isDone: 'hasEnactBefore', canDo: 'allowEnactBefore', comp: markRaw(defineAsyncComponent(() => import('./Prescription.vue'))) },
   { name: '确认处方', show: true, action: 3, child: 'ConfirmPrescription', isDone: 'hasCheckBefore', canDo: 'allowCheckBefore', comp: markRaw(defineAsyncComponent(() => import('./Prescription.vue'))) },
-  { name: '透前评估', show: true, action: 4, child: 'BeforeDialysisEvaluation', isDone: 'hasAssementBefore', canDo: 'allowAssementBefore' },
+  { name: '透前评估', show: true, action: 4, child: 'BeforeDialysisEvaluation', isDone: 'hasAssementBefore', canDo: 'allowAssementBefore', comp: markRaw(defineAsyncComponent(() => import('./BeforeDialysisEvaluation.vue'))) },
   { name: '透析上机', show: true, action: 5, child: 'OperateComputer', isDone: 'hasOnMiddle', canDo: 'allowOnMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
   { name: '交叉核对', show: true, action: 6, child: 'CrossCheck', isDone: 'hasVerifyMiddle', canDo: 'allowVerifyMiddle', comp: markRaw(defineAsyncComponent(() => import('./OperateComputer.vue'))) },
   { name: '透中监测', show: true, action: 7, child: 'Monitoring', isDone: 'hasMonitorMiddle', canDo: 'allowMonitorMiddle', comp: markRaw(defineAsyncComponent(() => import('./Monitoring.vue'))) },
   { name: '下机', show: true, action: 8, child: 'OffAfter', isDone: 'hasOffAfter', canDo: 'allowOffAfter', comp: markRaw(defineAsyncComponent(() => import('./OffAfter.vue'))) },
   { name: '消毒', show: true, action: 11, child: 'Disinfect', isDone: 'hasDisinfectAfter', canDo: 'allowDisinfectAfter', comp: markRaw(defineAsyncComponent(() => import('./Disinfect.vue'))) },
-  { name: '透后评估', show: true, action: 9, child: 'AfterDialysisEvaluation', isDone: 'hasAssementAfter', canDo: 'allowAssementAfter' },
+  { name: '透后评估', show: true, action: 9, child: 'AfterDialysisEvaluation', isDone: 'hasAssementAfter', canDo: 'allowAssementAfter', comp: markRaw(defineAsyncComponent(() => import('./AfterDialysisEvaluation.vue'))) },
   { name: '透后小结', show: true, action: 10, child: 'AfterSummary', isDone: 'hasSummaryAfter', canDo: 'allowSummaryAfter', comp: markRaw(defineAsyncComponent(() => import('./AfterSummary.vue'))) },
 ])
 
@@ -214,16 +217,26 @@ async function handleSaveClick() {
     let res = false
     if (resForm) {
       switch (selectStep.value) {
-        case 'Signin':
-          res = await saveSignData(resForm)
-          break
+        case 'Signin':{
+          const formData = new MeasureCureBeforeEditModel(resForm)
+          res = await saveSignData(formData)
+        } break
+        case 'DialysisEvaluation': {
+          const formData = new AssementCureDialysisEditModel(resForm)
+          res = await saveDialysisEvaluationData(formData)
+        } break
         case 'MakePrescription': {
           const formData = new PrescriptionCureBeforeEditModel(resForm)
           res = await saveMakePrescriptionData(formData)
         } break
         case 'ConfirmPrescription': {
+          // 待完善
           const formData = new CureRecordCheckEditModel()
           res = await saveConfirmPrescriptionData(formData)
+        } break
+        case 'BeforeDialysisEvaluation': {
+          const formData = new AssementCureBeforeEditModel(resForm)
+          res = await saveBeforeDialysisEvaluationData(formData)
         } break
         case 'OperateComputer': {
           const formData = new OnCureMiddleEditModel(resForm)
@@ -240,6 +253,10 @@ async function handleSaveClick() {
         case 'Disinfect': {
           const formData = new DisinfectCureAfterEditModel(resForm)
           res = await saveDisinfectData(formData)
+        } break
+        case 'AfterDialysisEvaluation': {
+          const formData = new AssementCureAfterEditModel(resForm)
+          res = await saveAfterDialysisEvaluationData(formData)
         } break
         case 'AfterSummary': {
           const formData = new SummaryCureAfterEditModel(resForm)
@@ -277,6 +294,21 @@ async function saveSignData(val: MeasureCureBeforeEditModel) {
     }
   }
 }
+/** 透析评估保存 */
+async function saveDialysisEvaluationData(val: AssementCureDialysisEditModel) {
+  loading.value = true
+  const cureServiceProxy = new CureServiceProxy()
+  const { success, message } = await cureServiceProxy.assementCureDialysisPOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `保存成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
 /** 制定处方保存 */
 async function saveMakePrescriptionData(val: PrescriptionCureBeforeEditModel) {
   loading.value = true
@@ -311,6 +343,21 @@ async function saveConfirmPrescriptionData(val: CureRecordCheckEditModel) {
 }
 /** 拒绝处方 */
 function handleRejectPerscriptionClick() {
+}
+/** 透前评估保存 */
+async function saveBeforeDialysisEvaluationData(val: AssementCureBeforeEditModel) {
+  loading.value = true
+  const cureServiceProxy = new CureServiceProxy()
+  const { success, message } = await cureServiceProxy.assementCureBeforePOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `保存成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
 }
 /** 透析上机 */
 async function saveOperateComputerData(val: OnCureMiddleEditModel) {
@@ -361,6 +408,21 @@ async function saveDisinfectData(val: DisinfectCureAfterEditModel) {
   loading.value = false
   if (success) {
     showNotify({ type: 'success', message: `消毒成功` })
+    return true
+  }
+  else {
+    showNotify({ type: 'danger', message })
+    return false
+  }
+}
+/** 透后评估保存 */
+async function saveAfterDialysisEvaluationData(val: AssementCureAfterEditModel) {
+  loading.value = true
+  const cureServiceProxy = new CureServiceProxy()
+  const { success, message } = await cureServiceProxy.assementCureAfterPOST(cureData.cureRecordId || cureData.cureScheduleId, val)
+  loading.value = false
+  if (success) {
+    showNotify({ type: 'success', message: `保存成功` })
     return true
   }
   else {
