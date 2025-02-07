@@ -3,9 +3,7 @@
     <div class="flex flex-col">
       <div v-if="formData.suggestion">
         <div>透析建议</div>
-        <div>
-          {{ formData.suggestion }}
-        </div>
+        <div>{{ formData.suggestion }}</div>
       </div>
       <!-- 来源 -->
       <el-form ref="sourceFormRef" :model="formData" :rules="formRules" label-width="120px" scroll-to-error>
@@ -20,6 +18,21 @@
           <template #headerOperation>
             <template v-if="stepType === 'OperateComputer' && (formData as OnCureMiddleView).onNurseName">
               {{ `上机护士：${(formData as OnCureMiddleView).onNurseName} | 上机时间：${formatToDateTime((formData as OnCureMiddleView).timeOn)}` }}
+            </template>
+            <template v-if="stepType === 'CrossCheck'">
+              <template v-if="formData.enactDoctorName">
+                {{ `开立医生：${formData.enactDoctorName} | 开立时间：${formatToDateTime(formData.timeEnactDoctor)}` }}
+              </template>
+              <template v-if="paramCheckPrescription && formData.checkNurseName">
+                {{ ` | 确认者：${formData.checkNurseName} | 确认时间：${formatToDateTime(formData.timeCheckNurse)}` }}
+              </template>
+              <template v-if="paramEditTimeCheck || ((formData as VerifyCureMiddleView).timeVerify && !paramEditTimeCheck)">
+                {{ ` | 核对护士：${(formData as VerifyCureMiddleView).verifyNurseName} ｜ 核对时间：` }}
+              </template>
+              <template v-if="!paramEditTimeCheck">
+                {{ (formData as VerifyCureMiddleView).timeVerify }}
+              </template>
+              <el-date-picker v-else v-model="(formData as VerifyCureMiddleView).timeVerify as unknown as string" type="datetime" format="YYYY-MM-DD HH:mm" value-format="YYYY-MM-DD HH:mm" placeholder="选择日期时间" @click.stop />
             </template>
           </template>
         </PrescriptionInfo>
@@ -139,6 +152,10 @@ function getSysFieldProperty(key: string, typeCode: string) {
 const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 偏移量单位 */
 const paramDeductionUnit = getParametersValue('DIALYSIS.DEDUCTION.UNIT')
+/** 启用确认处方流程 */
+const paramCheckPrescription = getParametersValue('CUREFLOW.CHECK.PRESCRIPTION', true)
+/** 允许修改核对时间 */
+const paramEditTimeCheck = getParametersValue('CUREFLOW.EDIT.TIME.CHECK')
 /** 查询患者上机数据 */
 async function getOnCureMiddleData() {
   const cureServiceProxy = new CureServiceProxy()

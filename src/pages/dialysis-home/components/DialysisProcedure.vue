@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col overflow-hidden">
     <!-- 流程步骤条 -->
-    <div class="pos-relative bg-[#fafafa] py-2">
+    <div class="pos-relative my-1 bg-[#fafafa] py-2">
       <ul class="step-div flex justify-around">
         <li v-for="(step, index) in getActionList" :key="index" class="flex flex-col items-center" :class="cureStatusData[step.isDone] ? 'step-done-div' : ''" @click="handleStepClick(step)">
           <div class="step-div-index">
@@ -15,7 +15,7 @@
     </div>
     <!-- 步骤内容 -->
     <div v-loading="loading" class="flex-1 overflow-auto px-2">
-      <component :is="selectComponent" ref="componentRef" :cure-data="cureData" :step-type="selectStep" @hanlde-change-loading="hanldeChangeLoading" />
+      <component :is="selectComponent" ref="componentRef" :cure-data="newCureData" :step-type="selectStep" @hanlde-change-loading="hanldeChangeLoading" />
     </div>
     <!-- 底部保存操作按钮 -->
     <div class="flex justify-end pt-1">
@@ -96,12 +96,13 @@
 </template>
 
 <script setup lang="ts">
-import type { CureTodayView, MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
+import type { MeasureCureBeforeEditModel } from '@/services/CureServiceProxies'
 import {
   CureRecordCheckEditModel,
   CureRecordVerifyEditModel,
   CureServiceProxy,
   CureStatusView,
+  CureTodayView,
   DisinfectCureAfterEditModel,
   OffCureAfterEditModel,
   OnCureMiddleEditModel,
@@ -126,6 +127,11 @@ function setLongSelectionRows(val) {
 /** 流程状态 */
 const cureStatusData = ref<CureStatusView>(new CureStatusView())
 
+const newCureData = computed(() => {
+  const obj = Object.assign({}, { ...cureData, ...cureStatusData.value, timeOn: cureStatusData.value.timeOn as unknown as string })
+  return new CureTodayView(obj)
+})
+
 const { getParametersValue } = useAppStore()
 
 interface Step {
@@ -137,7 +143,7 @@ interface Step {
   canDo: string
   comp?: Component
 }
-
+/** 流程列表 */
 const stepList = reactive<Step[]>([
   { name: '透前测量', show: true, action: 1, child: 'Signin', isDone: 'hasMeasureBefore', canDo: 'allowMeasureBefore', comp: markRaw(defineAsyncComponent(() => import('./Signin.vue'))) },
   { name: '透析评估', show: true, action: 12, child: 'DialysisEvaluation', isDone: 'hasAssementDialysis', canDo: 'allowAssementDialysis' },

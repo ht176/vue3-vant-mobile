@@ -102,8 +102,12 @@ declare module 'vue' {
     TabBar: typeof import('./../components/TabBar.vue')['default']
     TodayAttendance: typeof import('./../pages/dialysis-home/components/TodayAttendance.vue')['default']
     UserInfoSelect: typeof import('./../components/UserInfoSelect/index.vue')['default']
+    VanButton: typeof import('vant/es')['Button']
     VanConfigProvider: typeof import('vant/es')['ConfigProvider']
+    VanField: typeof import('vant/es')['Field']
+    VanForm: typeof import('vant/es')['Form']
     VanIcon: typeof import('vant/es')['Icon']
+    VanNotify: typeof import('vant/es')['Notify']
   }
   export interface ComponentCustomProperties {
     vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']

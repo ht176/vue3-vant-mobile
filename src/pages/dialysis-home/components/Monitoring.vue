@@ -25,6 +25,9 @@
         <span v-if="cureData?.antiTmplType === '模板4'">
           追加剂量：{{ cureData.append + cureData.appendUnit }}
         </span>
+        <span v-if="(cureData.ufg || cureData.ufg === 0)">
+          ；预脱：{{ convertDialysisUnit(cureData.ufg, paramUfgUnit) }}{{ paramUfgUnit }}
+        </span>
       </slot>
     </div>
     <div>
@@ -436,7 +439,7 @@ import type { CureTodayView } from '@/services/CureServiceProxies'
 import { CureServiceProxy, MonitorCureMiddleEditModel, MonitorCureMiddleView } from '@/services/CureServiceProxies'
 import { useAppStore, useDialysisStore } from '@/stores'
 import { dateUtil, formatToDate, formatToDateTime, formatToTimeHM, getNowDate } from '@/utils/date'
-import { disabledSbp } from '@/utils/dialysis'
+import { convertDialysisUnit, disabledSbp } from '@/utils/dialysis'
 import type { FormInstance, FormRules } from 'element-plus'
 import { showNotify } from 'vant'
 import { DIC_DIALYSIS_MONITOR_ANT, DIC_DIALYSIS_MONITOR_ERRHYSIS, DIC_DIALYSIS_MONITOR_REMARK, DIC_DIALYSIS_MONITOR_TUBE, DIC_PATIENT_MEASURE_BP_POSITION } from '@/utils/constant'
@@ -496,7 +499,8 @@ const paramDefaultBpPositionMonitor = getParametersValue('CUREFLOW.DEFAULT.BP.PO
 const paramDevBedSideBp = getParametersValue('DEV.BEDSIDE.BP', true)
 /** 血透机联机 */
 const paramIotEnabled = getParametersValue('IOT.ENABLED', true)
-
+/** 超滤单位 */
+const paramUfgUnit = getParametersValue('DIALYSIS.UF.UNIT')
 /** 患者当天当班次透析 */
 const showSync = computed(() => {
   return cureData.shiftId === dialysisStore.cureShift.id && formatToDate(cureData.dialysisDate) === getNowDate()

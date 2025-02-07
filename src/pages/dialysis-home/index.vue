@@ -296,6 +296,8 @@ async function getPatientVascularAccess() {
   padding: 8px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 16px;
 }
 </style>
 

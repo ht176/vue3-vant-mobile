@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="dialysis-procedure-title-div">
-      <div>
+      <div class="whitespace-nowrap">
         <slot name="header">
           处方信息
         </slot>
       </div>
-      <div>
+      <div class="flex-1">
         <slot name="headerOperation">
           {{ `开立医生：${formData.enactDoctorName} | 开立时间：${formatToDateTime(formData.timeEnactDoctor)}` }}
           <template v-if="paramCheckPrescription && formData.checkNurseName">
